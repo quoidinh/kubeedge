@@ -26,6 +26,11 @@ sudo rm -rf ~/.kube
 sudo ipvsadm --clear
 sudo apt autoremove -y
 
+apt-get update && \
+ apt-get install -y apt-transport-https add-apt-repository "deb [arch=amd64] download.docker.com/linux/ubuntu bionic stable" curl -s packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - echo "deb apt.kubernetes.io kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list apt update && \
+ apt install -qy docker.io apt-get update && \
+ apt-get install -y kubeadm kubelet kubectl kubernetes-cni kubeadm init --ignore-preflight-errors=all –
+
 echo "Installing Docker...."
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo apt-key fingerprint 0EBFCD88
@@ -219,37 +224,13 @@ export KUBECONFIG=$HOME/.kube/config
 # FLANNEL_IPMASQ=true
 # EOF
 apt update
-
 apt install containerd.io
-
 sudo rm /etc/containerd/config.toml
 
 systemctl restart containerd
 sudo systemctl restart containerd
 sudo systemctl restart docker
 sudo systemctl restart kubelet
-# rm /etc/kubernetes/pki/apiserver.* -f
-# kubeadm init phase certs apiserver --apiserver-cert-extra-sans 172.17.0.1 --apiserver-cert-extra-sans 10.96.0.1 --apiserver-cert-extra-sans 172.19.0.7 --apiserver-cert-extra-sans 43.154.94.12 --apiserver-cert-extra-sans localhost --v=6 
-
-# 172.19.0.13 eu-worker
-# 172.19.0.13 eu-worker2
-# 172.19.0.13 eu-control-plane
-# 172.19.16.11 us-worker
-# 172.19.16.11 us-worker2
-# 172.19.16.11 us-control-plane
-# 172.19.16.11 vn-worker
-# 172.19.16.11 vn-worker2
-# 172.19.16.11 vn-control-plane
-# us-worker
-# us-worker2
-# us-control-plane
-# 172.19.0.6 vn-worker
-# 172.19.0.6 vn-worker2
-# 172.19.0.6 vn-control-plane
-# https://stackoverflow.com/questions/53525975/kubernetes-error-uploading-crisocket-timed-out-waiting-for-the-condition
-# sudo systemctl restart containerd
-# sudo systemctl restart docker
-# sudo systemctl restart kubelet
 
 echo "Kubernetes Installation finished..."
 echo "Waiting 30 seconds for the cluster to go online..."
@@ -263,12 +244,6 @@ kubectl describe nodes
 
 # sudo systemctl status kubelet
 #install cilium
-# curl -LO https://raw.githubusercontent.com/cilium/cilium/1.16.1/Documentation/installation/kind-config.yaml
-# kind create cluster --config=kind-config.yaml
-
-helm repo add cilium https://helm.cilium.io/
-helm install cilium cilium/cilium --version 1.16.1 --namespace kube-system
-
 CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
 CLI_ARCH=amd64
 if [ "$(uname -m)" = "aarch64" ]; then CLI_ARCH=arm64; fi
@@ -277,12 +252,225 @@ sha256sum --check cilium-linux-${CLI_ARCH}.tar.gz.sha256sum
 sudo tar xzvfC cilium-linux-${CLI_ARCH}.tar.gz /usr/local/bin
 rm cilium-linux-${CLI_ARCH}.tar.gz.sha256sum
 
+# curl -LO https://raw.githubusercontent.com/cilium/cilium/1.16.1/Documentation/installation/kind-config.yaml
+# kind create cluster --config=kind-config.yaml
+
+helm repo add cilium https://helm.cilium.io/
+# helm upgrade cilium cilium/cilium --version 1.16.1 \
+#    --namespace kube-system \
+#    --reuse-values \
+#    --set hubble.relay.enabled=true \
+#    --set hubble.ui.enabled=true
+
+# helm install cilium cilium/cilium --version 1.16.1 --namespace kube-system
+# helm install cilium cilium/cilium --version 1.15.1 --namespace kube-system \
+#    --set hubble.relay.enabled=true \
+#    --set hubble.enabled=true \
+#    --set hubble.relay.enabled=true \
+#    --set hubble.ui.enabled=true \
+#    --set hubble.ui.service.type=NodePort \
+#    --set hubble.relay.service.type=NodePort \
+#    --set hubble.ui.enabled=true \
+#    --set hubble.metrics.dashboards.enabled=true \
+#    --set hostServices.enabled=false \
+#    --set externalIPs.enabled=true \
+#    --set nodePort.enabled=true \
+  #  --set hubble.tls.enabled=false \
+  #  --set hubble.tls.auto.enabled=false \
+  #  --set hubble.relay.tls.server.enabled=false \
+  # --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
+  #  --set hostPort.enabled=true
+# 1.15.1
+helm install cilium cilium/cilium --version 1.16.1 \
+  --namespace kube-system \
+  --set hubble.relay.enabled=true \
+  --set hubble.ui.enabled=true \
+  --set operator.replicas=1 \
+  --set tunnel=disabled \
+  --set autoDirectNodeRoutes=true \
+  --set hubble.tls.enabled=false \
+  --set hubble.tls.auto.enabled=false \
+  --set hubble.relay.tls.server.enabled=false \
+  --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" 
+
+echo "Install Hubble"
+kubectl apply -f https://raw.githubusercontent.com/cilium/cilium/v1.8/install/kubernetes/experimental-install.yaml
+
+echo "Publish Hubble via NodePort"
+CURRENT_PORT_TYPE=$(kubectl get svc -n kube-system hubble-ui -o jsonpath='{.spec.type}')
+if [ "$CURRENT_PORT_TYPE" != "NodePort" ]; then
+    kubectl delete svc -n kube-system hubble-ui
+    kubectl expose deployment -n kube-system hubble-ui --type=NodePort --port=12000
+fi
+
+echo "Install latest Hubble CLI"
+HUBBLE_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/hubble/master/stable.txt)
+curl -LO "https://github.com/cilium/hubble/releases/download/$HUBBLE_VERSION/hubble-linux-amd64.tar.gz"
+curl -LO "https://github.com/cilium/hubble/releases/download/$HUBBLE_VERSION/hubble-linux-amd64.tar.gz.sha256sum"
+sha256sum --check hubble-linux-amd64.tar.gz.sha256sum
+tar zxf hubble-linux-amd64.tar.gz
+sudo mv hubble /usr/local/bin
+
+PUBLI_IP=$(curl ifconfig.me)
+HUBBLE_NODE_PORT=$(kubectl get svc -n kube-system hubble-ui -o jsonpath='{.spec.ports[0].nodePort}')
+echo "Hubble exposed on: http://${PUBLI_IP}:${HUBBLE_NODE_PORT}"
+cilium hubble enable --ui
+cilium hubble port-forward&
+sudo ufw allow 4245/tcp comment "Hubble Observability"
+# Install ingress controller with NodePort service
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.40.2/deploy/static/provider/baremetal/deploy.yaml
+# # Find port and ip address for Haproxy config
+# PUBLIC_IP=$(ip route get 8.8.8.8  | awk ' /^[0-9]/ { print $7 }')
+# INGRESS_HTTP_PORT=$(kubectl get svc -n ingress-nginx ingress-nginx-controller -o json | jq -r '.spec.ports[] | select(.name == "http") | .nodePort')
+# INGRESS_HTTPS_PORT=$(kubectl get svc -n ingress-nginx ingress-nginx-controller -o json | jq -r '.spec.ports[] | select(.name == "https") | .nodePort')
+# # Install Haproxy
+# sudo add-apt-repository ppa:vbernat/haproxy-2.1 --yes
+# sudo apt-get install haproxy -y
+# # Configure Haproxy
+# cat << EOF > /etc/haproxy/haproxy.cfg
+# global
+#     log /dev/log    local0
+#     log /dev/log    local1 notice
+#     user haproxy
+#     group haproxy
+#     maxconn 1000000
+#     daemon
+# defaults
+#     log     global
+#     mode    tcp
+#     option  tcplog
+#     option  dontlognull
+#     timeout connect         10s
+#     timeout client          1m
+#     timeout server          1m
+# frontend http_frontend
+#     bind ${PUBLIC_IP}:80
+#     default_backend http_backend
+# backend http_backend
+#     server ingress_http ${PUBLIC_IP}:${INGRESS_HTTP_PORT}
+# frontend https_frontend
+#     bind ${PUBLIC_IP}:443
+#     default_backend https_backend
+# backend https_backend
+#     server ingress_https ${PUBLIC_IP}:${INGRESS_HTTPS_PORT}
+# EOF
+# # Reload Haproxy
+# systemctl reload haproxy
+
+
+echo "Create cert-manager namespace"
+# kubectl create ns cert-manager
+
+# echo "Install cert-manager with helm 3"
+# helm repo add jetstack https://charts.jetstack.io
+# helm install cert-manager \
+#     jetstack/cert-manager \
+#     --namespace cert-manager \
+#     --version v1.0.4 \
+#     --set installCRDs=true
+    
+# #echo "Install cert-manager without helm"
+# #kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.4/cert-manager.yaml
+
+# echo "Create test cert-manager"
+# cat <<EOF | kubectl apply -f -
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: cert-manager-test
+# ---
+# apiVersion: cert-manager.io/v1
+# kind: Issuer
+# metadata:
+#   name: test-selfsigned
+#   namespace: cert-manager-test
+# spec:
+#   selfSigned: {}
+# ---
+# apiVersion: cert-manager.io/v1
+# kind: Certificate
+# metadata:
+#   name: selfsigned-cert
+#   namespace: cert-manager-test
+# spec:
+#   dnsNames:
+#     - example.com
+#   secretName: selfsigned-cert-tls
+#   issuerRef:
+#     name: test-selfsigned
+# EOF
+
+# echo "Check the status of the newly created certificate"
+# kubectl wait --for=condition=ready certificate -n cert-manager-test selfsigned-cert
+
+# echo "Cleanup test namespace"
+# kubectl delete ns cert-manager-test
+
+# echo "Install kubectl plugin for cert-manager"
+# curl -L -o kubectl-cert-manager.tar.gz https://github.com/jetstack/cert-manager/releases/download/v1.0.4/kubectl-cert_manager-linux-amd64.tar.gz
+# tar xzf kubectl-cert-manager.tar.gz
+# sudo mv kubectl-cert_manager /usr/local/bin
+
+# echo "Create ClusterIssuers for email velizarx@gmail.com"
+# cat <<EOF | kubectl apply -f -
+# ---
+# apiVersion: cert-manager.io/v1alpha2
+# kind: ClusterIssuer
+# metadata:
+#   name: letsencrypt-staging
+# spec:
+#   acme:
+#     server: https://acme-staging-v02.api.letsencrypt.org/directory
+#     email: velizarx@gmail.com
+#     privateKeySecretRef:
+#       name: letsencrypt-staging
+#     solvers:
+#     - http01:
+#         ingress:
+#           class: nginx
+# ---
+# apiVersion: cert-manager.io/v1alpha2
+# kind: ClusterIssuer
+# metadata:
+#   name: letsencrypt-prod
+# spec:
+#   acme:
+#     server: https://acme-v02.api.letsencrypt.org/directory
+#     email: velizarx@gmail.com
+#     privateKeySecretRef:
+#       name: letsencrypt-prod
+#     solvers:
+#     - http01:
+#         ingress:
+#           class: nginx
+# EOF
+
+# echo "Check the status of the newly created issuers"
+# kubectl wait --for=condition=ready clusterissuer letsencrypt-prod
+# kubectl wait --for=condition=ready clusterissuer letsencrypt-staging
+
+# cilium hubble enable --ui
+# HUBBLE_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/hubble/master/stable.txt)
+# HUBBLE_ARCH=amd64
+# if [ "$(uname -m)" = "aarch64" ]; then HUBBLE_ARCH=arm64; fi
+# curl -L --fail --remote-name-all https://github.com/cilium/hubble/releases/download/$HUBBLE_VERSION/hubble-linux-${HUBBLE_ARCH}.tar.gz{,.sha256sum}
+# sha256sum --check hubble-linux-${HUBBLE_ARCH}.tar.gz.sha256sum
+# sudo tar xzvfC hubble-linux-${HUBBLE_ARCH}.tar.gz /usr/local/bin
+# rm hubble-linux-${HUBBLE_ARCH}.tar.gz.sha256sum
+
+
+# CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
+# CLI_ARCH=amd64
+# if [ "$(uname -m)" = "aarch64" ]; then CLI_ARCH=arm64; fi
+# curl -L --fail --remote-name-all https://github.com/cilium/cilium-cli/releases/download/${CILIUM_CLI_VERSION}/cilium-linux-${CLI_ARCH}.tar.gz{,.sha256sum}
+# sha256sum --check cilium-linux-${CLI_ARCH}.tar.gz.sha256sum
+# sudo tar xzvfC cilium-linux-${CLI_ARCH}.tar.gz /usr/local/bin
+# rm cilium-linux-${CLI_ARCH}.tar.gz.sha256sum
+
 sudo sysctl fs.inotify.max_user_instances=8192
 sudo sysctl fs.inotify.max_user_watches=524288
 ulimit -Hn
 sudo sysctl -p
-
-make all
 
 echo "All ok ;)"
 
@@ -387,3 +575,80 @@ echo "All ok ;)"
 
 
 # cilium connectivity test --context kind-kind-cilium-mesh-1 --multi-cluster kind-kind-cilium-mesh-2
+
+# cilium clustermesh connect --context kind-us --destination-context kind-eu
+# kubectl config use kind-us
+# cilium install --set cluster.name=us --set cluster.id=1 --set ipam.mode=kubernetes
+# kubectl config use kind-eu
+# cilium install --set cluster.name=eu --set cluster.id=2 --set ipam.mode=kubernetes
+
+# cilium connectivity test --context kind-us --multi-cluster kind-eu
+# ilium clustermesh connect --context kind-us --destination-context kind-eu
+
+# cilium clustermesh status --context kind-us --wait
+# cilium clustermesh status --context kind-eu --wait
+# kubectl get pod --all-namespaces -o wide
+# helm install cilium cilium/cilium --version 1.16.1 --namespace kube-system --namespace kube-system \
+#    --set hubble.relay.enabled=true \
+#    --set hubble.enabled=true \
+#    --set hubble.metrics.enabled="{dns,drop,tcp,flow,icmp,http}" \
+#    --set hubble.relay.enabled=true \
+#    --set hubble.ui.enabled=true \
+#    --set hubble.ui.service.type=NodePort \
+#    --set hubble.relay.service.type=NodePort \
+#    --set hubble.ui.enabled=true \
+#    --set hubble.metrics.dashboards.enabled=true \
+#    --set hostServices.enabled=false \
+#    --set externalIPs.enabled=true \
+#    --set nodePort.enabled=true \
+#    --set hostPort.enabled=true
+
+# helm upgrade --install cilium cilium/cilium --version 1.13.1 \
+#    --namespace cilium \
+#    --set hubble.relay.enabled=true \
+#    --set hubble.enabled=true \
+#    --set hubble.metrics.enabled="{dns,drop,tcp,flow,icmp,http}" \
+#    --set hubble.relay.enabled=true \
+#    --set hubble.ui.enabled=true \
+#    --set hubble.ui.service.type=NodePort \
+#    --set hubble.relay.service.type=NodePort \
+#    --set hubble.ui.enabled=true \
+#    --set hubble.metrics.dashboards.enabled=true \
+#    --set kubeProxyReplacement=partial \
+#    --set hostServices.enabled=false \
+#    --set externalIPs.enabled=true \
+#    --set nodePort.enabled=true \
+#    --set hostPort.enabled=true \
+#    --set cluster.name=cluster2 \
+#    --set cluster.id=2 
+# helm upgrade cilium cilium/cilium --version 1.13.0 --namespace kube-system --reuse-values --set hubble.relay.enabled=true --set hubble.ui.enabled=true
+# kubectl get pods -A
+# https://stackoverflow.com/questions/70860152/how-to-delete-a-ingress-controller-on-kubernetes
+
+# cilium install --set cluster.name=eu --set cluster.id=2 --set ipam.mode=kubernetes --set hubble.relay.enabled=true --set hubble.ui.enabled=true --set hubble.metrics.enabled="{dns,drop,tcp,flow,icmp,http}" --set hubble.metrics.dashboards.enabled=true --set externalIPs.enabled=true 
+# https://gist.github.com/velp/151636fe01d8b8e3f9c626b30e3c2bc5
+
+# kubectl get svc -n kube-system 
+
+# cilium upgrade --version 1.15.1 \
+#         --set ipam.mode=kubernetes \
+#         --set routingMode=tunnel \
+#         --set tunnelProtocol=vxlan \
+#         --set ipam.operator.clusterPoolIPv4PodCIDRList=10.244.0.0/16 \
+#         --set ipam.Operator.ClusterPoolIPv4MaskSize=24 \
+#         --set ingressController.enabled=true \
+#         --set ingressController.loadbalancerMode=shared \
+#   --set ipam.mode=cluster-pool \
+#   --set ipam.operator.clusterPoolIPv4PodCIDRList=10.66.0.0/16 \
+#   --set ipam.operator.clusterPoolIPv4MaskSize=20 \
+#   --set hubble.relay.enabled=true \
+#   --set hubble.ui.enabled=true \
+#   --set operator.replicas=10 \
+#   --set tunnel=disabled \
+#   --set ipv4NativeRoutingCIDR=10.66.0.0/16 \
+#   --set autoDirectNodeRoutes=true \
+#    --set hubble.tls.enabled=false \
+#    --set hubble.tls.auto.enabled=false \
+#    --set hubble.relay.tls.server.enabled=false \
+#   --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
+#   --set hubble.peerService.clusterDomain=cluster
