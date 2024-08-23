@@ -351,18 +351,10 @@ cilium hubble enable --ui
    # --set ipam.operator.clusterPoolIPv4PodCIDR=172.21.0.0/20 \
    # --set ipam.operator.clusterPoolIPv4MaskSize=26 \
 
-# cilium clustermesh connect --context kind-dn --destination-context kind-cluster1
-# cilium clustermesh connect --context kind-hn --destination-context kind-hcm
-
-# cilium clustermesh connect --context kind-hn --destination-context kind-hcm
-# cilium clustermesh connect --context kind-hcm --destination-context kind-dn
-# cilium clustermesh connect --context kind-dn --destination-context kind-hcm
-# cilium clustermesh connect --context kind-dn --destination-context kind-hn
-# cilium clustermesh connect --context kind-hcm --destination-context kind-hn
-# cilium status 
-# cilium clustermesh status --context kind-hcm --wait
-# cilium clustermesh status --context kind-hn --wait
-# cilium clustermesh status --context kind-dn --wait
+cilium clustermesh connect --context kind-cluster1 --destination-context kind-cluster2
+cilium status 
+# cilium clustermesh status --context kind-cluster1 --wait
+# cilium clustermesh status --context kind-cluster2 --wait
 
 echo "Install Hubble ui"
 # # cilium hubble ui
@@ -377,8 +369,8 @@ echo "cilium-monitoring"
 kubectl apply -f monitor-grafana-promethus-yugabyte.yaml
 nohup kubectl -n cilium-monitoring port-forward service/prometheus --address 0.0.0.0 9090:9090 &
 nohup kubectl -n cilium-monitoring port-forward service/grafana --address 0.0.0.0 3000:3000 &
-# kubectl patch svc hubble-ui -n kube-system -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.4"]}}'
-# kubectl patch svc hubble-relay -n kube-system -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.4"]}}'
+# kubectl patch svc hubble-ui -n kube-system -p '{"spec": {"type": "LoadBalancer", "externalIPs":["72.19.0.8"]}}'
+# kubectl patch svc hubble-relay -n kube-system -p '{"spec": {"type": "LoadBalancer", "externalIPs":["72.19.0.8"]}}'
 
 
 # kubectl delete -f https://raw.githubusercontent.com/cilium/cilium/1.16.1/examples/kubernetes/addons/prometheus/monitoring-example.yaml
@@ -394,8 +386,8 @@ nohup kubectl port-forward service/yb-master-ui --namespace=default 7000:7000 &
 
 
 # kubectl config use kind-dn
-# kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.16.0.41"]}}'
-# kubectl patch svc yb-db-service -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.16.0.41"]}}'
+kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["43.154.250.130"]}}'
+kubectl patch svc yb-db-service -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["43.154.250.130"]}}'
 # kubectl get svc
 # kubectl config use kind-hn
 # kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.5"]}}'
