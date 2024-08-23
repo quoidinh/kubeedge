@@ -289,16 +289,15 @@ sudo sysctl fs.inotify.max_user_instances=8192
 sudo sysctl fs.inotify.max_user_watches=524288
 ulimit -Hn
 sudo sysctl -p
-sudo ip addr add 172.18.0.4/16 brd + dev br-f7fd5d8f1f88
-sudo ip addr add 172.18.0.5/16 brd + dev br-f7fd5d8f1f88
-sudo ip addr add 172.18.0.6/16 brd + dev br-f7fd5d8f1f88
-kubectl apply -f bgp-peering-policy-pool.yaml
-# kubectl apply -f service-gp-peering-pool-7000.yaml
-# kubectl apply -f service-gp-peering-pool-9000.yaml
-# kubectl apply -f service-gp-peering-pool-5433.yaml
-# kubectl apply -f service-gp-peering-pool-4245.yaml
+# sudo ip addr add 172.18.0.4/16 brd + dev br-f7fd5d8f1f88
+# sudo ip addr add 172.18.0.5/16 brd + dev br-f7fd5d8f1f88
+# sudo ip addr add 172.18.0.6/16 brd + dev br-f7fd5d8f1f88
+# kubectl apply -f bgp-peering-policy-pool.yaml
 
-# helm upgrade --install cilium cilium/cilium --version 1.16.1 --namespace kube-system \
+# kind delete cluster --name cluster1
+# kind create cluster --name cluster1 --config kind-cluster1.yaml
+# kubectl config use kind-cluster1
+# cilium install --set cluster.name=cluster1 --set cluster.id=2 --set ipam.mode=kubernetes \
 #    --set hubble.relay.enabled=true \
 #    --set hubble.enabled=true \
 #    --set hubble.relay.enabled=true \
@@ -316,132 +315,46 @@ kubectl apply -f bgp-peering-policy-pool.yaml
 #    --set prometheus.enabled=true \
 #    --set operator.prometheus.enabled=true \
 #    --set hubble.metrics.enableOpenMetrics=true \
+#    --set l2announcements.enabled=true \
+#    --set autoDirectNodeRoutes=true \
+#    --set loadBalancer.mode=hybrid \
 #    --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
 #    --set hostPort.enabled=true
+# cilium clustermesh enable --service-type NodePort
+# cilium hubble enable --ui
+# kind delete cluster --name cluster2
+# kind create cluster --name cluster2 --config kind-cluster2.yaml
+# kubectl config use kind-cluster2
+# cilium install --set cluster.name=cluster2 --set cluster.id=3 --set ipam.mode=kubernetes \
+#    --set hubble.relay.enabled=true \
+#    --set hubble.enabled=true \
+#    --set hubble.relay.enabled=true \
+#    --set hubble.ui.enabled=true \
+#    --set hubble.ui.service.type=NodePort \
+#    --set hubble.relay.service.type=NodePort \
+#    --set hubble.ui.enabled=true \
+#    --set hubble.metrics.dashboards.enabled=true \
+#    --set hostServices.enabled=false \
+#    --set externalIPs.enabled=true \
+#    --set nodePort.enabled=true \
+#    --set hubble.tls.enabled=false \
+#    --set hubble.tls.auto.enabled=false \
+#    --set hubble.relay.tls.server.enabled=false \
+#    --set prometheus.enabled=true \
+#    --set operator.prometheus.enabled=true \
+#    --set hubble.metrics.enableOpenMetrics=true \
+#    --set l2announcements.enabled=true \
+#    --set autoDirectNodeRoutes=true \
+#    --set loadBalancer.mode=hybrid \
+#    --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
+#    --set hostPort.enabled=true
+# cilium clustermesh enable --service-type NodePort
+# cilium hubble enable --ui
 
-kind delete cluster --name cluster1
-kind create cluster --name cluster1 --config kind-cluster1.yaml
-kubectl config use kind-cluster1
-cilium install --set cluster.name=cluster1 --set cluster.id=2 --set ipam.mode=kubernetes \
-   --set hubble.relay.enabled=true \
-   --set hubble.enabled=true \
-   --set hubble.relay.enabled=true \
-   --set hubble.ui.enabled=true \
-   --set hubble.ui.service.type=NodePort \
-   --set hubble.relay.service.type=NodePort \
-   --set hubble.ui.enabled=true \
-   --set hubble.metrics.dashboards.enabled=true \
-   --set hostServices.enabled=false \
-   --set externalIPs.enabled=true \
-   --set nodePort.enabled=true \
-   --set hubble.tls.enabled=false \
-   --set hubble.tls.auto.enabled=false \
-   --set hubble.relay.tls.server.enabled=false \
-   --set prometheus.enabled=true \
-   --set operator.prometheus.enabled=true \
-   --set hubble.metrics.enableOpenMetrics=true \
-   --set l2announcements.enabled=true \
-   --set autoDirectNodeRoutes=true \
-   --set loadBalancer.mode=hybrid \
-   --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
-   --set hostPort.enabled=true
-cilium clustermesh enable --service-type NodePort
-cilium hubble enable --ui
-kind delete cluster --name cluster2
-kind create cluster --name cluster2 --config kind-cluster2.yaml
-kubectl config use kind-cluster2
-cilium install --set cluster.name=cluster2 --set cluster.id=3 --set ipam.mode=kubernetes \
-   --set hubble.relay.enabled=true \
-   --set hubble.enabled=true \
-   --set hubble.relay.enabled=true \
-   --set hubble.ui.enabled=true \
-   --set hubble.ui.service.type=NodePort \
-   --set hubble.relay.service.type=NodePort \
-   --set hubble.ui.enabled=true \
-   --set hubble.metrics.dashboards.enabled=true \
-   --set hostServices.enabled=false \
-   --set externalIPs.enabled=true \
-   --set nodePort.enabled=true \
-   --set hubble.tls.enabled=false \
-   --set hubble.tls.auto.enabled=false \
-   --set hubble.relay.tls.server.enabled=false \
-   --set prometheus.enabled=true \
-   --set operator.prometheus.enabled=true \
-   --set hubble.metrics.enableOpenMetrics=true \
-   --set l2announcements.enabled=true \
-   --set autoDirectNodeRoutes=true \
-   --set loadBalancer.mode=hybrid \
-   --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
-   --set hostPort.enabled=true
-cilium clustermesh enable --service-type NodePort
-cilium hubble enable --ui
    # --set nativeRoutingCIDR=172.21.0.0/20 \
    # --set ipam.operator.clusterPoolIPv4PodCIDR=172.21.0.0/20 \
    # --set ipam.operator.clusterPoolIPv4MaskSize=26 \
 
-# kind delete cluster --name hcm
-# kind create cluster --name hcm
-# kubectl config use kind-hcm
-# cilium install --set cluster.name=hcm --set cluster.id=2 --set ipam.mode=kubernetes \
-#    --set hubble.relay.enabled=true \
-#    --set hubble.enabled=true \
-#    --set hubble.relay.enabled=true \
-#    --set hubble.ui.enabled=true \
-#    --set hubble.ui.service.type=NodePort \
-#    --set hubble.relay.service.type=NodePort \
-#    --set hubble.ui.enabled=true \
-#    --set hubble.metrics.dashboards.enabled=true \
-#    --set hostServices.enabled=false \
-#    --set externalIPs.enabled=true \
-#    --set nodePort.enabled=true \
-#    --set hubble.tls.enabled=false \
-#    --set hubble.tls.auto.enabled=false \
-#    --set hubble.relay.tls.server.enabled=false \
-#    --set prometheus.enabled=true \
-#    --set operator.prometheus.enabled=true \
-#    --set hubble.metrics.enableOpenMetrics=true \
-#    --set l2announcements.enabled=true \
-#    --set autoDirectNodeRoutes=true \
-#    --set loadBalancer.mode=hybrid \
-#    --set nativeRoutingCIDR=172.21.0.0/20 \
-#    --set ipam.operator.clusterPoolIPv4PodCIDR=172.21.0.0/20 \
-#    --set ipam.operator.clusterPoolIPv4MaskSize=26 \
-#    --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
-#    --set hostPort.enabled=true
-# cilium clustermesh enable --service-type NodePort
-# cilium hubble enable --ui
-
-# kind delete cluster --name dn
-# kind create cluster --name dn
-# kubectl config use kind-dn
-# helm upgrade --install cilium cilium/cilium  --set cluster.name=dn --set cluster.id=4 --set ipam.mode=kubernetes \
-#    --set hubble.relay.enabled=true \
-#    --set hubble.enabled=true \
-#    --set hubble.relay.enabled=true \
-#    --set hubble.ui.enabled=true \
-#    --set hubble.ui.service.type=NodePort \
-#    --set hubble.relay.service.type=NodePort \
-#    --set hubble.ui.enabled=true \
-#    --set hubble.metrics.dashboards.enabled=true \
-#    --set hostServices.enabled=false \
-#    --set externalIPs.enabled=true \
-#    --set nodePort.enabled=true \
-#    --set hubble.tls.enabled=false \
-#    --set hubble.tls.auto.enabled=false \
-#    --set hubble.relay.tls.server.enabled=false \
-#    --set prometheus.enabled=true \
-#    --set operator.prometheus.enabled=true \
-#    --set hubble.metrics.enableOpenMetrics=true \
-#    --set l2announcements.enabled=true \
-#    --set autoDirectNodeRoutes=true \
-#    --set loadBalancer.mode=hybrid \
-#    --set nativeRoutingCIDR=172.21.0.0/20 \
-#    --set ipam.operator.clusterPoolIPv4PodCIDR=172.21.0.0/20 \
-#    --set ipam.operator.clusterPoolIPv4MaskSize=26 \
-#    --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
-#    --set hostPort.enabled=true
-# cilium clustermesh enable --service-type NodePort
-# cilium hubble enable --ui
 # cilium clustermesh connect --context kind-dn --destination-context kind-cluster1
 # cilium clustermesh connect --context kind-hn --destination-context kind-hcm
 
