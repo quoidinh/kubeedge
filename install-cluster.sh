@@ -419,8 +419,8 @@ echo "cilium-monitoring"
 # kubectl apply -f monitor-grafana-promethus-yugabyte.yaml
 # nohup kubectl -n cilium-monitoring port-forward service/prometheus --address 0.0.0.0 9090:9090 &
 # nohup kubectl -n cilium-monitoring port-forward service/grafana --address 0.0.0.0 3000:3000 &
-# kubectl patch svc hubble-ui -n kube-system -p '{"spec": {"type": "LoadBalancer", "externalIPs":["72.19.0.8"]}}'
-# kubectl patch svc hubble-relay -n kube-system -p '{"spec": {"type": "LoadBalancer", "externalIPs":["72.19.0.8"]}}'
+kubectl patch svc hubble-ui -n kube-system -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.19.0.4"]}}'
+kubectl patch svc hubble-relay -n kube-system -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.19.0.4"]}}'
 
 # kubectl delete -f https://raw.githubusercontent.com/cilium/cilium/1.16.1/examples/kubernetes/addons/prometheus/monitoring-example.yaml
 echo "install yugabytedb"
@@ -428,15 +428,15 @@ helm repo add yugabytedb https://charts.yugabyte.com
 # kubectl apply -f yugabyte-statefulset.yaml
 # kubectl delete -f yugabyte-statefulset.yaml
 # kubectl apply -f https://raw.githubusercontent.com/YugaByte/yugabyte-db/master/cloud/kubernetes/yugabyte-statefulset.yaml
-# kubectl port-forward service/yb-tservers --namespace=default --address 0.0.0.0 5433:5433
-# nohup kubectl port-forward service/yb-tservers --namespace=default 5433:5433 &
-# nohup kubectl port-forward service/yb-tservers --namespace=default 9000:9000 &
-# nohup kubectl port-forward service/yb-master-ui --namespace=default 7000:7000 &
+kubectl port-forward service/yb-tservers --namespace=default --address 0.0.0.0 5433:5433
+nohup kubectl port-forward service/yb-tservers --namespace=default 5433:5433 &
+nohup kubectl port-forward service/yb-tservers --namespace=default 9000:9000 &
+nohup kubectl port-forward service/yb-master-ui --namespace=default 7000:7000 &
 
 
 # kubectl config use kind-dn
-# kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["43.154.250.130"]}}'
-# kubectl patch svc yb-db-service -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["43.154.250.130"]}}'
+kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.19.0.4"]}}'
+kubectl patch svc yb-db-service -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.19.0.4"]}}'
 # kubectl get svc
 # kubectl config use kind-hn
 # kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.16.0.41"]}}'
