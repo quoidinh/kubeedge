@@ -29,8 +29,8 @@ kind: CiliumLoadBalancerIPPool
 metadata:
   name: "bgp-peering-pool"
 spec:
-  blocks:
-  - cidr: "172.18.0.0/24"
+  cidrs:
+    - cidr: "172.18.0.0/24"
   serviceSelector:
     matchExpressions:
       - {key: color, operator: In, values: [blue, cyan]}
