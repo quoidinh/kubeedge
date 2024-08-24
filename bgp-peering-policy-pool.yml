@@ -1,36 +1,36 @@
----
-apiVersion: "cilium.io/v2alpha1"
-kind: CiliumBGPPeeringPolicy
-metadata:
- name: bgp-peering-policy
-spec:
- nodeSelector:
-   matchLabels:
-     bgp-policy: pandora
- virtualRouters:
- - localASN: 65013
-   exportPodCIDR: true
-   neighbors:
-    - peerAddress: 172.19.0.4/24
-      peerASN: 65014
-      eBGPMultihopTTL: 10
-      connectRetryTimeSeconds: 120
-      holdTimeSeconds: 90
-      keepAliveTimeSeconds: 30
-      gracefulRestart:
-        enabled: true
-        restartTimeSeconds: 120
-   serviceSelector:
-      matchExpressions:
-         - {key: somekey, operator: NotIn, values: ['never-used-value']}
 # ---
 # apiVersion: "cilium.io/v2alpha1"
-# kind: CiliumLoadBalancerIPPool
+# kind: CiliumBGPPeeringPolicy
 # metadata:
-#   name: "bgp-peering-pool"
+#  name: bgp-peering-policy
 # spec:
-#   blocks:
-#     - cidr: "172.18.0.0/24"
-#   serviceSelector:
-#     matchExpressions:
-#       - {key: color, operator: In, values: [blue, cyan]}
+#  nodeSelector:
+#    matchLabels:
+#      bgp-policy: pandora
+#  virtualRouters:
+#  - localASN: 65013
+#    exportPodCIDR: true
+#    neighbors:
+#     - peerAddress: 172.19.0.4/24
+#       peerASN: 65014
+#       eBGPMultihopTTL: 10
+#       connectRetryTimeSeconds: 120
+#       holdTimeSeconds: 90
+#       keepAliveTimeSeconds: 30
+#       gracefulRestart:
+#         enabled: true
+#         restartTimeSeconds: 120
+#    serviceSelector:
+#       matchExpressions:
+#          - {key: somekey, operator: NotIn, values: ['never-used-value']}
+# ---
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: "bgp-peering-pool"
+spec:
+  blocks:
+    - cidr: "172.18.0.0/24"
+  serviceSelector:
+    matchExpressions:
+      - {key: color, operator: In, values: [blue, cyan]}
