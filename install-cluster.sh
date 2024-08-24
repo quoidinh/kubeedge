@@ -251,8 +251,6 @@ sha256sum --check cilium-linux-${CLI_ARCH}.tar.gz.sha256sum
 sudo tar xzvfC cilium-linux-${CLI_ARCH}.tar.gz /usr/local/bin
 rm cilium-linux-${CLI_ARCH}.tar.gz.sha256sum
 
-# curl -LO https://raw.githubusercontent.com/cilium/cilium/1.16.1/Documentation/installation/kind-config.yaml
-# kind create cluster --config=kind-config.yaml
 
 helm repo add cilium https://helm.cilium.io/
 
@@ -302,54 +300,76 @@ cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=ku
    --set hubble.enabled=true \
    --set hubble.relay.enabled=true \
    --set hubble.ui.enabled=true \
-   --set hubble.ui.service.type=NodePort \
-   --set hubble.relay.service.type=NodePort \
-   --set hubble.ui.enabled=true \
    --set hubble.metrics.dashboards.enabled=true \
    --set hostServices.enabled=false \
    --set externalIPs.enabled=true \
-   --set nodePort.enabled=true \
    --set hubble.tls.enabled=false \
    --set hubble.tls.auto.enabled=false \
    --set hubble.relay.tls.server.enabled=false \
    --set prometheus.enabled=true \
    --set operator.prometheus.enabled=true \
    --set hubble.metrics.enableOpenMetrics=true \
-   --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
-   --set hostPort.enabled=true
-cilium clustermesh enable --service-type NodePort
+   --set l2announcements.enabled=true \
+   --set autoDirectNodeRoutes=true \
+   --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" 
+
+# cilium clustermesh enable --service-type NodePort
+cilium clustermesh enable --service-type LoadBalancer
+
 cilium hubble enable --ui
 kind delete cluster --name cluster2
 kind create cluster --name cluster2 --config kind-cluster2.yaml
 kubectl config use kind-cluster2
-cilium install --set cluster.name=cluster2 --set cluster.id=3 --set ipam.mode=kubernetes \
+cilium install --set cluster.name=cluster2 --set cluster.id=2 --set ipam.mode=kubernetes \
    --set hubble.relay.enabled=true \
    --set hubble.enabled=true \
    --set hubble.relay.enabled=true \
    --set hubble.ui.enabled=true \
-   --set hubble.ui.service.type=NodePort \
-   --set hubble.relay.service.type=NodePort \
-   --set hubble.ui.enabled=true \
    --set hubble.metrics.dashboards.enabled=true \
    --set hostServices.enabled=false \
    --set externalIPs.enabled=true \
-   --set nodePort.enabled=true \
    --set hubble.tls.enabled=false \
    --set hubble.tls.auto.enabled=false \
    --set hubble.relay.tls.server.enabled=false \
    --set prometheus.enabled=true \
    --set operator.prometheus.enabled=true \
    --set hubble.metrics.enableOpenMetrics=true \
-   --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
-   --set hostPort.enabled=true
-cilium clustermesh enable --service-type NodePort
+   --set l2announcements.enabled=true \
+   --set autoDirectNodeRoutes=true \
+   --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" 
+   
+# cilium clustermesh enable --service-type NodePort
+cilium clustermesh enable --service-type LoadBalancer
+
 cilium hubble enable --ui
+# --set hostPort.enabled=true
+   # --set hubble.ui.service.type=NodePort \
+   # --set hubble.relay.service.type=NodePort \
    # --set l2announcements.enabled=true \
    # --set autoDirectNodeRoutes=true \
    # --set loadBalancer.mode=hybrid \
    # --set nativeRoutingCIDR=172.21.0.0/20 \
    # --set ipam.operator.clusterPoolIPv4PodCIDR=172.21.0.0/20 \
    # --set ipam.operator.clusterPoolIPv4MaskSize=26 \
+
+# --set operator.replicas=1 \
+# --set ipv4.enabled=true  \
+# --set loadBalancer.mode=dsr  \
+# --set routingMode=native  \
+# --set autoDirectNodeRoutes=true  \
+# --set l2announcements.enabled=true  \
+# --set kubeProxyReplacement=true  \
+# --set k8sClientRateLimit.qps=50  \
+# --set k8sClientRateLimit.burst=100  \
+# --set l2announcements.leaseDuration=3s  \
+# --set l2announcements.leaseRenewDeadline=1s  \
+# --set l2announcements.leaseRetryPeriod=200ms  \
+# --set ingressController.Enabled=true  \
+# --set enable-bgp-control-plane.enabled=true \
+# --set ipam.operator.clusterPoolIPv4PodCIDRList=10.0.0.0/16  \
+# --set ipv4NativeRoutingCIDR=10.0.0.0/16  \
+# --set k8sServiceHost=192.168.0.105  \
+# --set k8sServicePort=6443 
 
 cilium clustermesh connect --context kind-cluster1 --destination-context kind-cluster2
 cilium status 
@@ -366,9 +386,9 @@ nohup kubectl port-forward -n kube-system svc/hubble-ui --address 0.0.0.0 4245:8
 # # >/dev/null &
 echo "cilium-monitoring"
 # kubectl apply -f https://raw.githubusercontent.com/cilium/cilium/1.16.1/examples/kubernetes/addons/prometheus/monitoring-example.yaml
-kubectl apply -f monitor-grafana-promethus-yugabyte.yaml
-nohup kubectl -n cilium-monitoring port-forward service/prometheus --address 0.0.0.0 9090:9090 &
-nohup kubectl -n cilium-monitoring port-forward service/grafana --address 0.0.0.0 3000:3000 &
+# kubectl apply -f monitor-grafana-promethus-yugabyte.yaml
+# nohup kubectl -n cilium-monitoring port-forward service/prometheus --address 0.0.0.0 9090:9090 &
+# nohup kubectl -n cilium-monitoring port-forward service/grafana --address 0.0.0.0 3000:3000 &
 # kubectl patch svc hubble-ui -n kube-system -p '{"spec": {"type": "LoadBalancer", "externalIPs":["72.19.0.8"]}}'
 # kubectl patch svc hubble-relay -n kube-system -p '{"spec": {"type": "LoadBalancer", "externalIPs":["72.19.0.8"]}}'
 
@@ -376,22 +396,22 @@ nohup kubectl -n cilium-monitoring port-forward service/grafana --address 0.0.0.
 # kubectl delete -f https://raw.githubusercontent.com/cilium/cilium/1.16.1/examples/kubernetes/addons/prometheus/monitoring-example.yaml
 echo "install yugabytedb"
 helm repo add yugabytedb https://charts.yugabyte.com
-kubectl apply -f yugabyte-statefulset.yaml
+# kubectl apply -f yugabyte-statefulset.yaml
 # kubectl delete -f yugabyte-statefulset.yaml
-kubectl apply -f https://raw.githubusercontent.com/YugaByte/yugabyte-db/master/cloud/kubernetes/yugabyte-statefulset.yaml
+# kubectl apply -f https://raw.githubusercontent.com/YugaByte/yugabyte-db/master/cloud/kubernetes/yugabyte-statefulset.yaml
 # kubectl port-forward service/yb-tservers --namespace=default --address 0.0.0.0 5433:5433
-nohup kubectl port-forward service/yb-tservers --namespace=default 5433:5433 &
-nohup kubectl port-forward service/yb-tservers --namespace=default 9000:9000 &
-nohup kubectl port-forward service/yb-master-ui --namespace=default 7000:7000 &
+# nohup kubectl port-forward service/yb-tservers --namespace=default 5433:5433 &
+# nohup kubectl port-forward service/yb-tservers --namespace=default 9000:9000 &
+# nohup kubectl port-forward service/yb-master-ui --namespace=default 7000:7000 &
 
 
 # kubectl config use kind-dn
-kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["43.154.250.130"]}}'
-kubectl patch svc yb-db-service -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["43.154.250.130"]}}'
+# kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["43.154.250.130"]}}'
+# kubectl patch svc yb-db-service -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["43.154.250.130"]}}'
 # kubectl get svc
 # kubectl config use kind-hn
-kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.16.0.41"]}}'
-kubectl patch svc yb-db-service -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.16.0.41"]}}'
+# kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.16.0.41"]}}'
+# kubectl patch svc yb-db-service -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.16.0.41"]}}'
 # kubectl get svc
 # kubectl config use kind-hcm
 # kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.6"]}}'
