@@ -29,7 +29,7 @@ kind: CiliumLoadBalancerIPPool
 metadata:
   name: "bgp-peering-pool"
 spec:
-  cidrs:
+  blocks:
     - cidr: "172.18.0.0/24"
   serviceSelector:
     matchExpressions:
