@@ -378,7 +378,7 @@ echo "install yugabytedb"
 helm repo add yugabytedb https://charts.yugabyte.com
 kubectl apply -f yugabyte-statefulset.yaml
 # kubectl delete -f yugabyte-statefulset.yaml
-# kubectl apply -f https://raw.githubusercontent.com/YugaByte/yugabyte-db/master/cloud/kubernetes/yugabyte-statefulset.yaml
+kubectl apply -f https://raw.githubusercontent.com/YugaByte/yugabyte-db/master/cloud/kubernetes/yugabyte-statefulset.yaml
 # kubectl port-forward service/yb-tservers --namespace=default --address 0.0.0.0 5433:5433
 nohup kubectl port-forward service/yb-tservers --namespace=default 5433:5433 &
 nohup kubectl port-forward service/yb-tservers --namespace=default 9000:9000 &
@@ -390,8 +390,8 @@ kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", 
 kubectl patch svc yb-db-service -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["43.154.250.130"]}}'
 # kubectl get svc
 # kubectl config use kind-hn
-# kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.5"]}}'
-# kubectl patch svc yb-db-service -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.5"]}}'
+kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.16.0.41"]}}'
+kubectl patch svc yb-db-service -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.16.0.41"]}}'
 # kubectl get svc
 # kubectl config use kind-hcm
 # kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.6"]}}'
@@ -406,6 +406,7 @@ kubectl patch svc yb-db-service -n default -p '{"spec": {"type": "LoadBalancer",
 # kubectl get nodes
 # kubectl config use kind-hn
 # kubectl get pods,svc -A
+kubectl get pods --all-namespaces
 kubectl get nodes,svc -A
 
 
