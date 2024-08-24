@@ -18,7 +18,7 @@ from time import sleep
 # Replace the following with your own k8s cluster contexts
 contexts = {
     'ha-noi': 'ha-noi_yugabytedb1',
-    'da-nang': 'danang_yugabytedb2',
+    'da-nang': 'da-nang_yugabytedb2',
     'ho-chi-minh': 'hcm_yugabytedb3',
 }
 
