@@ -374,7 +374,6 @@ cilium install --set cluster.name=cluster2 --set cluster.id=2 --set ipam.mode=ku
    --set hostPort.enabled=true
 
 # cilium clustermesh enable --context kind-cluster1 --service-type NodePort
-
 # cilium clustermesh enable --context kind-cluster2 --service-type NodePort
 cilium clustermesh enable --service-type LoadBalancer
 
@@ -433,12 +432,12 @@ helm repo add yugabytedb https://charts.yugabyte.com
 # kubectl delete -f yugabyte-statefulset.yaml
 # kubectl apply -f https://raw.githubusercontent.com/YugaByte/yugabyte-db/master/cloud/kubernetes/yugabyte-statefulset.yaml
 # kubectl port-forward service/yb-tservers --namespace=default --address 0.0.0.0 5433:5433
-nohup kubectl port-forward service/yb-master-ui --namespace=default --address 0.0.0.0 9000:9000 &
-nohup kubectl port-forward service/yb-master-ui --namespace=default --address 0.0.0.0 7000:7000 &
+# nohup kubectl port-forward service/yb-master-ui --namespace=default --address 0.0.0.0 9000:9000 &
+# nohup kubectl port-forward service/yb-master-ui --namespace=default --address 0.0.0.0 7000:7000 &
 
-nohup kubectl port-forward service/yb-tservers --namespace=default 5433:5433 &
-nohup kubectl port-forward service/yb-tservers --namespace=default 9000:9000 &
-nohup kubectl port-forward service/yb-master-ui --namespace=default 7000:7000 &
+# nohup kubectl port-forward service/yb-tservers --namespace=default 5433:5433 &
+# nohup kubectl port-forward service/yb-tservers --namespace=default 9000:9000 &
+# nohup kubectl port-forward service/yb-master-ui --namespace=default 7000:7000 &
 kubectl get pods --all-namespaces
 kubectl get nodes,svc -A
 
@@ -485,8 +484,8 @@ echo "All ok ;)"
 # nohup kubectl port-forward service/yb-db-service --namespace=default --address 0.0.0.0 9000:9000 &
 # nohup kubectl port-forward service/yb-master-ui --namespace=default --address 0.0.0.0 7000:7000 &
 
-
-
+nohup kubectl port-forward service/nginx --namespace=default --address 0.0.0.0 9999:80 &
+kubectl scale --replicas=20 deployment nginx -n default
 # docker exec -i yugabytedb_node1 yb-admin -master_addresses yugabytedb_node1:7100  setup_universe_replication 4637d6fe83ba442ea18d1724d8e494e4 yugabytedb_node2:9000 000000010000300080000000000000af	
 # yb-admin -master_addresses yb-master-0.yb-masters.yb-platform.svc.cluster.local:7000,yb-master-1.yb-masters.yb-platform.svc.cluster.local:7000,yb-master-2.yb-masters.yb-platform.svc.cluster.local:7000 modify_placement_info aws.us_west.zone-a:1,aws.us_central.zone-b:1,aws.us_east.zone-c:1 3
 # https://www.bookstack.cn/read/yugabyte-2.1/7292656daa1dacc0.md
@@ -777,3 +776,4 @@ echo "All ok ;)"
 
 # helm delete my-yugaware -n yb-demo
 # https://docs.yugabyte.com/preview/yugabyte-platform/prepare/server-nodes-software/software-kubernetes/
+# https://stackoverflow.com/questions/48857092/how-to-expose-nginx-on-public-ip-using-nodeport-service-in-kubernetes
