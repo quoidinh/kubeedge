@@ -403,8 +403,8 @@ cilium status
 # cilium clustermesh status --context kind-cluster1 --wait
 # cilium clustermesh status --context kind-cluster2 --wait
 
-cilium clustermesh enable --context kind-cluster1 --service-type NodePort
-cilium clustermesh enable --context kind-cluster2 --service-type NodePort
+# cilium clustermesh enable --context kind-cluster1 --service-type NodePort
+# cilium clustermesh enable --context kind-cluster2 --service-type NodePort
 
 echo "Install Hubble ui"
 # # cilium hubble ui
@@ -412,31 +412,38 @@ echo "Install Hubble ui"
 sudo ufw allow 4245/tcp comment "Hubble Observability"
 # # lsof -i :4245
 # # kill -9 
+kubectl patch svc hubble-ui -n kube-system -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.4"]}}'
+kubectl patch svc hubble-relay -n kube-system -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0..4"]}}'
 nohup kubectl port-forward -n kube-system svc/hubble-ui --address 0.0.0.0 4245:80 &
-# # >/dev/null &
+
 echo "cilium-monitoring"
 # kubectl apply -f https://raw.githubusercontent.com/cilium/cilium/1.16.1/examples/kubernetes/addons/prometheus/monitoring-example.yaml
 # kubectl apply -f monitor-grafana-promethus-yugabyte.yaml
 # nohup kubectl -n cilium-monitoring port-forward service/prometheus --address 0.0.0.0 9090:9090 &
 # nohup kubectl -n cilium-monitoring port-forward service/grafana --address 0.0.0.0 3000:3000 &
-kubectl patch svc hubble-ui -n kube-system -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.19.0.4"]}}'
-kubectl patch svc hubble-relay -n kube-system -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.19.0.4"]}}'
 
-# kubectl delete -f https://raw.githubusercontent.com/cilium/cilium/1.16.1/examples/kubernetes/addons/prometheus/monitoring-example.yaml
+
 echo "install yugabytedb"
 helm repo add yugabytedb https://charts.yugabyte.com
 # kubectl apply -f yugabyte-statefulset.yaml
 # kubectl delete -f yugabyte-statefulset.yaml
 # kubectl apply -f https://raw.githubusercontent.com/YugaByte/yugabyte-db/master/cloud/kubernetes/yugabyte-statefulset.yaml
-kubectl port-forward service/yb-tservers --namespace=default --address 0.0.0.0 5433:5433
+# kubectl port-forward service/yb-tservers --namespace=default --address 0.0.0.0 5433:5433
+nohup kubectl port-forward service/yb-master-ui --namespace=default --address 0.0.0.0 9000:9000 &
+nohup kubectl port-forward service/yb-master-ui --namespace=default --address 0.0.0.0 7000:7000 &
+
 nohup kubectl port-forward service/yb-tservers --namespace=default 5433:5433 &
 nohup kubectl port-forward service/yb-tservers --namespace=default 9000:9000 &
 nohup kubectl port-forward service/yb-master-ui --namespace=default 7000:7000 &
+kubectl get pods --all-namespaces
+kubectl get nodes,svc -A
 
+# kubectl scale statefulset yb-tserver --replicas=5
+# kubectl scale statefulset yb-master --replicas=3
 
 # kubectl config use kind-dn
-kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.19.0.4"]}}'
-kubectl patch svc yb-db-service -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.19.0.4"]}}'
+# kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.4"]}}'
+# kubectl patch svc yb-db-service -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.4"]}}'
 # kubectl get svc
 # kubectl config use kind-hn
 # kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.16.0.41"]}}'
@@ -447,16 +454,6 @@ kubectl patch svc yb-db-service -n default -p '{"spec": {"type": "LoadBalancer",
 # kubectl patch svc yb-db-service -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.6"]}}'
 # kubectl get svc
 
-# kubectl config use kind-dn
-# kubectl get pods,svc -A
-# kubectl get nodes
-# kubectl config use kind-hcm
-# kubectl get pods,svc -A
-# kubectl get nodes
-# kubectl config use kind-hn
-# kubectl get pods,svc -A
-kubectl get pods --all-namespaces
-kubectl get nodes,svc -A
 
 
 
@@ -470,8 +467,6 @@ echo "All ok ;)"
 # kubectl get pods
 
 
-# kubectl scale statefulset yb-tserver --replicas=5
-# kubectl scale statefulset yb-master --replicas=5
 # nohup kubectl port-forward service/yb-db-service --namespace=default --address 0.0.0.0 5433:5433 &
 
 # nohup kubectl port-forward service/yb-db-service --namespace=default --address 0.0.0.0 9000:9000 &
