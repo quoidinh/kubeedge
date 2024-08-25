@@ -290,6 +290,8 @@ ulimit -Hn
 # # sudo ip addr add 172.18.0.4/16 brd + dev br-f7fd5d8f1f88
 # # sudo ip addr add 172.18.0.5/16 brd + dev br-f7fd5d8f1f88
 # # sudo ip addr add 172.18.0.6/16 brd + dev br-f7fd5d8f1f88
+sudo ip addr add 172.18.130.218/16 brd + dev br-2ecf150f8e48
+
 kubectl apply -f bgp-peering-policy.yml
 kubectl apply -f bgp-peering-policy-pool.yml
 
@@ -371,7 +373,9 @@ cilium install --set cluster.name=cluster2 --set cluster.id=2 --set ipam.mode=ku
    --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
    --set hostPort.enabled=true
 
-# cilium clustermesh enable --service-type NodePort
+# cilium clustermesh enable --context kind-cluster1 --service-type NodePort
+
+# cilium clustermesh enable --context kind-cluster2 --service-type NodePort
 cilium clustermesh enable --service-type LoadBalancer
 
 cilium hubble enable --ui
@@ -438,7 +442,9 @@ nohup kubectl port-forward service/yb-master-ui --namespace=default 7000:7000 &
 kubectl get pods --all-namespaces
 kubectl get nodes,svc -A
 
-# kubectl scale statefulset yb-tserver --replicas=5
+# nohup  kubectl port-forward svc/nginx-svc --namespace=default --address 0.0.0.0 8081:80 &
+# nohup kubectl port-forward service/nginx-svc --namespace=default 8081:80 &
+# kubectl scale statefulset yb-tserver --replicas=3
 # kubectl scale statefulset yb-master --replicas=3
 
 # kubectl config use kind-dn
