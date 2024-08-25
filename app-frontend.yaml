@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: frontend
   service.cilium.io/global: "true"
-  service.cilium.io/shared: "true"
+  service.cilium.io/shared: "false"
 spec:
   selector:
     app: frontend
