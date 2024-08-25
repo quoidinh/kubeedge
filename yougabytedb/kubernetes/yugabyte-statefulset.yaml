@@ -257,6 +257,7 @@ spec:
           # and comment out the pgsql_proxy_bind_address flag
           - "--enable_ysql=true"
           - "--cql_proxy_bind_address=0.0.0.0"
+          # - "--pgsql_proxy_bind_address=$(POD_IP):5433"
           - "--pgsql_proxy_bind_address=0.0.0.0:5433"
           - "--redis_proxy_bind_address=0.0.0.0"
           - "--use_private_ip=never"
