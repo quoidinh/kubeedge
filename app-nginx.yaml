@@ -50,16 +50,21 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment     # Áp dụng HPA cho Deployment
-    name: nginx
+    name: nginx-deployment
   minReplicas: 1   # Số pod scale nhỏ nhất
   maxReplicas: 10  # Số pod scale lớn nhất
  
   # thực hiện scale khi CPU hoạt động ở mức 10%
   # so với CPU mà pod được xác định
   # (ở trên mình để cpu của pod là 100m)
-  targetCPUUtilizationPercentage: 10 
-#kubectl run -i --tty load-generator --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://42.96.60.76:9999/; done"
-# while true; do wget -q -O- http://42.96.60.76:9999; done
+  targetCPUUtilizationPercentage: 3 
+# kubectl run -i --tty load-generator4 --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://42.96.60.76:9999/; done"
+# helm upgrade ingress-nginx ingress-nginx \
+# --repo https://kubernetes.github.io/ingress-nginx \
+# --namespace ingress-nginx \
+# --set controller.metrics.enabled=true \
+# --set-string controller.podAnnotations."prometheus\.io/scrape"="true" \
+# --set-string controller.podAnnotations."prometheus\.io/port"="10254"
 
 # kubectl get hpa
 # kubectl get pods
