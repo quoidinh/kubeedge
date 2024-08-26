@@ -2,7 +2,7 @@
 apiVersion: "cilium.io/v2alpha1"
 kind: CiliumBGPPeeringPolicy
 metadata:
- name: bgp-peering-policy
+ name: rt1
 spec:
  nodeSelector:
    matchLabels:
@@ -11,7 +11,7 @@ spec:
  - localASN: 65013
    exportPodCIDR: true
    neighbors:
-    - peerAddress: 172.19.0.4/24
+    - peerAddress: 172.16.100.1/24
       peerASN: 65014
       eBGPMultihopTTL: 10
       connectRetryTimeSeconds: 120
@@ -20,7 +20,16 @@ spec:
       gracefulRestart:
         enabled: true
         restartTimeSeconds: 120
-  #  serviceSelector:
-  #     matchExpressions:
-  #        - {key: somekey, operator: NotIn, values: ['never-used-value']}
+   serviceSelector:
+      matchExpressions:
+         - {key: somekey, operator: NotIn, values: ['never-used-value']}
+---
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: "pandorac"
+spec:
+  cidrs:
+  - cidr: "172.16.103.0/24"
 
+# kubectl apply -f celium_peer_policy.yaml 

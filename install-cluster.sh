@@ -300,13 +300,12 @@ kind delete cluster --name cluster1
 kind create cluster --name cluster1 --config kind-cluster1.yaml
 kubectl config use kind-cluster1
 cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=kubernetes \
-   --set hubble.relay.enabled=true \
+    --set hubble.relay.enabled=true \
    --set hubble.enabled=true \
    --set hubble.relay.enabled=true \
    --set hubble.ui.enabled=true \
    --set hubble.ui.service.type=NodePort \
    --set hubble.relay.service.type=NodePort \
-   --set hubble.ui.enabled=true \
    --set hubble.metrics.dashboards.enabled=true \
    --set hostServices.enabled=false \
    --set externalIPs.enabled=true \
@@ -320,7 +319,6 @@ cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=ku
    --set ipv4.enabled=true  \
    --set loadBalancer.mode=dsr  \
    --set routingMode=native  \
-   --set kubeProxyReplacement=true  \
    --set k8sClientRateLimit.qps=50  \
    --set k8sClientRateLimit.burst=100  \
    --set l2announcements.leaseDuration=3s  \
@@ -328,11 +326,13 @@ cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=ku
    --set l2announcements.leaseRetryPeriod=200ms  \
    --set ingressController.Enabled=true  \
    --set enable-bgp-control-plane.enabled=true \
-   --set ipam.operator.clusterPoolIPv4PodCIDRList=172.18.0/16  \
+   --set ipam.operator.clusterPoolIPv4PodCIDRList=172.18.0/24  \
    --set ipv4NativeRoutingCIDR=10.0.0.0/16 \
    --set prometheus.enabled=true \
    --set hubble.metrics.enableOpenMetrics=true \
    --set operator.prometheus.enabled=true \
+   --set ingressController.Enabled=true  \
+   --set ingressController.loadbalancerMode=dedicated \
    --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
    --set hostPort.enabled=true
 
@@ -349,7 +349,6 @@ cilium install --set cluster.name=cluster2 --set cluster.id=2 --set ipam.mode=ku
    --set hubble.ui.enabled=true \
    --set hubble.ui.service.type=NodePort \
    --set hubble.relay.service.type=NodePort \
-   --set hubble.ui.enabled=true \
    --set hubble.metrics.dashboards.enabled=true \
    --set hostServices.enabled=false \
    --set externalIPs.enabled=true \
@@ -363,7 +362,6 @@ cilium install --set cluster.name=cluster2 --set cluster.id=2 --set ipam.mode=ku
    --set ipv4.enabled=true  \
    --set loadBalancer.mode=dsr  \
    --set routingMode=native  \
-   --set kubeProxyReplacement=true  \
    --set k8sClientRateLimit.qps=50  \
    --set k8sClientRateLimit.burst=100  \
    --set l2announcements.leaseDuration=3s  \
@@ -371,11 +369,13 @@ cilium install --set cluster.name=cluster2 --set cluster.id=2 --set ipam.mode=ku
    --set l2announcements.leaseRetryPeriod=200ms  \
    --set ingressController.Enabled=true  \
    --set enable-bgp-control-plane.enabled=true \
-   --set ipam.operator.clusterPoolIPv4PodCIDRList=172.18.0/16  \
+   --set ipam.operator.clusterPoolIPv4PodCIDRList=172.18.0/24  \
    --set ipv4NativeRoutingCIDR=10.0.0.0/16 \
    --set prometheus.enabled=true \
    --set hubble.metrics.enableOpenMetrics=true \
    --set operator.prometheus.enabled=true \
+   --set ingressController.Enabled=true  \
+   --set ingressController.loadbalancerMode=dedicated \
    --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
    --set hostPort.enabled=true
 
@@ -401,11 +401,13 @@ cilium hubble enable --ui
 # --set l2announcements.leaseRetryPeriod=200ms  \
 # --set ingressController.Enabled=true  \
 # --set enable-bgp-control-plane.enabled=true \
-# --set ipam.operator.clusterPoolIPv4PodCIDRList=10.0.0.0/16  \
- # --set ipam.operator.clusterPoolIPv4MaskSize=26 \
+# --set ipam.operator.clusterPoolIPv4PodCIDRList=172.18.103.0/24 \
 # --set ipv4NativeRoutingCIDR=10.0.0.0/16  \
+ # --set ipam.operator.clusterPoolIPv4MaskSize=26 \
+#  --set 'cni.binPath=/usr/libexec/cni' \
 # --set k8sServiceHost=192.168.0.105  \
 # --set k8sServicePort=6443 
+
 
 cilium clustermesh connect --context kind-cluster1 --destination-context kind-cluster2
 cilium status 
@@ -447,6 +449,8 @@ helm repo add yugabytedb https://charts.yugabyte.com
 # nohup kubectl port-forward service/yb-tservers --namespace=default 5433:5433 &
 # nohup kubectl port-forward service/yb-tservers --namespace=default 9000:9000 &
 # nohup kubectl port-forward service/yb-master-ui --namespace=default 7000:7000 &
+# nohup kubectl port-forward service/locust --namespace=default --address 0.0.0.0 9998:81 &
+
 kubectl get pods --all-namespaces
 kubectl get nodes,svc -A
 
@@ -494,6 +498,7 @@ echo "All ok ;)"
 # nohup kubectl port-forward service/yb-master-ui --namespace=default --address 0.0.0.0 7000:7000 &
 
 nohup kubectl port-forward service/nginx --namespace=default --address 0.0.0.0 9999:80 &
+nohup kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy  --address 0.0.0.0 8443:443 &
 kubectl scale --replicas=20 deployment nginx -n default
 # docker exec -i yugabytedb_node1 yb-admin -master_addresses yugabytedb_node1:7100  setup_universe_replication 4637d6fe83ba442ea18d1724d8e494e4 yugabytedb_node2:9000 000000010000300080000000000000af	
 # yb-admin -master_addresses yb-master-0.yb-masters.yb-platform.svc.cluster.local:7000,yb-master-1.yb-masters.yb-platform.svc.cluster.local:7000,yb-master-2.yb-masters.yb-platform.svc.cluster.local:7000 modify_placement_info aws.us_west.zone-a:1,aws.us_central.zone-b:1,aws.us_east.zone-c:1 3
@@ -786,3 +791,44 @@ kubectl scale --replicas=20 deployment nginx -n default
 # helm delete my-yugaware -n yb-demo
 # https://docs.yugabyte.com/preview/yugabyte-platform/prepare/server-nodes-software/software-kubernetes/
 # https://stackoverflow.com/questions/48857092/how-to-expose-nginx-on-public-ip-using-nodeport-service-in-kubernetes
+
+
+# helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+# helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard 
+#    --create-namespace --namespace kubernetes-dashboard 
+#    --set=nginx.enabled=false 
+#    --set=cert-manager.enabled=false
+
+# create two files create-service-cccount.yaml
+
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: admin-user
+#   namespace: kubernetes-dashboard
+# and create-cluster-role-binding.yaml
+
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: ClusterRoleBinding
+# metadata:
+#   name: admin-user
+# roleRef:
+#   apiGroup: rbac.authorization.k8s.io
+#   kind: ClusterRole
+#   name: cluster-admin
+# subjects:
+# - kind: ServiceAccount
+#   name: admin-user
+#   namespace: kubernetes-dashboard
+# then run
+
+# kubectl apply -f create-service-cccount.yaml
+# kubectl apply -f create-cluster-role-binding.yaml
+# kubectl -n kubernetes-dashboard create token admin-user
+
+# https://7thzero.com/blog/minikube-cilium-on-ubuntu-18-04
+#
+# Cilium stuff
+#   NOTE: This is pulling the Kubernetes 1.10 yaml. You may need to update this based on your chosen Kubernetes version
+# kubectl create -n kube-system -f https://raw.githubusercontent.com/cilium/cilium/1.3.0/examples/kubernetes/addons/etcd/standalone-etcd.yaml
+# kubectl create -f https://raw.githubusercontent.com/cilium/cilium/1.3.0/examples/kubernetes/1.10/cilium.yaml

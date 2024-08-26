@@ -1,0 +1,47 @@
+---
+# apiVersion: "cilium.io/v2alpha1"
+# kind: CiliumBGPPeeringPolicy
+# metadata:
+#  name: rt1
+# spec:
+#  nodeSelector:
+#    matchLabels:
+#      bgp-policy: pandora
+#  virtualRouters:
+#  - localASN: 65013
+#    exportPodCIDR: true
+#    neighbors:
+#     - peerAddress: 172.18.0.1/24
+#       peerASN: 65014
+#       eBGPMultihopTTL: 10
+#       connectRetryTimeSeconds: 120
+#       holdTimeSeconds: 90
+#       keepAliveTimeSeconds: 30
+#       gracefulRestart:
+#         enabled: true
+#         restartTimeSeconds: 120
+#    serviceSelector:
+#       matchExpressions:
+#          - {key: somekey, operator: NotIn, values: ['never-used-value']}
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumBGPPeeringPolicy
+metadata:
+  name: bgp-policy-simple
+spec:
+ nodeSelector:
+  matchLabels:
+    name: node1
+ virtualRouters:
+ - localASN: 64555
+   exportPodCIDR: true
+   neighbors:
+    - peerAddress: 172.16.0.41/32
+      peerASN: 64555
+---
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: "pandorac"
+spec:
+  cidrs:
+  - cidr: "172.18.0.0/24"
