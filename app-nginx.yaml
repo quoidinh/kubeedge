@@ -58,8 +58,9 @@ spec:
   # so với CPU mà pod được xác định
   # (ở trên mình để cpu của pod là 100m)
   targetCPUUtilizationPercentage: 10 
-#kubectl run --generator=run-pod/v1 -it --rm load-generator --image=busybox /bin/sh
-# while true; do wget -q -O- http://172.16.10.100:31080; done
+#kubectl run -i --tty load-generator --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://42.96.60.76:9999/; done"
+# while true; do wget -q -O- http://42.96.60.76:9999; done
+
 # kubectl get hpa
 # kubectl get pods
 # https://www.alibabacloud.com/help/en/ack/ack-managed-and-ack-dedicated/user-guide/configure-horizontal-pod-autoscaling-for-multiple-applications-based-on-the-metrics-of-the-nginx-ingress-controller
