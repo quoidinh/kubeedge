@@ -330,6 +330,9 @@ cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=ku
    --set enable-bgp-control-plane.enabled=true \
    --set ipam.operator.clusterPoolIPv4PodCIDRList=172.18.0/16  \
    --set ipv4NativeRoutingCIDR=10.0.0.0/16 \
+   --set prometheus.enabled=true \
+   --set hubble.metrics.enableOpenMetrics=true \
+   --set operator.prometheus.enabled=true \
    --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
    --set hostPort.enabled=true
 
@@ -370,6 +373,9 @@ cilium install --set cluster.name=cluster2 --set cluster.id=2 --set ipam.mode=ku
    --set enable-bgp-control-plane.enabled=true \
    --set ipam.operator.clusterPoolIPv4PodCIDRList=172.18.0/16  \
    --set ipv4NativeRoutingCIDR=10.0.0.0/16 \
+   --set prometheus.enabled=true \
+   --set hubble.metrics.enableOpenMetrics=true \
+   --set operator.prometheus.enabled=true \
    --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
    --set hostPort.enabled=true
 
@@ -420,8 +426,11 @@ kubectl patch svc hubble-relay -n kube-system -p '{"spec": {"type": "LoadBalance
 nohup kubectl port-forward -n kube-system svc/hubble-ui --address 0.0.0.0 4245:80 &
 
 echo "cilium-monitoring"
-# kubectl apply -f https://raw.githubusercontent.com/cilium/cilium/1.16.1/examples/kubernetes/addons/prometheus/monitoring-example.yaml
+kubectl apply -f https://raw.githubusercontent.com/cilium/cilium/1.16.1/examples/kubernetes/addons/prometheus/monitoring-example.yaml
+
+kubectl delete -f https://raw.githubusercontent.com/cilium/cilium/1.16.1/examples/kubernetes/addons/prometheus/monitoring-example.yaml
 # kubectl apply -f monitor-grafana-promethus-yugabyte.yaml
+kubectl delete -f monitor-grafana-promethus-yugabyte.yaml
 # nohup kubectl -n cilium-monitoring port-forward service/prometheus --address 0.0.0.0 9090:9090 &
 # nohup kubectl -n cilium-monitoring port-forward service/grafana --address 0.0.0.0 3000:3000 &
 
