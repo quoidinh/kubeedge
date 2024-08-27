@@ -10,6 +10,8 @@ import (
 type UserRepository interface {
 	CreateUser(user *models.User) (*models.User, error)
 	GetUser(id string) (*models.User, error)
+	GetUsers() ([]models.User, error)
+	DeleteAll() error
 }
 
 type PostgresUserRepository struct {
@@ -46,7 +48,33 @@ func (repo PostgresUserRepository) GetUser(id string) (*models.User, error) {
 
 	return &user, nil
 }
+func (repo PostgresUserRepository) GetUsers() ([]models.User, error) {
+	sql := `
+	SELECT id, name
+	FROM users
+	`
+	// var user models.User
+	rows, err := repo.db.Conn.Query(context.Background(), sql)
+	if err != nil {
+		panic(err)
+	}
+	var users []models.User
+	if err := pgxscan.ScanAll(&users, rows); err != nil {
+		panic(err)
+	}
 
+	return users, nil
+}
+func (repo PostgresUserRepository) DeleteAll() error {
+	sql := `
+	DELETE FROM "public"."users"
+	`
+	_, err := repo.db.Conn.Exec(context.Background(), sql)
+	if err != nil {
+		panic(err)
+	}
+	return nil
+}
 func NewUserRepository(db *Database) (*PostgresUserRepository, error) {
 	return &PostgresUserRepository{db: db}, nil
 }

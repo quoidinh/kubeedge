@@ -15,10 +15,11 @@ func SetupRouter(handler *handler.Handler) *echo.Echo {
 	e.Use(middleware.Recover())
 
 	// Routes
-	// e.GET("/users", api.GetAllUsers)
+	e.GET("/action", handler.Action)
+	e.GET("/users", handler.GetUsers)
 	e.POST("/users", handler.CreateUser)
 	e.GET("/users/:id", handler.GetUser)
-	// e.PUT("/users/:id", api.UpdateUser)
-	// e.DELETE("/users/:id", api.DeleteUser)
+	// e.PUT("/users/:id", handler.UpdateUser)
+	// e.DELETE("/users/:id", handler.DeleteUser)
 	return e
 }

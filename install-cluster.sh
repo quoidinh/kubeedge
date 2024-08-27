@@ -297,97 +297,97 @@ ulimit -Hn
 
 
 # kind delete cluster --name cluster1
-kind create cluster --name cluster1 --config kind-cluster1.yaml
-kubectl config use kind-cluster1
-helm install  cilium cilium/cilium --namespace kube-system -f quick-install-cluster1.yaml
-cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=kubernetes \
-    --set hubble.relay.enabled=true \
-   --set hubble.enabled=true \
-   --set hubble.relay.enabled=true \
-   --set hubble.ui.enabled=true \
-   --set hubble.ui.service.type=NodePort \
-   --set hubble.relay.service.type=NodePort \
-   --set hubble.metrics.dashboards.enabled=true \
-   --set hostServices.enabled=false \
-   --set externalIPs.enabled=true \
-   --set nodePort.enabled=true \
-   --set hubble.tls.enabled=false \
-   --set hubble.tls.auto.enabled=false \
-   --set hubble.relay.tls.server.enabled=false \
-   --set l2announcements.enabled=true \
-   --set autoDirectNodeRoutes=true \
-   --set operator.replicas=1 \
-   --set ipv4.enabled=true  \
-   --set ipv6.enabled=false  \
-   --set loadBalancer.mode=dsr  \
-   --set routingMode=native  \
-   --set k8sClientRateLimit.qps=50  \
-   --set k8sClientRateLimit.burst=100  \
-   --set l2announcements.leaseDuration=3s  \
-   --set l2announcements.leaseRenewDeadline=1s  \
-   --set l2announcements.leaseRetryPeriod=200ms  \
-   --set ingressController.Enabled=true  \
-   --set enable-bgp-control-plane.enabled=true \
-   --set ipam.operator.clusterPoolIPv4PodCIDRList=172.18.0/24  \
-   --set ipv4NativeRoutingCIDR=10.0.0.0/16 \
-   --set prometheus.enabled=true \
-   --set hubble.metrics.enableOpenMetrics=true \
-   --set operator.prometheus.enabled=true \
-   --set ingressController.Enabled=true  \
-   --set ingressController.loadbalancerMode=dedicated \
-   --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
-   --set hostPort.enabled=true
+# kind create cluster --name cluster1 --config kind-cluster1.yaml
+# kubectl config use kind-cluster1
+# helm install  cilium cilium/cilium --namespace kube-system -f quick-install-cluster1.yaml
+# cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=kubernetes \
+#     --set hubble.relay.enabled=true \
+#    --set hubble.enabled=true \
+#    --set hubble.relay.enabled=true \
+#    --set hubble.ui.enabled=true \
+#    --set hubble.ui.service.type=NodePort \
+#    --set hubble.relay.service.type=NodePort \
+#    --set hubble.metrics.dashboards.enabled=true \
+#    --set hostServices.enabled=false \
+#    --set externalIPs.enabled=true \
+#    --set nodePort.enabled=true \
+#    --set hubble.tls.enabled=false \
+#    --set hubble.tls.auto.enabled=false \
+#    --set hubble.relay.tls.server.enabled=false \
+#    --set l2announcements.enabled=true \
+#    --set autoDirectNodeRoutes=true \
+#    --set operator.replicas=1 \
+#    --set ipv4.enabled=true  \
+#    --set ipv6.enabled=false  \
+#    --set loadBalancer.mode=dsr  \
+#    --set routingMode=native  \
+#    --set k8sClientRateLimit.qps=50  \
+#    --set k8sClientRateLimit.burst=100  \
+#    --set l2announcements.leaseDuration=3s  \
+#    --set l2announcements.leaseRenewDeadline=1s  \
+#    --set l2announcements.leaseRetryPeriod=200ms  \
+#    --set ingressController.Enabled=true  \
+#    --set enable-bgp-control-plane.enabled=true \
+#    --set ipam.operator.clusterPoolIPv4PodCIDRList=172.18.0/24  \
+#    --set ipv4NativeRoutingCIDR=10.0.0.0/16 \
+#    --set prometheus.enabled=true \
+#    --set hubble.metrics.enableOpenMetrics=true \
+#    --set operator.prometheus.enabled=true \
+#    --set ingressController.Enabled=true  \
+#    --set ingressController.loadbalancerMode=dedicated \
+#    --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
+#    --set hostPort.enabled=true
 
 # cilium clustermesh enable --service-type NodePort
 # cilium clustermesh enable --service-type LoadBalancer
 # cilium hubble enable --ui
 # kind delete cluster --name cluster2
-kind create cluster --name cluster2 --config kind-cluster2.yaml
-kubectl config use kind-cluster2
-helm install  cilium cilium/cilium --namespace kube-system -f quick-install-cluster2.yaml
-cilium install --set cluster.name=cluster2 --set cluster.id=2 --set ipam.mode=kubernetes \
-   --set hubble.relay.enabled=true \
-   --set hubble.enabled=true \
-   --set hubble.relay.enabled=true \
-   --set hubble.ui.enabled=true \
-   --set hubble.ui.service.type=NodePort \
-   --set hubble.relay.service.type=NodePort \
-   --set hubble.metrics.dashboards.enabled=true \
-   --set hostServices.enabled=false \
-   --set externalIPs.enabled=true \
-   --set nodePort.enabled=true \
-   --set hubble.tls.enabled=false \
-   --set hubble.tls.auto.enabled=false \
-   --set hubble.relay.tls.server.enabled=false \
-   --set l2announcements.enabled=true \
-   --set autoDirectNodeRoutes=true \
-   --set operator.replicas=1 \
-   --set ipv4.enabled=true  \
-   --set ipv6.enabled=false  \
-   --set loadBalancer.mode=dsr  \
-   --set routingMode=native  \
-   --set k8sClientRateLimit.qps=50  \
-   --set k8sClientRateLimit.burst=100  \
-   --set l2announcements.leaseDuration=3s  \
-   --set l2announcements.leaseRenewDeadline=1s  \
-   --set l2announcements.leaseRetryPeriod=200ms  \
-   --set ingressController.Enabled=true  \
-   --set enable-bgp-control-plane.enabled=true \
-   --set ipam.operator.clusterPoolIPv4PodCIDRList=172.18.0/24  \
-   --set ipv4NativeRoutingCIDR=10.0.0.0/16 \
-   --set prometheus.enabled=true \
-   --set hubble.metrics.enableOpenMetrics=true \
-   --set operator.prometheus.enabled=true \
-   --set ingressController.Enabled=true  \
-   --set ingressController.loadbalancerMode=dedicated \
-   --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
-   --set hostPort.enabled=true
+# kind create cluster --name cluster2 --config kind-cluster2.yaml
+# kubectl config use kind-cluster2
+# helm install  cilium cilium/cilium --namespace kube-system -f quick-install-cluster2.yaml
+# cilium install --set cluster.name=cluster2 --set cluster.id=2 --set ipam.mode=kubernetes \
+#    --set hubble.relay.enabled=true \
+#    --set hubble.enabled=true \
+#    --set hubble.relay.enabled=true \
+#    --set hubble.ui.enabled=true \
+#    --set hubble.ui.service.type=NodePort \
+#    --set hubble.relay.service.type=NodePort \
+#    --set hubble.metrics.dashboards.enabled=true \
+#    --set hostServices.enabled=false \
+#    --set externalIPs.enabled=true \
+#    --set nodePort.enabled=true \
+#    --set hubble.tls.enabled=false \
+#    --set hubble.tls.auto.enabled=false \
+#    --set hubble.relay.tls.server.enabled=false \
+#    --set l2announcements.enabled=true \
+#    --set autoDirectNodeRoutes=true \
+#    --set operator.replicas=1 \
+#    --set ipv4.enabled=true  \
+#    --set ipv6.enabled=false  \
+#    --set loadBalancer.mode=dsr  \
+#    --set routingMode=native  \
+#    --set k8sClientRateLimit.qps=50  \
+#    --set k8sClientRateLimit.burst=100  \
+#    --set l2announcements.leaseDuration=3s  \
+#    --set l2announcements.leaseRenewDeadline=1s  \
+#    --set l2announcements.leaseRetryPeriod=200ms  \
+#    --set ingressController.Enabled=true  \
+#    --set enable-bgp-control-plane.enabled=true \
+#    --set ipam.operator.clusterPoolIPv4PodCIDRList=172.18.0/24  \
+#    --set ipv4NativeRoutingCIDR=10.0.0.0/16 \
+#    --set prometheus.enabled=true \
+#    --set hubble.metrics.enableOpenMetrics=true \
+#    --set operator.prometheus.enabled=true \
+#    --set ingressController.Enabled=true  \
+#    --set ingressController.loadbalancerMode=dedicated \
+#    --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
+#    --set hostPort.enabled=true
 
 # cilium clustermesh enable --context kind-cluster1 --service-type NodePort
 # cilium clustermesh enable --context kind-cluster2 --service-type NodePort
 # cilium clustermesh enable --service-type LoadBalancer
 
-cilium hubble enable --ui
+# cilium hubble enable --ui
 
 
 # --set operator.replicas=1 \
@@ -429,57 +429,56 @@ sudo ufw allow 4245/tcp comment "Hubble Observability"
 # # # kill -9 
 # kubectl patch svc hubble-ui -n kube-system -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.4"]}}'
 # kubectl patch svc hubble-relay -n kube-system -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0..4"]}}'
-nohup kubectl port-forward -n kube-system svc/hubble-ui --address 0.0.0.0 4245:80 &
+# nohup kubectl port-forward -n kube-system svc/hubble-ui --address 0.0.0.0 4245:80 &
 
-echo "cilium-monitoring"
+# echo "cilium-monitoring"
 # kubectl apply -f https://raw.githubusercontent.com/cilium/cilium/1.16.1/examples/kubernetes/addons/prometheus/monitoring-example.yaml
 # kubectl delete -f https://raw.githubusercontent.com/cilium/cilium/1.16.1/examples/kubernetes/addons/prometheus/monitoring-example.yaml
-kubectl apply -f monitor-grafana-promethus-yugabyte.yaml
-# kubectl delete -f monitor-grafana-promethus-yugabyte.yaml
-nohup kubectl -n cilium-monitoring port-forward service/prometheus --address 0.0.0.0 9090:9090 &
-nohup kubectl -n cilium-monitoring port-forward service/grafana --address 0.0.0.0 3000:3000 &
+# kubectl apply -f monitor-grafana-promethus-yugabyte.yaml
+# # kubectl delete -f monitor-grafana-promethus-yugabyte.yaml
+# nohup kubectl -n cilium-monitoring port-forward service/prometheus --address 0.0.0.0 9090:9090 &
+# nohup kubectl -n cilium-monitoring port-forward service/grafana --address 0.0.0.0 3000:3000 &
 
 
-echo "install yugabytedb"
-helm repo add yugabytedb https://charts.yugabyte.com
-kubectl apply -f yugabyte-statefulset.yaml
-# kubectl delete -f yugabyte-statefulset.yaml
-# kubectl apply -f https://raw.githubusercontent.com/YugaByte/yugabyte-db/master/cloud/kubernetes/yugabyte-statefulset.yaml
-nohup kubectl port-forward service/yb-tservers --namespace=default --address 0.0.0.0 5433:5433 &
-nohup kubectl port-forward service/yb-master-ui --namespace=default --address 0.0.0.0 9000:9000 &
-nohup kubectl port-forward service/yb-master-ui --namespace=default --address 0.0.0.0 7000:7000 &
+# echo "install yugabytedb"
+# helm repo add yugabytedb https://charts.yugabyte.com
+# kubectl apply -f yugabyte-statefulset.yaml
+# # kubectl delete -f yugabyte-statefulset.yaml
+# # kubectl apply -f https://raw.githubusercontent.com/YugaByte/yugabyte-db/master/cloud/kubernetes/yugabyte-statefulset.yaml
+# nohup kubectl port-forward service/yb-tservers --namespace=default --address 0.0.0.0 5433:5433 &
+# nohup kubectl port-forward service/yb-master-ui --namespace=default --address 0.0.0.0 9000:9000 &
+# nohup kubectl port-forward service/yb-master-ui --namespace=default --address 0.0.0.0 7000:7000 &
 # kubectl scale statefulset yb-tserver --replicas=3
 # kubectl scale statefulset yb-master --replicas=3
 
+# echo "install kubernetes-dashboard"
+# helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+# helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard 
+# kubectl apply -f create-service-cccount.yaml
+# kubectl apply -f create-cluster-role-binding.yaml
+# kubectl -n default create token admin-user
+# # eyJhbGciOiJSUzI1NiIsImtpZCI6IjV4MHIxNVhCVy1tUG41Q2ZSTmJRQ1RMVmpHTkdvNjdaMG5SRFdwS3FhS2MifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNzI0NzI3MjQwLCJpYXQiOjE3MjQ3MjM2NDAsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwianRpIjoiYzQyODFiNzQtMzE0NC00ODhlLThmN2UtNWRhNjZkZTRiMWRhIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJkZWZhdWx0Iiwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImFkbWluLXVzZXIiLCJ1aWQiOiIxYmIwODA4Yy03MTA5LTQwMzEtOTA4MS1mZWZkMmU0MGNjZGMifX0sIm5iZiI6MTcyNDcyMzY0MCwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50OmRlZmF1bHQ6YWRtaW4tdXNlciJ9.iQTjbuF862nt_D_PmzrC21OnmTj_mEA6p8D5a4MLYzZQXeDcystWWotO-AqxLDZ0mM1A9IBnNXNh5VNy--QV8ZB0cOJwSsifoJ7CjJ6ftdC4VLBU21hi8C6eCv9jWPHlDFWMqOtTD1JJbJV3k705ndwmI42RGWCgDYV82eJQZeSG2VP5vK1CRdOXMbiKC3xHQhBFIB0xL1IF8qEF5J8uAwYNJVs1p1I-MiR4stTTF71EKNrW3TSHopR1bgh4wybaVf203Gq8-H6OlBoUqz40X1_bj2i6duvI49XJiUTQt1eLkr-TokoXLswk-iS3HviV7bXQ-SXDXpS8vTTRk0tEVA
 
-echo "install kubernetes-dashboard"
-helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
-helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard 
-kubectl apply -f create-service-cccount.yaml
-kubectl apply -f create-cluster-role-binding.yaml
-kubectl -n default create token admin-user
-# eyJhbGciOiJSUzI1NiIsImtpZCI6IjV4MHIxNVhCVy1tUG41Q2ZSTmJRQ1RMVmpHTkdvNjdaMG5SRFdwS3FhS2MifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNzI0NzI3MjQwLCJpYXQiOjE3MjQ3MjM2NDAsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwianRpIjoiYzQyODFiNzQtMzE0NC00ODhlLThmN2UtNWRhNjZkZTRiMWRhIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJkZWZhdWx0Iiwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImFkbWluLXVzZXIiLCJ1aWQiOiIxYmIwODA4Yy03MTA5LTQwMzEtOTA4MS1mZWZkMmU0MGNjZGMifX0sIm5iZiI6MTcyNDcyMzY0MCwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50OmRlZmF1bHQ6YWRtaW4tdXNlciJ9.iQTjbuF862nt_D_PmzrC21OnmTj_mEA6p8D5a4MLYzZQXeDcystWWotO-AqxLDZ0mM1A9IBnNXNh5VNy--QV8ZB0cOJwSsifoJ7CjJ6ftdC4VLBU21hi8C6eCv9jWPHlDFWMqOtTD1JJbJV3k705ndwmI42RGWCgDYV82eJQZeSG2VP5vK1CRdOXMbiKC3xHQhBFIB0xL1IF8qEF5J8uAwYNJVs1p1I-MiR4stTTF71EKNrW3TSHopR1bgh4wybaVf203Gq8-H6OlBoUqz40X1_bj2i6duvI49XJiUTQt1eLkr-TokoXLswk-iS3HviV7bXQ-SXDXpS8vTTRk0tEVA
+# echo "install sample application"
+# kubectl apply -f app-nginx1.yaml
+# kubectl describe deploy test-app
+# kubectl autoscale deployment test-app --cpu-percent=15 --min=1 --max=20
+# # kubectl scale statefulset test-app --replicas=3
+# nohup kubectl port-forward service/test-app --namespace=default --address 0.0.0.0 9999:8080 &
 
-echo "install sample application"
-kubectl apply -f app-nginx.yaml
-kubectl describe deploy nginx-deployment
-kubectl autoscale deployment nginx-deployment --cpu-percent=15 --min=1 --max=20
-# kubectl scale statefulset nginx-deployment --replicas=3
-nohup kubectl port-forward service/test-app --namespace=default --address 0.0.0.0 9999:8080 &
-
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-helm repo update
-kubectl create namespace ingress-nginx
-helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --set controller.metrics.enabled=true --set-string controller.podAnnotations."prometheus\.io/scrape"="true" --set-string controller.podAnnotations."prometheus\.io/port"="10254"
-kubectl get service --namespace ingress-nginx ingress-nginx-controller --output wide 
-kubectl get ingress -n ingress-nginx
-kubectl get services -n ingress-nginx
+# helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+# helm repo update
+# kubectl create namespace ingress-nginx
+# helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --set controller.metrics.enabled=true --set-string controller.podAnnotations."prometheus\.io/scrape"="true" --set-string controller.podAnnotations."prometheus\.io/port"="10254"
+# kubectl get service --namespace ingress-nginx ingress-nginx-controller --output wide 
+# kubectl get ingress -n ingress-nginx
+# kubectl get services -n ingress-nginx
 
 
-echo "install locust"
-kubectl create deployment locust --image paultur/locustproject:latest
-kubectl expose deployment locust --type LoadBalancer --port 81 --target-port 8089
-nohup kubectl port-forward service/locust --namespace=default --address 0.0.0.0 9998:81 &
+# echo "install locust"
+# kubectl create deployment locust --image paultur/locustproject:latest
+# kubectl expose deployment locust --type LoadBalancer --port 81 --target-port 8089
+# nohup kubectl port-forward service/locust --namespace=default --address 0.0.0.0 9998:81 &
 
 kubectl get pods --all-namespaces
 kubectl get nodes,pods,svc,deploy -A
