@@ -465,7 +465,7 @@ kubectl apply -f app-nginx.yaml
 kubectl describe deploy nginx-deployment
 kubectl autoscale deployment nginx-deployment --cpu-percent=15 --min=1 --max=20
 # kubectl scale statefulset nginx-deployment --replicas=3
-nohup kubectl port-forward service/nginx-deployment --namespace=default --address 0.0.0.0 9999:80 &
+nohup kubectl port-forward service/test-app --namespace=default --address 0.0.0.0 9999:8080 &
 
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo update
