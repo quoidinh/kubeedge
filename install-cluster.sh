@@ -318,6 +318,7 @@ cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=ku
    --set autoDirectNodeRoutes=true \
    --set operator.replicas=1 \
    --set ipv4.enabled=true  \
+   --set ipv6.enabled=false  \
    --set loadBalancer.mode=dsr  \
    --set routingMode=native  \
    --set k8sClientRateLimit.qps=50  \
@@ -362,6 +363,7 @@ cilium install --set cluster.name=cluster2 --set cluster.id=2 --set ipam.mode=ku
    --set autoDirectNodeRoutes=true \
    --set operator.replicas=1 \
    --set ipv4.enabled=true  \
+   --set ipv6.enabled=false  \
    --set loadBalancer.mode=dsr  \
    --set routingMode=native  \
    --set k8sClientRateLimit.qps=50  \
@@ -431,34 +433,39 @@ nohup kubectl port-forward -n kube-system svc/hubble-ui --address 0.0.0.0 4245:8
 
 echo "cilium-monitoring"
 # kubectl apply -f https://raw.githubusercontent.com/cilium/cilium/1.16.1/examples/kubernetes/addons/prometheus/monitoring-example.yaml
-
 # kubectl delete -f https://raw.githubusercontent.com/cilium/cilium/1.16.1/examples/kubernetes/addons/prometheus/monitoring-example.yaml
-# kubectl apply -f monitor-grafana-promethus-yugabyte.yaml
+kubectl apply -f monitor-grafana-promethus-yugabyte.yaml
 # kubectl delete -f monitor-grafana-promethus-yugabyte.yaml
-# nohup kubectl -n cilium-monitoring port-forward service/prometheus --address 0.0.0.0 9090:9090 &
-# nohup kubectl -n cilium-monitoring port-forward service/grafana --address 0.0.0.0 3000:3000 &
+nohup kubectl -n cilium-monitoring port-forward service/prometheus --address 0.0.0.0 9090:9090 &
+nohup kubectl -n cilium-monitoring port-forward service/grafana --address 0.0.0.0 3000:3000 &
 
 
 echo "install yugabytedb"
 helm repo add yugabytedb https://charts.yugabyte.com
-# kubectl apply -f yugabyte-statefulset.yaml
+kubectl apply -f yugabyte-statefulset.yaml
 # kubectl delete -f yugabyte-statefulset.yaml
 # kubectl apply -f https://raw.githubusercontent.com/YugaByte/yugabyte-db/master/cloud/kubernetes/yugabyte-statefulset.yaml
-# nohup kubectl port-forward service/yb-tservers --namespace=default --address 0.0.0.0 5433:5433 &
-# nohup kubectl port-forward service/yb-master-ui --namespace=default --address 0.0.0.0 9000:9000 &
-# nohup kubectl port-forward service/yb-master-ui --namespace=default --address 0.0.0.0 7000:7000 &
+nohup kubectl port-forward service/yb-tservers --namespace=default --address 0.0.0.0 5433:5433 &
+nohup kubectl port-forward service/yb-master-ui --namespace=default --address 0.0.0.0 9000:9000 &
+nohup kubectl port-forward service/yb-master-ui --namespace=default --address 0.0.0.0 7000:7000 &
+# kubectl scale statefulset yb-tserver --replicas=3
+# kubectl scale statefulset yb-master --replicas=3
 
 
 echo "install kubernetes-dashboard"
 helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard 
+kubectl apply -f create-service-cccount.yaml
+kubectl apply -f create-cluster-role-binding.yaml
+kubectl -n default create token admin-user
+# eyJhbGciOiJSUzI1NiIsImtpZCI6IjV4MHIxNVhCVy1tUG41Q2ZSTmJRQ1RMVmpHTkdvNjdaMG5SRFdwS3FhS2MifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNzI0NzI3MjQwLCJpYXQiOjE3MjQ3MjM2NDAsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwianRpIjoiYzQyODFiNzQtMzE0NC00ODhlLThmN2UtNWRhNjZkZTRiMWRhIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJkZWZhdWx0Iiwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImFkbWluLXVzZXIiLCJ1aWQiOiIxYmIwODA4Yy03MTA5LTQwMzEtOTA4MS1mZWZkMmU0MGNjZGMifX0sIm5iZiI6MTcyNDcyMzY0MCwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50OmRlZmF1bHQ6YWRtaW4tdXNlciJ9.iQTjbuF862nt_D_PmzrC21OnmTj_mEA6p8D5a4MLYzZQXeDcystWWotO-AqxLDZ0mM1A9IBnNXNh5VNy--QV8ZB0cOJwSsifoJ7CjJ6ftdC4VLBU21hi8C6eCv9jWPHlDFWMqOtTD1JJbJV3k705ndwmI42RGWCgDYV82eJQZeSG2VP5vK1CRdOXMbiKC3xHQhBFIB0xL1IF8qEF5J8uAwYNJVs1p1I-MiR4stTTF71EKNrW3TSHopR1bgh4wybaVf203Gq8-H6OlBoUqz40X1_bj2i6duvI49XJiUTQt1eLkr-TokoXLswk-iS3HviV7bXQ-SXDXpS8vTTRk0tEVA
 
 echo "install sample application"
 kubectl apply -f app-nginx.yaml
 kubectl describe deploy nginx-deployment
 kubectl autoscale deployment nginx-deployment --cpu-percent=15 --min=1 --max=20
+# kubectl scale statefulset nginx-deployment --replicas=3
 
-# https://docs.cloudferro.com/en/latest/kubernetes/HTTP-Request-based-Autoscaling-on-K8S-using-Prometheus-and-Keda-on-CloudFerro-Cloud.html
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo update
 kubectl create namespace ingress-nginx
@@ -475,10 +482,9 @@ nohup kubectl port-forward service/locust --namespace=default --address 0.0.0.0 
 
 kubectl get pods --all-namespaces
 kubectl get nodes,pods,svc,deploy -A
+echo "All ok ;)"
 
 
-# kubectl scale statefulset yb-tserver --replicas=3
-# kubectl scale statefulset yb-master --replicas=3
 
 # kubectl config use kind-cluster1
 # kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.4"]}}'
@@ -526,7 +532,7 @@ kubectl get nodes,pods,svc,deploy -A
 
 
 # kubectl -n default get svc/service-gp-peering-pool -o jsonpath='{.status.conditions}' | jq
-echo "All ok ;)"
+
 
 # nohup  kubectl port-forward svc/nginx-svc --namespace=default --address 0.0.0.0 8081:80 &
 # nohup kubectl port-forward service/nginx-svc --namespace=default 8081:80 &
