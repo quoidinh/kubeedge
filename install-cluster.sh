@@ -290,15 +290,16 @@ ulimit -Hn
 # # sudo ip addr add 172.18.0.4/16 brd + dev br-f7fd5d8f1f88
 # # sudo ip addr add 172.18.0.5/16 brd + dev br-f7fd5d8f1f88
 # # sudo ip addr add 172.18.0.6/16 brd + dev br-f7fd5d8f1f88
-sudo ip addr add 172.18.130.218/16 brd + dev br-2ecf150f8e48
+# sudo ip addr add 172.18.130.218/16 brd + dev br-2ecf150f8e48
 
-kubectl apply -f bgp-peering-policy.yml
-kubectl apply -f bgp-peering-policy-pool.yml
+# kubectl apply -f bgp-peering-policy.yml
+# kubectl apply -f bgp-peering-policy-pool.yml
 
 
-kind delete cluster --name cluster1
+# kind delete cluster --name cluster1
 kind create cluster --name cluster1 --config kind-cluster1.yaml
 kubectl config use kind-cluster1
+helm install  cilium cilium/cilium --namespace kube-system -f quick-install-cluster1.yaml
 cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=kubernetes \
     --set hubble.relay.enabled=true \
    --set hubble.enabled=true \
@@ -337,11 +338,12 @@ cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=ku
    --set hostPort.enabled=true
 
 # cilium clustermesh enable --service-type NodePort
-cilium clustermesh enable --service-type LoadBalancer
+# cilium clustermesh enable --service-type LoadBalancer
 # cilium hubble enable --ui
-kind delete cluster --name cluster2
+# kind delete cluster --name cluster2
 kind create cluster --name cluster2 --config kind-cluster2.yaml
 kubectl config use kind-cluster2
+helm install  cilium cilium/cilium --namespace kube-system -f quick-install-cluster2.yaml
 cilium install --set cluster.name=cluster2 --set cluster.id=2 --set ipam.mode=kubernetes \
    --set hubble.relay.enabled=true \
    --set hubble.enabled=true \
@@ -381,7 +383,7 @@ cilium install --set cluster.name=cluster2 --set cluster.id=2 --set ipam.mode=ku
 
 # cilium clustermesh enable --context kind-cluster1 --service-type NodePort
 # cilium clustermesh enable --context kind-cluster2 --service-type NodePort
-cilium clustermesh enable --service-type LoadBalancer
+# cilium clustermesh enable --service-type LoadBalancer
 
 cilium hubble enable --ui
 
@@ -409,7 +411,7 @@ cilium hubble enable --ui
 # --set k8sServicePort=6443 
 
 
-cilium clustermesh connect --context kind-cluster1 --destination-context kind-cluster2
+# cilium clustermesh connect --context kind-cluster1 --destination-context kind-cluster2
 cilium status 
 # cilium clustermesh status --context kind-cluster1 --wait
 # cilium clustermesh status --context kind-cluster2 --wait
@@ -422,17 +424,17 @@ echo "Install Hubble ui"
 # cilium hubble port-forward &
 sudo ufw allow 4245/tcp comment "Hubble Observability"
 # # lsof -i :4245
-# # kill -9 
-kubectl patch svc hubble-ui -n kube-system -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.4"]}}'
-kubectl patch svc hubble-relay -n kube-system -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0..4"]}}'
+# # # kill -9 
+# kubectl patch svc hubble-ui -n kube-system -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.4"]}}'
+# kubectl patch svc hubble-relay -n kube-system -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0..4"]}}'
 nohup kubectl port-forward -n kube-system svc/hubble-ui --address 0.0.0.0 4245:80 &
 
 echo "cilium-monitoring"
-kubectl apply -f https://raw.githubusercontent.com/cilium/cilium/1.16.1/examples/kubernetes/addons/prometheus/monitoring-example.yaml
+# kubectl apply -f https://raw.githubusercontent.com/cilium/cilium/1.16.1/examples/kubernetes/addons/prometheus/monitoring-example.yaml
 
-kubectl delete -f https://raw.githubusercontent.com/cilium/cilium/1.16.1/examples/kubernetes/addons/prometheus/monitoring-example.yaml
+# kubectl delete -f https://raw.githubusercontent.com/cilium/cilium/1.16.1/examples/kubernetes/addons/prometheus/monitoring-example.yaml
 # kubectl apply -f monitor-grafana-promethus-yugabyte.yaml
-kubectl delete -f monitor-grafana-promethus-yugabyte.yaml
+# kubectl delete -f monitor-grafana-promethus-yugabyte.yaml
 # nohup kubectl -n cilium-monitoring port-forward service/prometheus --address 0.0.0.0 9090:9090 &
 # nohup kubectl -n cilium-monitoring port-forward service/grafana --address 0.0.0.0 3000:3000 &
 
@@ -450,6 +452,9 @@ helm repo add yugabytedb https://charts.yugabyte.com
 # nohup kubectl port-forward service/yb-tservers --namespace=default 9000:9000 &
 # nohup kubectl port-forward service/yb-master-ui --namespace=default 7000:7000 &
 # nohup kubectl port-forward service/locust --namespace=default --address 0.0.0.0 9998:81 &
+echo "install kubernetes-dashboard"
+helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard 
 
 kubectl get pods --all-namespaces
 kubectl get nodes,svc -A
@@ -497,9 +502,9 @@ echo "All ok ;)"
 # nohup kubectl port-forward service/yb-db-service --namespace=default --address 0.0.0.0 9000:9000 &
 # nohup kubectl port-forward service/yb-master-ui --namespace=default --address 0.0.0.0 7000:7000 &
 
-nohup kubectl port-forward service/nginx --namespace=default --address 0.0.0.0 9999:80 &
-nohup kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy  --address 0.0.0.0 8443:443 &
-kubectl scale --replicas=20 deployment nginx -n default
+# nohup kubectl port-forward service/nginx --namespace=default --address 0.0.0.0 9999:80 &
+# nohup kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy  --address 0.0.0.0 8443:443 &
+# kubectl scale --replicas=20 deployment nginx -n default
 # docker exec -i yugabytedb_node1 yb-admin -master_addresses yugabytedb_node1:7100  setup_universe_replication 4637d6fe83ba442ea18d1724d8e494e4 yugabytedb_node2:9000 000000010000300080000000000000af	
 # yb-admin -master_addresses yb-master-0.yb-masters.yb-platform.svc.cluster.local:7000,yb-master-1.yb-masters.yb-platform.svc.cluster.local:7000,yb-master-2.yb-masters.yb-platform.svc.cluster.local:7000 modify_placement_info aws.us_west.zone-a:1,aws.us_central.zone-b:1,aws.us_east.zone-c:1 3
 # https://www.bookstack.cn/read/yugabyte-2.1/7292656daa1dacc0.md
@@ -832,3 +837,4 @@ kubectl scale --replicas=20 deployment nginx -n default
 #   NOTE: This is pulling the Kubernetes 1.10 yaml. You may need to update this based on your chosen Kubernetes version
 # kubectl create -n kube-system -f https://raw.githubusercontent.com/cilium/cilium/1.3.0/examples/kubernetes/addons/etcd/standalone-etcd.yaml
 # kubectl create -f https://raw.githubusercontent.com/cilium/cilium/1.3.0/examples/kubernetes/1.10/cilium.yaml
+# https://picluster.ricsanfre.com/docs/cilium/
