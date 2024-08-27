@@ -300,43 +300,43 @@ ulimit -Hn
 # kind create cluster --name cluster1 --config kind-cluster1.yaml
 # kubectl config use kind-cluster1
 # helm install  cilium cilium/cilium --namespace kube-system -f quick-install-cluster1.yaml
-# cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=kubernetes \
-#     --set hubble.relay.enabled=true \
-#    --set hubble.enabled=true \
-#    --set hubble.relay.enabled=true \
-#    --set hubble.ui.enabled=true \
-#    --set hubble.ui.service.type=NodePort \
-#    --set hubble.relay.service.type=NodePort \
-#    --set hubble.metrics.dashboards.enabled=true \
-#    --set hostServices.enabled=false \
-#    --set externalIPs.enabled=true \
-#    --set nodePort.enabled=true \
-#    --set hubble.tls.enabled=false \
-#    --set hubble.tls.auto.enabled=false \
-#    --set hubble.relay.tls.server.enabled=false \
-#    --set l2announcements.enabled=true \
-#    --set autoDirectNodeRoutes=true \
-#    --set operator.replicas=1 \
-#    --set ipv4.enabled=true  \
-#    --set ipv6.enabled=false  \
-#    --set loadBalancer.mode=dsr  \
-#    --set routingMode=native  \
-#    --set k8sClientRateLimit.qps=50  \
-#    --set k8sClientRateLimit.burst=100  \
-#    --set l2announcements.leaseDuration=3s  \
-#    --set l2announcements.leaseRenewDeadline=1s  \
-#    --set l2announcements.leaseRetryPeriod=200ms  \
-#    --set ingressController.Enabled=true  \
-#    --set enable-bgp-control-plane.enabled=true \
-#    --set ipam.operator.clusterPoolIPv4PodCIDRList=172.18.0/24  \
-#    --set ipv4NativeRoutingCIDR=10.0.0.0/16 \
-#    --set prometheus.enabled=true \
-#    --set hubble.metrics.enableOpenMetrics=true \
-#    --set operator.prometheus.enabled=true \
-#    --set ingressController.Enabled=true  \
-#    --set ingressController.loadbalancerMode=dedicated \
-#    --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
-#    --set hostPort.enabled=true
+cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=kubernetes \
+    --set hubble.relay.enabled=true \
+   --set hubble.enabled=true \
+   --set hubble.relay.enabled=true \
+   --set hubble.ui.enabled=true \
+   --set hubble.ui.service.type=NodePort \
+   --set hubble.relay.service.type=NodePort \
+   --set hubble.metrics.dashboards.enabled=true \
+   --set hostServices.enabled=false \
+   --set externalIPs.enabled=true \
+   --set nodePort.enabled=true \
+   --set hubble.tls.enabled=false \
+   --set hubble.tls.auto.enabled=false \
+   --set hubble.relay.tls.server.enabled=false \
+   --set l2announcements.enabled=true \
+   --set autoDirectNodeRoutes=true \
+   --set operator.replicas=1 \
+   --set ipv4.enabled=true  \
+   --set ipv6.enabled=false  \
+   --set loadBalancer.mode=hybrid  \
+   --set routingMode=native  \
+   --set k8sClientRateLimit.qps=50  \
+   --set k8sClientRateLimit.burst=100  \
+   --set l2announcements.leaseDuration=3s  \
+   --set l2announcements.leaseRenewDeadline=1s  \
+   --set l2announcements.leaseRetryPeriod=200ms  \
+   --set ingressController.Enabled=true  \
+   --set enable-bgp-control-plane.enabled=true \
+   --set ipam.operator.clusterPoolIPv4PodCIDRList=172.18.0/24  \
+   --set ipv4NativeRoutingCIDR=10.0.0.0/16 \
+   --set prometheus.enabled=true \
+   --set hubble.metrics.enableOpenMetrics=true \
+   --set operator.prometheus.enabled=true \
+   --set ingressController.Enabled=true  \
+   --set ingressController.loadbalancerMode=dedicated \
+   --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip,source_namespace,source_workload,destination_ip,destination_namespace,destination_workload,traffic_direction}" \
+   --set hostPort.enabled=true
 
 # cilium clustermesh enable --service-type NodePort
 # cilium clustermesh enable --service-type LoadBalancer
@@ -345,43 +345,43 @@ ulimit -Hn
 # kind create cluster --name cluster2 --config kind-cluster2.yaml
 # kubectl config use kind-cluster2
 # helm install  cilium cilium/cilium --namespace kube-system -f quick-install-cluster2.yaml
-# cilium install --set cluster.name=cluster2 --set cluster.id=2 --set ipam.mode=kubernetes \
-#    --set hubble.relay.enabled=true \
-#    --set hubble.enabled=true \
-#    --set hubble.relay.enabled=true \
-#    --set hubble.ui.enabled=true \
-#    --set hubble.ui.service.type=NodePort \
-#    --set hubble.relay.service.type=NodePort \
-#    --set hubble.metrics.dashboards.enabled=true \
-#    --set hostServices.enabled=false \
-#    --set externalIPs.enabled=true \
-#    --set nodePort.enabled=true \
-#    --set hubble.tls.enabled=false \
-#    --set hubble.tls.auto.enabled=false \
-#    --set hubble.relay.tls.server.enabled=false \
-#    --set l2announcements.enabled=true \
-#    --set autoDirectNodeRoutes=true \
-#    --set operator.replicas=1 \
-#    --set ipv4.enabled=true  \
-#    --set ipv6.enabled=false  \
-#    --set loadBalancer.mode=dsr  \
-#    --set routingMode=native  \
-#    --set k8sClientRateLimit.qps=50  \
-#    --set k8sClientRateLimit.burst=100  \
-#    --set l2announcements.leaseDuration=3s  \
-#    --set l2announcements.leaseRenewDeadline=1s  \
-#    --set l2announcements.leaseRetryPeriod=200ms  \
-#    --set ingressController.Enabled=true  \
-#    --set enable-bgp-control-plane.enabled=true \
-#    --set ipam.operator.clusterPoolIPv4PodCIDRList=172.18.0/24  \
-#    --set ipv4NativeRoutingCIDR=10.0.0.0/16 \
-#    --set prometheus.enabled=true \
-#    --set hubble.metrics.enableOpenMetrics=true \
-#    --set operator.prometheus.enabled=true \
-#    --set ingressController.Enabled=true  \
-#    --set ingressController.loadbalancerMode=dedicated \
-#    --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
-#    --set hostPort.enabled=true
+cilium install --set cluster.name=cluster2 --set cluster.id=2 --set ipam.mode=kubernetes \
+   --set hubble.relay.enabled=true \
+   --set hubble.enabled=true \
+   --set hubble.relay.enabled=true \
+   --set hubble.ui.enabled=true \
+   --set hubble.ui.service.type=NodePort \
+   --set hubble.relay.service.type=NodePort \
+   --set hubble.metrics.dashboards.enabled=true \
+   --set hostServices.enabled=false \
+   --set externalIPs.enabled=true \
+   --set nodePort.enabled=true \
+   --set hubble.tls.enabled=false \
+   --set hubble.tls.auto.enabled=false \
+   --set hubble.relay.tls.server.enabled=false \
+   --set l2announcements.enabled=true \
+   --set autoDirectNodeRoutes=true \
+   --set operator.replicas=1 \
+   --set ipv4.enabled=true  \
+   --set ipv6.enabled=false  \
+   --set loadBalancer.mode=hybrid  \
+   --set routingMode=native  \
+   --set k8sClientRateLimit.qps=50  \
+   --set k8sClientRateLimit.burst=100  \
+   --set l2announcements.leaseDuration=3s  \
+   --set l2announcements.leaseRenewDeadline=1s  \
+   --set l2announcements.leaseRetryPeriod=200ms  \
+   --set ingressController.Enabled=true  \
+   --set enable-bgp-control-plane.enabled=true \
+   --set ipam.operator.clusterPoolIPv4PodCIDRList=172.18.0/24  \
+   --set ipv4NativeRoutingCIDR=10.0.0.0/16 \
+   --set prometheus.enabled=true \
+   --set hubble.metrics.enableOpenMetrics=true \
+   --set operator.prometheus.enabled=true \
+   --set ingressController.Enabled=true  \
+   --set ingressController.loadbalancerMode=dedicated \
+   --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip,source_namespace,source_workload,destination_ip,destination_namespace,destination_workload,traffic_direction}" \
+   --set hostPort.enabled=true
 
 # cilium clustermesh enable --context kind-cluster1 --service-type NodePort
 # cilium clustermesh enable --context kind-cluster2 --service-type NodePort
@@ -536,7 +536,7 @@ echo "All ok ;)"
 
 # nohup  kubectl port-forward svc/nginx-svc --namespace=default --address 0.0.0.0 8081:80 &
 # nohup kubectl port-forward service/nginx-svc --namespace=default 8081:80 &
-
+nohup kubectl port-forward service/rebel-base --namespace=default --address 0.0.0.0 8081:80 &
 
 
 
@@ -860,3 +860,7 @@ echo "All ok ;)"
 # kubectl create -n kube-system -f https://raw.githubusercontent.com/cilium/cilium/1.3.0/examples/kubernetes/addons/etcd/standalone-etcd.yaml
 # kubectl create -f https://raw.githubusercontent.com/cilium/cilium/1.3.0/examples/kubernetes/1.10/cilium.yaml
 # https://picluster.ricsanfre.com/docs/cilium/
+
+# https://github.com/bmcustodio/kind-cilium-mesh/blob/master/README.md
+# kubectl apply -f https://raw.githubusercontent.com/bmcustodio/kind-cilium-mesh/master/common/rebel-base.yaml -f https://raw.githubusercontent.com/cilium/cilium/v1.11.0-rc3/examples/kubernetes/clustermesh/global-service-example/cluster2.yaml
+# kubectl apply -f https://raw.githubusercontent.com/bmcustodio/kind-cilium-mesh/master/common/rebel-base.yaml -f https://raw.githubusercontent.com/cilium/cilium/v1.11.0-rc3/examples/kubernetes/clustermesh/global-service-example/cluster1.yaml
