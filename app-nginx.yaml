@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: nginx:1.7.9
+          image: go-test-postgres
           ports:
           - containerPort: 80
 
@@ -69,8 +69,8 @@ spec:
 # kubectl get hpa
 # kubectl get pods
 # https://www.alibabacloud.com/help/en/ack/ack-managed-and-ack-dedicated/user-guide/configure-horizontal-pod-autoscaling-for-multiple-applications-based-on-the-metrics-of-the-nginx-ingress-controller
-https://www.alibabacloud.com/help/en/ack/ack-managed-and-ack-dedicated/user-guide/configure-horizontal-pod-autoscaling-for-multiple-applications-based-on-the-metrics-of-the-nginx-ingress-controller
+# https://www.alibabacloud.com/help/en/ack/ack-managed-and-ack-dedicated/user-guide/configure-horizontal-pod-autoscaling-for-multiple-applications-based-on-the-metrics-of-the-nginx-ingress-controller
 
-https://hackmd.io/@cwXgzjB3S1eEs_BPxM1n8A/H1t9U9QO_
-https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
-https://spacelift.io/blog/kubectl-delete-pod
+# https://hackmd.io/@cwXgzjB3S1eEs_BPxM1n8A/H1t9U9QO_
+# https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
+# https://spacelift.io/blog/kubectl-delete-pod
