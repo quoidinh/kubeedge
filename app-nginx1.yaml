@@ -15,7 +15,7 @@ spec:
         app: test-app
     spec:
       containers:
-      - image: skto/sample-app:v2
+      - image: go-test-postgres
         name: metrics-provider
         ports:
         - name: http
