@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: go-test-postgres
+          image: wowai/go-rest-postgres
           ports:
           - containerPort: 80
 
