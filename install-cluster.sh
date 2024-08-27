@@ -444,45 +444,92 @@ helm repo add yugabytedb https://charts.yugabyte.com
 # kubectl apply -f yugabyte-statefulset.yaml
 # kubectl delete -f yugabyte-statefulset.yaml
 # kubectl apply -f https://raw.githubusercontent.com/YugaByte/yugabyte-db/master/cloud/kubernetes/yugabyte-statefulset.yaml
-# kubectl port-forward service/yb-tservers --namespace=default --address 0.0.0.0 5433:5433
+# nohup kubectl port-forward service/yb-tservers --namespace=default --address 0.0.0.0 5433:5433 &
 # nohup kubectl port-forward service/yb-master-ui --namespace=default --address 0.0.0.0 9000:9000 &
 # nohup kubectl port-forward service/yb-master-ui --namespace=default --address 0.0.0.0 7000:7000 &
 
-# nohup kubectl port-forward service/yb-tservers --namespace=default 5433:5433 &
-# nohup kubectl port-forward service/yb-tservers --namespace=default 9000:9000 &
-# nohup kubectl port-forward service/yb-master-ui --namespace=default 7000:7000 &
-# nohup kubectl port-forward service/locust --namespace=default --address 0.0.0.0 9998:81 &
+
 echo "install kubernetes-dashboard"
 helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard 
 
-kubectl get pods --all-namespaces
-kubectl get nodes,svc -A
+echo "install sample application"
+kubectl apply -f app-nginx.yaml
+kubectl describe deploy nginx-deployment
+kubectl autoscale deployment nginx-deployment --cpu-percent=15 --min=1 --max=20
 
-# nohup  kubectl port-forward svc/nginx-svc --namespace=default --address 0.0.0.0 8081:80 &
-# nohup kubectl port-forward service/nginx-svc --namespace=default 8081:80 &
+# https://docs.cloudferro.com/en/latest/kubernetes/HTTP-Request-based-Autoscaling-on-K8S-using-Prometheus-and-Keda-on-CloudFerro-Cloud.html
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+kubectl create namespace ingress-nginx
+helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --set controller.metrics.enabled=true --set-string controller.podAnnotations."prometheus\.io/scrape"="true" --set-string controller.podAnnotations."prometheus\.io/port"="10254"
+kubectl get service --namespace ingress-nginx ingress-nginx-controller --output wide 
+kubectl get ingress -n ingress-nginx
+kubectl get services -n ingress-nginx
+
+
+echo "install locust"
+kubectl create deployment locust --image paultur/locustproject:latest
+kubectl expose deployment locust --type LoadBalancer --port 81 --target-port 8089
+nohup kubectl port-forward service/locust --namespace=default --address 0.0.0.0 9998:81 &
+
+kubectl get pods --all-namespaces
+kubectl get nodes,pods,svc,deploy -A
+
+
 # kubectl scale statefulset yb-tserver --replicas=3
 # kubectl scale statefulset yb-master --replicas=3
 
-# kubectl config use kind-dn
+# kubectl config use kind-cluster1
 # kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.4"]}}'
 # kubectl patch svc yb-db-service -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.4"]}}'
 # kubectl get svc
-# kubectl config use kind-hn
-# kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.16.0.41"]}}'
-# kubectl patch svc yb-db-service -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.16.0.41"]}}'
-# kubectl get svc
-# kubectl config use kind-hcm
-# kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.6"]}}'
-# kubectl patch svc yb-db-service -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.6"]}}'
+
+# kubectl config use kind-cluster2
+# kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.4"]}}'
+# kubectl patch svc yb-db-service -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.4"]}}'
 # kubectl get svc
 
+# helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+# helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard 
+#    --create-namespace --namespace kubernetes-dashboard 
+#    --set=nginx.enabled=false 
+#    --set=cert-manager.enabled=false
+#  nohup kubectl -n default port-forward svc/kubernetes-dashboard-kong-proxy --address 0.0.0.0 8443:443 &
+# # create two files create-service-cccount.yaml
 
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: admin-user
+#   namespace: default
+
+# # and create-cluster-role-binding.yaml
+
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: ClusterRoleBinding
+# metadata:
+#   name: admin-user
+# roleRef:
+#   apiGroup: rbac.authorization.k8s.io
+#   kind: ClusterRole
+#   name: cluster-admin
+# subjects:
+# - kind: ServiceAccount
+#   name: admin-user
+#   namespace: default
+# then run
+
+# kubectl apply -f create-service-cccount.yaml
+# kubectl apply -f create-cluster-role-binding.yaml
+# kubectl -n default create token admin-user
 
 
 # kubectl -n default get svc/service-gp-peering-pool -o jsonpath='{.status.conditions}' | jq
 echo "All ok ;)"
 
+# nohup  kubectl port-forward svc/nginx-svc --namespace=default --address 0.0.0.0 8081:80 &
+# nohup kubectl port-forward service/nginx-svc --namespace=default 8081:80 &
 
 
 
@@ -798,38 +845,7 @@ echo "All ok ;)"
 # https://stackoverflow.com/questions/48857092/how-to-expose-nginx-on-public-ip-using-nodeport-service-in-kubernetes
 
 
-# helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
-# helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard 
-#    --create-namespace --namespace kubernetes-dashboard 
-#    --set=nginx.enabled=false 
-#    --set=cert-manager.enabled=false
 
-# create two files create-service-cccount.yaml
-
-# apiVersion: v1
-# kind: ServiceAccount
-# metadata:
-#   name: admin-user
-#   namespace: kubernetes-dashboard
-# and create-cluster-role-binding.yaml
-
-# apiVersion: rbac.authorization.k8s.io/v1
-# kind: ClusterRoleBinding
-# metadata:
-#   name: admin-user
-# roleRef:
-#   apiGroup: rbac.authorization.k8s.io
-#   kind: ClusterRole
-#   name: cluster-admin
-# subjects:
-# - kind: ServiceAccount
-#   name: admin-user
-#   namespace: kubernetes-dashboard
-# then run
-
-# kubectl apply -f create-service-cccount.yaml
-# kubectl apply -f create-cluster-role-binding.yaml
-# kubectl -n kubernetes-dashboard create token admin-user
 
 # https://7thzero.com/blog/minikube-cilium-on-ubuntu-18-04
 #
