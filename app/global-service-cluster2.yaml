@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: global-base
+  name: global-service-base
   annotations:
     io.cilium/global-service: "true"
 spec:
@@ -10,25 +10,25 @@ spec:
   ports:
   - port: 80
   selector:
-    name: global-base
+    name: global-service-base
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: global-base
+  name: global-service-base
 spec:
   selector:
     matchLabels:
-      name: global-base
+      name: global-service-base
   replicas: 2
   template:
     metadata:
       labels:
-        name: global-base
+        name: global-service-base
     spec:
       containers:
-      - name: global-base
-        image: wowai/go-rest-postgres
+      - name: global-service-base
+        image: docker.io/nginx:1.15.8
         volumeMounts:
           - name: html
             mountPath: /usr/share/nginx/html/
@@ -93,11 +93,11 @@ spec:
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: global-base
+  name: global-service-base
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment     # Áp dụng HPA cho Deployment
-    name: global-base
+    name: global-service-base
   minReplicas: 1   # Số pod scale nhỏ nhất
   maxReplicas: 10  # Số pod scale lớn nhất

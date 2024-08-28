@@ -287,7 +287,7 @@ sudo sysctl fs.inotify.max_user_instances=8192
 sudo sysctl fs.inotify.max_user_watches=524288
 ulimit -Hn
 # sudo sysctl -p
-# # sudo ip addr add 172.18.0.4/16 brd + dev br-f7fd5d8f1f88
+# # sudo ip addr add 172.18.0.4/16 brd + dev br-2ecf150f8e48
 # # sudo ip addr add 172.18.0.5/16 brd + dev br-f7fd5d8f1f88
 # # sudo ip addr add 172.18.0.6/16 brd + dev br-f7fd5d8f1f88
 # sudo ip addr add 172.18.130.218/16 brd + dev br-2ecf150f8e48
@@ -461,7 +461,7 @@ kubectl delete -f https://raw.githubusercontent.com/bmcustodio/kind-cilium-mesh/
 kubectl config use kind-cluster2
 kubectl delete -f https://raw.githubusercontent.com/bmcustodio/kind-cilium-mesh/master/common/rebel-base.yaml -f https://raw.githubusercontent.com/cilium/cilium/v1.11.0-rc3/examples/kubernetes/clustermesh/global-service-example/cluster1.yaml
 nohup kubectl port-forward service//nginx-deployment --namespace=default --address 0.0.0.0 8081:80 &
-kubectl run --restart Never --rm -it --image giantswarm/tiny-tools tinytools -- /bin/sh -c 'for i in $(seq 1 20); do curl http://42.96.60.76:8082; done'
+kubectl run --restart Never --rm -it --image giantswarm/tiny-tools tinytools -- /bin/sh -c 'for i in $(seq 1 20); do curl http://global-base; done'
 
 cilium status 
 # cilium clustermesh status --context kind-cluster1 --wait
