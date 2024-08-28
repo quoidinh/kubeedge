@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: global-base
-        image: docker.io/nginx:1.15.8
+        image: wowai/go-rest-postgres
         volumeMounts:
           - name: html
             mountPath: /usr/share/nginx/html/
@@ -89,3 +89,15 @@ spec:
             - -o
             - /dev/null
             - localhost
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: global-base
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment     # Áp dụng HPA cho Deployment
+    name: global-base
+  minReplicas: 1   # Số pod scale nhỏ nhất
+  maxReplicas: 10  # Số pod scale lớn nhất

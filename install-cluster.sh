@@ -457,11 +457,11 @@ cilium install --set cluster.name=cluster2 --set cluster.id=2 --set ipam.mode=ku
 
 cilium clustermesh connect --context kind-cluster1 --destination-context kind-cluster2
 kubectl config use kind-cluster1
-kubectl apply -f https://raw.githubusercontent.com/bmcustodio/kind-cilium-mesh/master/common/rebel-base.yaml -f https://raw.githubusercontent.com/cilium/cilium/v1.11.0-rc3/examples/kubernetes/clustermesh/global-service-example/cluster2.yaml
+kubectl delete -f https://raw.githubusercontent.com/bmcustodio/kind-cilium-mesh/master/common/rebel-base.yaml -f https://raw.githubusercontent.com/cilium/cilium/v1.11.0-rc3/examples/kubernetes/clustermesh/global-service-example/cluster2.yaml
 kubectl config use kind-cluster2
-kubectl apply -f https://raw.githubusercontent.com/bmcustodio/kind-cilium-mesh/master/common/rebel-base.yaml -f https://raw.githubusercontent.com/cilium/cilium/v1.11.0-rc3/examples/kubernetes/clustermesh/global-service-example/cluster1.yaml
-nohup kubectl port-forward service/rebel-base --namespace=default --address 0.0.0.0 8081:80 &
-kubectl run --restart Never --rm -it --image giantswarm/tiny-tools tinytools -- /bin/sh -c 'for i in $(seq 1 20); do curl http://rebel-base/; done'
+kubectl delete -f https://raw.githubusercontent.com/bmcustodio/kind-cilium-mesh/master/common/rebel-base.yaml -f https://raw.githubusercontent.com/cilium/cilium/v1.11.0-rc3/examples/kubernetes/clustermesh/global-service-example/cluster1.yaml
+nohup kubectl port-forward service//nginx-deployment --namespace=default --address 0.0.0.0 8081:80 &
+kubectl run --restart Never --rm -it --image giantswarm/tiny-tools tinytools -- /bin/sh -c 'for i in $(seq 1 20); do curl http://42.96.60.76:8082; done'
 
 cilium status 
 # cilium clustermesh status --context kind-cluster1 --wait
@@ -474,7 +474,7 @@ echo "Install Hubble ui"
 # # cilium hubble ui
 # cilium hubble port-forward &
 sudo ufw allow 4245/tcp comment "Hubble Observability"
-# # lsof -i :4245
+# #  lsof-i :4245
 # # # kill -9 
 # kubectl patch svc hubble-ui -n kube-system -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.4"]}}'
 # kubectl patch svc hubble-relay -n kube-system -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0..4"]}}'
