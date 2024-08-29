@@ -51,7 +51,7 @@ spec:
       volumes:
         - name: html
           configMap:
-            name: rebel-base-response
+            name: nginx-base-response
             items:
               - key: message
                 path: index.html
@@ -59,26 +59,26 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: rebel-base-response
+  name: nginx-base-response
 data:
   message: "{\"Galaxy\": \"Alderaan\", \"Cluster\": \"Cluster-2\"}\n"
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: x-wing
+  name: nginx-base
 spec:
   selector:
     matchLabels:
-      name: x-wing
+      name: nginx-base
   replicas: 2
   template:
     metadata:
       labels:
-        name: x-wing
+        name: nginx-base
     spec:
       containers:
-      - name: x-wing-container
+      - name: nginx-base-container
         image: docker.io/cilium/json-mock:1.2
         livenessProbe:
           exec:
