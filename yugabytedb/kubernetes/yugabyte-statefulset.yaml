@@ -109,6 +109,7 @@ spec:
           - "--rpc_bind_addresses=$(POD_NAME).yb-masters.$(NAMESPACE).svc.cluster.local:7100"
           - "--server_broadcast_addresses=$(POD_NAME).yb-masters.$(NAMESPACE).svc.cluster.local:7100"
           - "--use_private_ip=never"
+          - "--webserver_interface=0.0.0.0"
           # FQDNs of each master. Update this in case your desired RF != 3.
           - "--master_addresses=yb-master-0.yb-masters.$(NAMESPACE).svc.cluster.local:7100,yb-master-1.yb-masters.$(NAMESPACE).svc.cluster.local:7100,yb-master-2.yb-masters.$(NAMESPACE).svc.cluster.local:7100"
           # To disable YugaByte SQL API functionality, set the
@@ -259,6 +260,7 @@ spec:
           - "--cql_proxy_bind_address=0.0.0.0"
           # - "--pgsql_proxy_bind_address=$(POD_IP):5433"
           - "--pgsql_proxy_bind_address=0.0.0.0:5433"
+          - "--webserver_interface=0.0.0.0"
           - "--redis_proxy_bind_address=0.0.0.0"
           - "--use_private_ip=never"
           # FQDNs of each master. Update this in case your desired RF != 3.
