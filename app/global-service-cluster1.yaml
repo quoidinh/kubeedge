@@ -29,6 +29,13 @@ spec:
       containers:
       - name: global-service-base
         image: docker.io/nginx:1.15.8
+        resources:
+          limits:
+            cpu: 100m
+            memory: 100Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
         volumeMounts:
           - name: html
             mountPath: /usr/share/nginx/html/
@@ -121,4 +128,12 @@ spec:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: 50
+          averageUtilization: 60
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 60
+# https://dev.to/xaviergeerinck/monitoring-the-kubernetes-nginx-ingress-controller-with-prometheus-and-grafana-35gi
+# https://github.com/kubernetes/ingress-nginx/tree/main/deploy/prometheus
