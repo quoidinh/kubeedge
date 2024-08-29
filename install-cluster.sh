@@ -297,7 +297,7 @@ ulimit -Hn
 
 
 # kind delete cluster --name cluster1
-export kubeconfig-cluster1.yaml
+export KUBECONFIG=./kubeconfig-cluster1.yaml
 kind create cluster --name cluster1 --config kind-cluster1.yaml
 kubectl config use kind-cluster1
 # helm install  cilium cilium/cilium --namespace kube-system -f quick-install-cluster1.yaml
@@ -364,7 +364,7 @@ cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=ku
 # cilium clustermesh enable --service-type LoadBalancer
 # cilium hubble enable --ui
 kind delete cluster --name cluster2
-export kubeconfig-cluster1.yaml
+export KUBECONFIG=./kubeconfig-cluster2.yaml
 kind create cluster --name cluster2 --config kind-cluster2.yaml
 kubectl config use kind-cluster2
 # helm install  cilium cilium/cilium --namespace kube-system -f quick-install-cluster2.yaml
