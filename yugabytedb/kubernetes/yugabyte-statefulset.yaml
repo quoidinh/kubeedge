@@ -62,7 +62,7 @@ metadata:
 spec:
   serviceName: yb-masters
   podManagementPolicy: "Parallel"
-  replicas: 5
+  replicas: 3
   selector:
     matchLabels:
       app: yb-master
