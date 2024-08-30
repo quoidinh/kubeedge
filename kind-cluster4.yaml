@@ -1,0 +1,12 @@
+# export KUBECONFIG=./kubeconfig-cluster2.yaml
+---
+apiVersion: kind.x-k8s.io/v1alpha4
+kind: Cluster
+networking:
+  disableDefaultCNI: true
+  podSubnet: 10.4.0.0/16
+  serviceSubnet: 172.18.0.0/16
+nodes:
+  - role: control-plane
+  - role: worker
+  - role: worker
