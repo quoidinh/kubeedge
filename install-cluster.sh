@@ -369,27 +369,27 @@ cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=ku
 # kind create cluster --name cluster2 --config kind-cluster2.yaml
 # kubectl config use kind-cluster2
 # # helm install  cilium cilium/cilium --namespace kube-system -f quick-install-cluster2.yaml
-# cilium install --set cluster.name=cluster2 --set cluster.id=2 --set ipam.mode=kubernetes \
-#   --namespace kube-system \
-#    --set hubble.relay.enabled=true \
-#    --set hubble.enabled=true \
-#    --set hubble.relay.enabled=true \
-#    --set hubble.ui.enabled=true \
-#    --set hubble.ui.service.type=NodePort \
-#    --set hubble.relay.service.type=NodePort \
-#    --set hubble.ui.enabled=true \
-#    --set hubble.metrics.dashboards.enabled=true \
-#    --set hostServices.enabled=false \
-#    --set externalIPs.enabled=true \
-#    --set nodePort.enabled=true \
-#    --set hubble.tls.enabled=false \
-#    --set hubble.tls.auto.enabled=false \
-#    --set hubble.relay.tls.server.enabled=false \
-#    --set prometheus.enabled=true \
-#    --set operator.prometheus.enabled=true \
-#    --set hubble.metrics.enableOpenMetrics=true \
-#    --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
-#    --set hostPort.enabled=true
+cilium install --set cluster.name=cluster2 --set cluster.id=2 --set ipam.mode=kubernetes \
+  --namespace kube-system \
+   --set hubble.relay.enabled=true \
+   --set hubble.enabled=true \
+   --set hubble.relay.enabled=true \
+   --set hubble.ui.enabled=true \
+   --set hubble.ui.service.type=NodePort \
+   --set hubble.relay.service.type=NodePort \
+   --set hubble.ui.enabled=true \
+   --set hubble.metrics.dashboards.enabled=true \
+   --set hostServices.enabled=false \
+   --set externalIPs.enabled=true \
+   --set nodePort.enabled=true \
+   --set hubble.tls.enabled=false \
+   --set hubble.tls.auto.enabled=false \
+   --set hubble.relay.tls.server.enabled=false \
+   --set prometheus.enabled=true \
+   --set operator.prometheus.enabled=true \
+   --set hubble.metrics.enableOpenMetrics=true \
+   --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
+   --set hostPort.enabled=true
 
    
 # cilium install --set cluster.name=cluster2 --set cluster.id=2 --set ipam.mode=kubernetes \
@@ -500,10 +500,10 @@ sudo ufw allow 4245/tcp comment "Hubble Observability"
 # # kubectl delete -f yugabyte-statefulset.yaml
 # # kubectl apply -f https://raw.githubusercontent.com/YugaByte/yugabyte-db/master/cloud/kubernetes/yugabyte-statefulset.yaml
 # nohup kubectl port-forward service/yb-tservers --namespace=default --address 0.0.0.0 5433:5433 &
-# nohup kubectl port-forward service/yb-master-ui --namespace=default --address 0.0.0.0 9000:9000 &
+# nohup kubectl port-forward service/yb-tservers --namespace=default --address 0.0.0.0 9000:9000 &
 # nohup kubectl port-forward service/yb-master-ui --namespace=default --address 0.0.0.0 7000:7000 &
-# kubectl scale statefulset yb-tserver --replicas=3
-# kubectl scale statefulset yb-master --replicas=3
+# kubectl scale statefulset yb-tserver --replicas=8
+# kubectl scale statefulset yb-master --replicas=8
 
 # echo "install kubernetes-dashboard"
 # helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
