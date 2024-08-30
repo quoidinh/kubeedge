@@ -298,30 +298,30 @@ ulimit -Hn
 
 # # kind delete cluster --name cluster1
 # # export KUBECONFIG=./kubeconfig-cluster1.yaml
-# kind create cluster --name cluster3 --config kind-cluster1.yaml
-# kubectl config use kind-cluster3
+# kind create cluster --name cluster1 --config kind-cluster1.yaml
+# kubectl config use kind-cluster1
 # # helm install  cilium cilium/cilium --namespace kube-system -f quick-install-cluster1.yaml
-cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=kubernetes \
-  --namespace kube-system \
-   --set hubble.relay.enabled=true \
-   --set hubble.enabled=true \
-   --set hubble.relay.enabled=true \
-   --set hubble.ui.enabled=true \
-   --set hubble.ui.service.type=NodePort \
-   --set hubble.relay.service.type=NodePort \
-   --set hubble.ui.enabled=true \
-   --set hubble.metrics.dashboards.enabled=true \
-   --set hostServices.enabled=false \
-   --set externalIPs.enabled=true \
-   --set nodePort.enabled=true \
-   --set hubble.tls.enabled=false \
-   --set hubble.tls.auto.enabled=false \
-   --set hubble.relay.tls.server.enabled=false \
-   --set prometheus.enabled=true \
-   --set operator.prometheus.enabled=true \
-   --set hubble.metrics.enableOpenMetrics=true \
-   --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
-   --set hostPort.enabled=true
+# cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=kubernetes \
+#   --namespace kube-system \
+#    --set hubble.relay.enabled=true \
+#    --set hubble.enabled=true \
+#    --set hubble.relay.enabled=true \
+#    --set hubble.ui.enabled=true \
+#    --set hubble.ui.service.type=NodePort \
+#    --set hubble.relay.service.type=NodePort \
+#    --set hubble.ui.enabled=true \
+#    --set hubble.metrics.dashboards.enabled=true \
+#    --set hostServices.enabled=false \
+#    --set externalIPs.enabled=true \
+#    --set nodePort.enabled=true \
+#    --set hubble.tls.enabled=false \
+#    --set hubble.tls.auto.enabled=false \
+#    --set hubble.relay.tls.server.enabled=false \
+#    --set prometheus.enabled=true \
+#    --set operator.prometheus.enabled=true \
+#    --set hubble.metrics.enableOpenMetrics=true \
+#    --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
+#    --set hostPort.enabled=true
 # # cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=kubernetes \
 # #     --set hubble.relay.enabled=true \
 # #    --set hubble.enabled=true \
@@ -369,27 +369,27 @@ cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=ku
 # kind create cluster --name cluster2 --config kind-cluster2.yaml
 # kubectl config use kind-cluster2
 # # helm install  cilium cilium/cilium --namespace kube-system -f quick-install-cluster2.yaml
-cilium install --set cluster.name=cluster2 --set cluster.id=2 --set ipam.mode=kubernetes \
-  --namespace kube-system \
-   --set hubble.relay.enabled=true \
-   --set hubble.enabled=true \
-   --set hubble.relay.enabled=true \
-   --set hubble.ui.enabled=true \
-   --set hubble.ui.service.type=NodePort \
-   --set hubble.relay.service.type=NodePort \
-   --set hubble.ui.enabled=true \
-   --set hubble.metrics.dashboards.enabled=true \
-   --set hostServices.enabled=false \
-   --set externalIPs.enabled=true \
-   --set nodePort.enabled=true \
-   --set hubble.tls.enabled=false \
-   --set hubble.tls.auto.enabled=false \
-   --set hubble.relay.tls.server.enabled=false \
-   --set prometheus.enabled=true \
-   --set operator.prometheus.enabled=true \
-   --set hubble.metrics.enableOpenMetrics=true \
-   --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
-   --set hostPort.enabled=true
+# cilium install --set cluster.name=cluster4 --set cluster.id=4 --set ipam.mode=kubernetes \
+#   --namespace kube-system \
+#    --set hubble.relay.enabled=true \
+#    --set hubble.enabled=true \
+#    --set hubble.relay.enabled=true \
+#    --set hubble.ui.enabled=true \
+#    --set hubble.ui.service.type=NodePort \
+#    --set hubble.relay.service.type=NodePort \
+#    --set hubble.ui.enabled=true \
+#    --set hubble.metrics.dashboards.enabled=true \
+#    --set hostServices.enabled=false \
+#    --set externalIPs.enabled=true \
+#    --set nodePort.enabled=true \
+#    --set hubble.tls.enabled=false \
+#    --set hubble.tls.auto.enabled=false \
+#    --set hubble.relay.tls.server.enabled=false \
+#    --set prometheus.enabled=true \
+#    --set operator.prometheus.enabled=true \
+#    --set hubble.metrics.enableOpenMetrics=true \
+#    --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
+#    --set hostPort.enabled=true
 
    
 # cilium install --set cluster.name=cluster2 --set cluster.id=2 --set ipam.mode=kubernetes \
@@ -431,7 +431,7 @@ cilium install --set cluster.name=cluster2 --set cluster.id=2 --set ipam.mode=ku
 #    --set hostPort.enabled=true
 
 # cilium clustermesh enable --context kind-cluster1 --service-type NodePort
-# cilium clustermesh enable --context kind-cluster2 --service-type NodePort
+# cilium clustermesh enable --service-type NodePort
 # cilium clustermesh enable --service-type LoadBalancer
 
 # cilium hubble enable --ui
@@ -460,7 +460,16 @@ cilium install --set cluster.name=cluster2 --set cluster.id=2 --set ipam.mode=ku
 # --set k8sServicePort=6443 
 
 
-# cilium clustermesh connect --context kind-cluster1 --destination-context kind-cluster2
+cilium clustermesh connect --context kind-cluster1 --destination-context kind-cluster2
+cilium clustermesh connect --context kind-cluster2 --destination-context kind-cluster3
+cilium clustermesh connect --context kind-cluster3 --destination-context kind-cluster4
+cilium clustermesh connect --context kind-cluster4 --destination-context kind-cluster1
+
+KUBECONFIG=./kubeconfig-cluster1.yaml:./kubeconfig-cluster2.yaml 
+kubectl config view --flatten > merged-kubeconfig.yaml
+# Next set the KUBECONFIG to the newly created merged kubeconfig.
+export KUBECONFIG=./merged-kubeconfig.yaml
+
 # kubectl config use kind-cluster1
 # kubectl delete -f https://raw.githubusercontent.com/bmcustodio/kind-cilium-mesh/master/common/rebel-base.yaml -f https://raw.githubusercontent.com/cilium/cilium/v1.11.0-rc3/examples/kubernetes/clustermesh/global-service-example/cluster2.yaml
 # kubectl config use kind-cluster2
