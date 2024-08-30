@@ -62,7 +62,7 @@ metadata:
 spec:
   serviceName: yb-masters
   podManagementPolicy: "Parallel"
-  replicas: 3
+  replicas: 4
   selector:
     matchLabels:
       app: yb-master
@@ -208,7 +208,7 @@ metadata:
 spec:
   serviceName: yb-tservers
   podManagementPolicy: "Parallel"
-  replicas: 3
+  replicas: 4
   selector:
     matchLabels:
       app: yb-tserver
