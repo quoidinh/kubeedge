@@ -460,15 +460,15 @@ ulimit -Hn
 # --set k8sServicePort=6443 
 
 
-cilium clustermesh connect --context kind-cluster1 --destination-context kind-cluster2
-cilium clustermesh connect --context kind-cluster2 --destination-context kind-cluster3
-cilium clustermesh connect --context kind-cluster3 --destination-context kind-cluster4
-cilium clustermesh connect --context kind-cluster4 --destination-context kind-cluster1
+# cilium clustermesh connect --context kind-cluster1 --destination-context kind-cluster2
+# cilium clustermesh connect --context kind-cluster2 --destination-context kind-cluster3
+# cilium clustermesh connect --context kind-cluster3 --destination-context kind-cluster4
+# cilium clustermesh connect --context kind-cluster4 --destination-context kind-cluster1
 
-KUBECONFIG=./kubeconfig-cluster1.yaml:./kubeconfig-cluster2.yaml 
-kubectl config view --flatten > merged-kubeconfig.yaml
-# Next set the KUBECONFIG to the newly created merged kubeconfig.
-export KUBECONFIG=./merged-kubeconfig.yaml
+# KUBECONFIG=./kubeconfig-cluster1.yaml:./kubeconfig-cluster2.yaml 
+# kubectl config view --flatten > merged-kubeconfig.yaml
+# # Next set the KUBECONFIG to the newly created merged kubeconfig.
+# export KUBECONFIG=./merged-kubeconfig.yaml
 
 # kubectl config use kind-cluster1
 # kubectl delete -f https://raw.githubusercontent.com/bmcustodio/kind-cilium-mesh/master/common/rebel-base.yaml -f https://raw.githubusercontent.com/cilium/cilium/v1.11.0-rc3/examples/kubernetes/clustermesh/global-service-example/cluster2.yaml
@@ -548,7 +548,7 @@ kubectl get pods --all-namespaces
 kubectl get nodes,pods,svc,deploy -A
 echo "All ok ;)"
 
-
+# https://docs.coreweave.com/coreweave-kubernetes/getting-started/advanced-kubeconfig-environments
 
 # kubectl config use kind-cluster1
 # kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.4"]}}'
