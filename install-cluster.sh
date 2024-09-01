@@ -469,6 +469,8 @@ ulimit -Hn
 # kubectl config view --flatten > merged-kubeconfig.yaml
 # # Next set the KUBECONFIG to the newly created merged kubeconfig.
 # export KUBECONFIG=./merged-kubeconfig.yaml
+# kubectl config get-contexts
+# kubectl config get-clusters
 
 # kubectl config use kind-cluster1
 # kubectl delete -f https://raw.githubusercontent.com/bmcustodio/kind-cilium-mesh/master/common/rebel-base.yaml -f https://raw.githubusercontent.com/cilium/cilium/v1.11.0-rc3/examples/kubernetes/clustermesh/global-service-example/cluster2.yaml
