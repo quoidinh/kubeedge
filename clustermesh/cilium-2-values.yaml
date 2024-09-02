@@ -33,27 +33,27 @@ clustermesh:
     - name: kind-1
       port: 2379
       ips:
-      - 172.18.0.3
+      - 172.16.0.41
     - name: kind-2
       port: 2379
       ips:
-      - 172.18.0.4
-    - name: kind-1
+      - 172.16.0.113
+    - name: kind-3
       port: 2379
       ips:
-      - 172.18.0.5
-    - name: kind-2
+      - 172.16.0.59
+    - name: kind-4
       port: 2379
       ips:
-      - 172.18.0.6
-    - name: kind-2
+      - 172.16.0.81
+    - name: kind-5
       port: 2379
       ips:
-      - 172.18.0.7
+      - 172.16.0.67
   apiserver:
     tls:
       auto:
         enabled: false
     service:
-      type: LoadBalancer
-      loadBalancerIP: 172.18.0.3
+      type: NodePort
+      loadBalancerIP: 172.16.0.41
