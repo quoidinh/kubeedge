@@ -3,10 +3,12 @@
 mkdir -p certs
 
 openssl genrsa -out certs/ca.key 4096
-openssl req -x509 -new -sha512 -noenc \
--key certs/ca.key -days 3653 \
--config ca.conf \
--out certs/ca.crt
+openssl req -x509 -new -key ca.key -days 365 -out certs/ca.crt
+openssl req -x509 -new -key  certs/ca.key -config ca.conf -days 365 -out certs/ca.crt
+# openssl req -x509 -new -sha512 -noenc \
+# -key certs/ca.key -days 365 \
+# -config ca.conf \
+# -out certs/ca.crt
 
 certs=(
     "clustermesh-server" "clustermesh-admin" "clustermesh-client"
