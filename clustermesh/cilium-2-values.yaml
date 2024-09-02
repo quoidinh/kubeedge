@@ -38,18 +38,18 @@ clustermesh:
       port: 2379
       ips:
       - 172.16.0.113
-    - name: kind-3
-      port: 2379
-      ips:
-      - 172.16.0.59
-    - name: kind-4
-      port: 2379
-      ips:
-      - 172.16.0.81
-    - name: kind-5
-      port: 2379
-      ips:
-      - 172.16.0.67
+    # - name: kind-3
+    #   port: 2379
+    #   ips:
+    #   - 172.16.0.59
+    # - name: kind-4
+    #   port: 2379
+    #   ips:
+    #   - 172.16.0.81
+    # - name: kind-5
+    #   port: 2379
+    #   ips:
+    #   - 172.16.0.67
   apiserver:
     tls:
       auto:
