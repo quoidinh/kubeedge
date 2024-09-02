@@ -40,7 +40,7 @@ cilium install \
 # helm upgrade -i cilium cilium/cilium \
 #     --version 1.15.4 \
 #     --namespace kube-system \
-#     --kube-context kind-kind-2 \
+#     --kube-context kind-cluster1 \
 #     --values cilium-2-values.yaml \
 #     --set tls.ca.cert=$(base64 -i ./certs/ca.crt | tr -d \\n) \
 #     --set tls.ca.key=$(base64 -i ./certs/ca.key | tr -d \\n) \
