@@ -5,6 +5,7 @@ metadata:
   annotations:
     io.cilium/shared-service: "true"
     io.cilium/global-service: "true"
+    io.cilium/service-affinity: "local"
 spec:
   type: ClusterIP
   ports:
