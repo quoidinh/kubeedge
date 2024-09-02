@@ -303,7 +303,7 @@ ip addr add 172.18.0.5/16 brd + dev br-7b088f685feb
 # kind create cluster --name cluster1 --config kind-cluster.yaml
 # kubectl config use kind-cluster1
 # # helm install  cilium cilium/cilium --namespace kube-system -f quick-install-cluster1.yaml
-cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=kubernetes \
+ helm upgrade -i cilium cilium/cilium --set cluster.name=kind-2 --set cluster.id=2 --set ipam.mode=kubernetes \
   --namespace kube-system \
    --set hubble.relay.enabled=true \
    --set hubble.enabled=true \
@@ -322,8 +322,7 @@ cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=ku
    --set prometheus.enabled=true \
    --set operator.prometheus.enabled=true \
    --set hubble.metrics.enableOpenMetrics=true \
-   --set kubeProxyReplacement=strict \
-   --set l7Proxy=false \
+   --set l7Proxy=true \
    --set externalWorkloads.enabled=true \
    --set clustermesh.useAPIServer=true \
    --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
@@ -479,7 +478,7 @@ cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=ku
 # cilium clustermesh connect --context kind-cluster3 --destination-context kind-cluster4
 # cilium clustermesh connect --context kind-cluster4 --destination-context kind-cluster1
 
-# KUBECONFIG=./kubeconfig-cluster1.yaml:./kubeconfig-cluster2.yaml 
+# export KUBECONFIG=./kubeconfig-cluster1.yaml:./kubeconfig-cluster2.yaml:./kubeconfig-cluster3.yaml:./kubeconfig-cluster4.yaml:./kubeconfig-cluster5.yaml
 # kubectl config view --flatten > merged-kubeconfig.yaml
 # # Next set the KUBECONFIG to the newly created merged kubeconfig.
 # export KUBECONFIG=./merged-kubeconfig.yaml
@@ -559,13 +558,13 @@ sudo ufw allow 4245/tcp comment "Hubble Observability"
 # kubectl create deployment locust --image paultur/locustproject:latest
 # kubectl expose deployment locust --type LoadBalancer --port 81 --target-port 8089
 # nohup kubectl port-forward service/locust --namespace=default --address 0.0.0.0 9998:81 &
-kubectl patch svc  clustermesh-apiserver -n kube-system -p '{"spec": {"type": "NodePort", "externalIPs":["172.16.0.113"]}}'
+# kubectl patch svc  clustermesh-apiserver -n kube-system -p '{"spec": {"type": "NodePort", "externalIPs":["172.16.0.113"]}}'
 kubectl get pods --all-namespaces
 kubectl get nodes,pods,svc,deploy -A
 echo "All ok ;)"
 
 # https://docs.coreweave.com/coreweave-kubernetes/getting-started/advanced-kubeconfig-environments
-kubectl patch svc  clustermesh-apiserver -n kube-system -p '{"spec": {"type": "NodePort", "externalIPs":["172.18.0.5"]}}'
+# kubectl patch svc  clustermesh-apiserver -n kube-system -p '{"spec": {"type": "NodePort", "externalIPs":["172.18.0.5"]}}'
 # kubectl config use kind-cluster1
 # kubectl patch svc yb-master-ui -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.4"]}}'
 # kubectl patch svc yb-db-service -n default -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.18.0.4"]}}'
