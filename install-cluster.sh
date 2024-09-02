@@ -325,6 +325,8 @@ ip addr add 172.18.0.5/16 brd + dev br-7b088f685feb
    --set l7Proxy=true \
    --set externalWorkloads.enabled=true \
    --set clustermesh.useAPIServer=true \
+   --set enable-bgp-control-plane.enabled=true \
+   --set externalWorkloads.enabled=true \
    --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
    --set hostPort.enabled=true
 # # cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=kubernetes \
@@ -371,7 +373,7 @@ ip addr add 172.18.0.5/16 brd + dev br-7b088f685feb
 #    --set cluster.name=cluster01 \
 #    --set cluster.id=1 \
 #    --set externalWorkloads.enabled=true \
-#    --set clustermesh.useAPIServer=tru
+#    --set clustermesh.useAPIServer=true
 
 # cilium clustermesh enable --service-type NodePort
 # # cilium clustermesh enable --service-type LoadBalancer
