@@ -9,9 +9,7 @@ openssl req -x509 -new -key  certs/ca.key -config ca.conf -days 365 -out certs/c
 # -config ca.conf \
 # -out certs/ca.crt
 
-certs=(
-    "clustermesh-server" "clustermesh-admin" "clustermesh-client"
-)
+certs=("clustermesh-server","clustermesh-admin","clustermesh-client")
 
 for i in ${certs[*]}; do
   openssl genrsa -out "certs/${i}.key" 4096
