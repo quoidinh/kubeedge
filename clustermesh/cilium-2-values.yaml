@@ -23,8 +23,8 @@ hubble:
   relay:
     enabled: true
 cluster:
-  id: 1
-  name: kind-1
+  id: 2
+  name: kind-2
 clustermesh:
   useAPIServer: true
   config:
@@ -33,15 +33,27 @@ clustermesh:
     - name: kind-1
       port: 2379
       ips:
-      - 172.18.255.201
+      - 172.18.0.3
     - name: kind-2
       port: 2379
       ips:
-      - 172.18.255.211
+      - 172.18.0.4
+    - name: kind-1
+      port: 2379
+      ips:
+      - 172.18.0.5
+    - name: kind-2
+      port: 2379
+      ips:
+      - 172.18.0.6
+    - name: kind-2
+      port: 2379
+      ips:
+      - 172.18.0.7
   apiserver:
     tls:
       auto:
         enabled: false
     service:
       type: LoadBalancer
-      loadBalancerIP: 172.18.255.201
+      loadBalancerIP: 172.18.0.3
