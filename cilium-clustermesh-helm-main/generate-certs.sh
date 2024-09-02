@@ -9,19 +9,59 @@ openssl req -x509 -new -key  certs/ca.key -config ca.conf -days 365 -out certs/c
 # -config ca.conf \
 # -out certs/ca.crt
 
-certs=("clustermesh-server","clustermesh-admin","clustermesh-client")
+# certs=(
+#     "clustermesh-server" "clustermesh-admin" "clustermesh-client"
+# )
 
-for i in ${certs[*]}; do
-  openssl genrsa -out "certs/${i}.key" 4096
+# for i in ${certs[*]}; do
+#   openssl genrsa -out "certs/${i}.key" 4096
 
-  openssl req -new -key "certs/${i}.key" -sha256 \
-    -config "ca.conf" -section ${i} \
-    -out "certs/${i}.csr"
+#   openssl req -new -key "certs/${i}.key" -sha256 \
+#     -config "ca.conf" -section ${i} \
+#     -out "certs/${i}.csr"
   
-  openssl x509 -req -days 3653 -in "certs/${i}.csr" \
+#   openssl x509 -req -days 3653 -in "certs/${i}.csr" \
+#     -copy_extensions copyall \
+#     -sha256 -CA "certs/ca.crt" \
+#     -CAkey "certs/ca.key" \
+#     -CAcreateserial \
+#     -out "certs/${i}.crt"
+# done
+ openssl genrsa -out "certs/clustermesh-server.key" 4096
+
+  openssl req -new -key "certs/clustermesh-server.key" -sha256 \
+    -config "ca.conf" -section clustermesh-server \
+    -out "certs/clustermesh-server.csr"
+  
+  openssl x509 -req -days 3653 -in "certs/clustermesh-server.csr" \
     -copy_extensions copyall \
     -sha256 -CA "certs/ca.crt" \
     -CAkey "certs/ca.key" \
     -CAcreateserial \
-    -out "certs/${i}.crt"
-done
+    -out "certs/clustermesh-server.crt"
+
+  openssl genrsa -out "certs/clustermesh-admin.key" 4096
+
+  openssl req -new -key "certs/clustermesh-admin.key" -sha256 \
+    -config "ca.conf" -section clustermesh-admin \
+    -out "certs/clustermesh-admin.csr"
+  
+  openssl x509 -req -days 3653 -in "certs/clustermesh-admin.csr" \
+    -copy_extensions copyall \
+    -sha256 -CA "certs/ca.crt" \
+    -CAkey "certs/ca.key" \
+    -CAcreateserial \
+    -out "certs/clustermesh-admin.crt"
+
+  openssl genrsa -out "certs/clustermesh-client.key" 4096
+
+  openssl req -new -key "certs/clustermesh-client.key" -sha256 \
+    -config "ca.conf" -section clustermesh-client \
+    -out "certs/clustermesh-client.csr"
+  
+  openssl x509 -req -days 3653 -in "certs/clustermesh-client.csr" \
+    -copy_extensions copyall \
+    -sha256 -CA "certs/ca.crt" \
+    -CAkey "certs/ca.key" \
+    -CAcreateserial \
+    -out "certs/clustermesh-client.crt"
