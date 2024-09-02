@@ -32,7 +32,6 @@ openssl req -x509 -new  -sha512 -key  certs/ca.key -config ca.conf -days 365 -ou
   openssl req -new -key "certs/clustermesh-server.key"  -config "ca.conf" -out "certs/clustermesh-server.csr"
   
   openssl x509 -req -days 3653 -in "certs/clustermesh-server.csr" \
-    -copy_extensions copyall \
     -sha256 -CA "certs/ca.crt" \
     -CAkey "certs/ca.key" \
     -CAcreateserial \
@@ -45,7 +44,6 @@ openssl req -x509 -new  -sha512 -key  certs/ca.key -config ca.conf -days 365 -ou
     -out "certs/clustermesh-admin.csr"
   
   openssl x509 -req -days 3653 -in "certs/clustermesh-admin.csr" \
-    -copy_extensions copyall \
     -sha256 -CA "certs/ca.crt" \
     -CAkey "certs/ca.key" \
     -CAcreateserial \
@@ -58,7 +56,6 @@ openssl req -x509 -new  -sha512 -key  certs/ca.key -config ca.conf -days 365 -ou
     -out "certs/clustermesh-client.csr"
   
   openssl x509 -req -days 3653 -in "certs/clustermesh-client.csr" \
-    -copy_extensions copyall \
     -sha256 -CA "certs/ca.crt" \
     -CAkey "certs/ca.key" \
     -CAcreateserial \
