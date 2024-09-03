@@ -4,7 +4,6 @@ set -e
 set -o pipefail
 
 cilium install \
-    --version 1.15.4 \
     --set cluster.name=kind-cluster1 --set cluster.id=1 \
     --namespace kube-system \
     --values cilium-1-values.yaml \
@@ -20,8 +19,10 @@ cilium install \
     --set clustermesh.apiserver.tls.client.key=$(base64 -i ./certs/clustermesh-client.key | tr -d \\n) \
     --set clustermesh.apiserver.tls.remote.cert=$(base64 -i ./certs/clustermesh-client.crt | tr -d \\n) \
     --set clustermesh.apiserver.tls.remote.key=$(base64 -i ./certs/clustermesh-client.key | tr -d \\n)
+cilium clustermesh enable --service-type NodePort
+cilium hubble enable --ui
+ cilium clustermesh status --wait
 cilium install \
-    --version 1.15.4 \
     --set cluster.name=kind-cluster5 --set cluster.id=5 \
     --namespace kube-system \
     --values cilium-5-values.yaml \
@@ -37,6 +38,9 @@ cilium install \
     --set clustermesh.apiserver.tls.client.key=$(base64 -i ./certs/clustermesh-client.key | tr -d \\n) \
     --set clustermesh.apiserver.tls.remote.cert=$(base64 -i ./certs/clustermesh-client.crt | tr -d \\n) \
     --set clustermesh.apiserver.tls.remote.key=$(base64 -i ./certs/clustermesh-client.key | tr -d \\n)
+cilium clustermesh enable --service-type NodePort
+cilium hubble enable --ui
+ cilium clustermesh status --wait
 # helm upgrade -i cilium cilium/cilium \
 #     --version 1.15.4 \
 #     --namespace kube-system \

@@ -250,7 +250,8 @@ curl -L --fail --remote-name-all https://github.com/cilium/cilium-cli/releases/d
 sha256sum --check cilium-linux-${CLI_ARCH}.tar.gz.sha256sum
 sudo tar xzvfC cilium-linux-${CLI_ARCH}.tar.gz /usr/local/bin
 rm cilium-linux-${CLI_ARCH}.tar.gz.sha256sum
-
+sudo apt install etcd-client
+sudo snap install etcd
 
 helm repo add cilium https://helm.cilium.io/
 
@@ -473,8 +474,8 @@ ip addr add 172.18.0.5/16 brd + dev br-7b088f685feb
 #  --set 'cni.binPath=/usr/libexec/cni' \
 # --set k8sServiceHost=192.168.0.105  \
 # --set k8sServicePort=6443 
-
-# cilium clustermesh connect --context kind-cluster1 --destination-endpoint https://172.16.0.113:2379
+#  cilium clustermesh connect --destination-endpoint 172.16.0.41:2379
+# cilium clustermesh connect --context kind-cluster1 --destination-endpoint 172.16.0.67:2379
 # cilium clustermesh connect --context kind-cluster1 --destination-context kind-cluster2
 # cilium clustermesh connect --context kind-cluster2 --destination-context kind-cluster3
 # cilium clustermesh connect --context kind-cluster3 --destination-context kind-cluster4
@@ -496,7 +497,7 @@ ip addr add 172.18.0.5/16 brd + dev br-7b088f685feb
 
 cilium status 
 # cilium clustermesh status --context kind-cluster5 --wait
-# cilium clustermesh status --context kind-cluster2 --wait
+# cilium clustermesh status --context kind-cluster1 --wait
 
 # cilium clustermesh enable --context kind-kind-1 --service-type NodePort
 # cilium clustermesh enable --context kind-cluster2 --service-type NodePort
@@ -560,7 +561,7 @@ sudo ufw allow 4245/tcp comment "Hubble Observability"
 # kubectl create deployment locust --image paultur/locustproject:latest
 # kubectl expose deployment locust --type LoadBalancer --port 81 --target-port 8089
 # nohup kubectl port-forward service/locust --namespace=default --address 0.0.0.0 9998:81 &
-# kubectl patch svc  clustermesh-apiserver -n kube-system -p '{"spec": {"type": "NodePort", "externalIPs":["172.16.0.113"]}}'
+kubectl patch svc  clustermesh-apiserver -n kube-system -p '{"spec": {"type": "NodePort", "externalIPs":["172.16.0.67"]}}'
 kubectl get pods --all-namespaces
 kubectl get nodes,pods,svc,deploy -A
 echo "All ok ;)"
