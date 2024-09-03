@@ -22,7 +22,7 @@ cilium install \
     --set clustermesh.apiserver.tls.remote.key=$(base64 -i ./certs/clustermesh-client.key | tr -d \\n)
 cilium install \
     --version 1.15.4 \
-    --set cluster.name=kind-cluster2 --set cluster.id=2 \
+    --set cluster.name=kind-cluster5 --set cluster.id=5 \
     --namespace kube-system \
     --values cilium-2-values.yaml \
     --set tls.ca.cert=$(base64 -i ./certs/ca.crt | tr -d \\n) \
