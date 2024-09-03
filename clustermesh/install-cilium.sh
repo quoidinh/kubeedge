@@ -41,6 +41,8 @@ cilium install \
 cilium clustermesh enable --service-type NodePort
 cilium hubble enable --ui
  cilium clustermesh status --wait
+
+
 # helm upgrade -i cilium cilium/cilium \
 #     --version 1.15.4 \
 #     --namespace kube-system \

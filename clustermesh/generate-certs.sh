@@ -27,6 +27,8 @@ openssl req -x509 -new  -sha512 -key  certs/ca.key -config ca.conf -days 365 -ou
 #     -CAcreateserial \
 #     -out "certs/${i}.crt"
 # done
+#  https://fossies.org/linux/cilium/clustermesh-apiserver/tls.rst
+# https://gist.github.com/ganeshan/8ad68b18159bf7ab2abcfcbebcc1086c
  openssl genrsa -out "certs/clustermesh-server.key" 4096
 
   openssl req -new -key "certs/clustermesh-server.key"  -config "ca.conf" -out "certs/clustermesh-server.csr"
