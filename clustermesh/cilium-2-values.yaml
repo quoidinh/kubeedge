@@ -67,7 +67,7 @@ clustermesh:
         enabled: false
     service:
       type: NodePort
-      loadBalancerIP: 172.16.0.41
+      # loadBalancerIP: 172.16.0.41
   # apiserver:
   #   tls:
   #     auto:

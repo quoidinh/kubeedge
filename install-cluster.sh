@@ -495,7 +495,7 @@ ip addr add 172.18.0.5/16 brd + dev br-7b088f685feb
 # kubectl run --restart Never --rm -it --image giantswarm/tiny-tools tinytools -- /bin/sh -c 'for i in $(seq 1 20); do curl http://global-base; done'
 
 cilium status 
-# cilium clustermesh status --context kind-cluster2 --wait
+# cilium clustermesh status --context kind-cluster5 --wait
 # cilium clustermesh status --context kind-cluster2 --wait
 
 # cilium clustermesh enable --context kind-kind-1 --service-type NodePort
