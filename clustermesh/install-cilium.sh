@@ -24,7 +24,7 @@ cilium install \
     --version 1.15.4 \
     --set cluster.name=kind-cluster5 --set cluster.id=5 \
     --namespace kube-system \
-    --values cilium-2-values.yaml \
+    --values cilium-5-values.yaml \
     --set tls.ca.cert=$(base64 -i ./certs/ca.crt | tr -d \\n) \
     --set tls.ca.key=$(base64 -i ./certs/ca.key | tr -d \\n) \
     --set clustermesh.apiserver.tls.ca.cert=$(base64 -i ./certs/ca.crt | tr -d \\n) \

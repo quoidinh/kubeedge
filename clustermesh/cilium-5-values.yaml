@@ -105,7 +105,7 @@ clustermesh:
     kvstoremesh:
       # -- Enable KVStoreMesh. KVStoreMesh caches the information retrieved
       # from the remote clusters in the local etcd instance.
-      enabled: false
+      enabled: true
       # -- Additional KVStoreMesh arguments.
       extraArgs: []
       # -- Additional KVStoreMesh environment variables.
