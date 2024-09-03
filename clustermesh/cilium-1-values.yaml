@@ -3,7 +3,7 @@ debug:
 nodeinit:
   enabled: true
   restartPods: true
-kubeProxyReplacement: partial
+# kubeProxyReplacement: partial
 hostServices:
   enabled: false
 externalIPs:
