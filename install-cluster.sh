@@ -254,7 +254,7 @@ rm cilium-linux-${CLI_ARCH}.tar.gz.sha256sum
 
 helm repo add cilium https://helm.cilium.io/
 
-cilium install --set cluster.name=cluster2 --set cluster.id=2 --set ipam.mode=kubernetes \
+cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=kubernetes \
   --namespace kube-system \
    --set hubble.relay.enabled=true \
    --set hubble.enabled=true \
@@ -303,7 +303,7 @@ ip addr add 172.18.0.5/16 brd + dev br-7b088f685feb
 # kind create cluster --name cluster1 --config kind-cluster.yaml
 # kubectl config use kind-cluster1
 # # helm install  cilium cilium/cilium --namespace kube-system -f quick-install-cluster1.yaml
- cilium install --set cluster.name=kind-2 --set cluster.id=2 --set ipam.mode=kubernetes \
+ cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=kubernetes \
   --namespace kube-system \
    --set hubble.relay.enabled=true \
    --set hubble.enabled=true \
@@ -474,8 +474,8 @@ ip addr add 172.18.0.5/16 brd + dev br-7b088f685feb
 # --set k8sServiceHost=192.168.0.105  \
 # --set k8sServicePort=6443 
 
-
-# cilium clustermesh connect --context kind-kind-1 --destination-context kind-kind-2
+# cilium clustermesh connect --context kind-cluster1 --destination-endpoint https://172.16.0.113:2379
+# cilium clustermesh connect --context kind-cluster1 --destination-context kind-cluster2
 # cilium clustermesh connect --context kind-cluster2 --destination-context kind-cluster3
 # cilium clustermesh connect --context kind-cluster3 --destination-context kind-cluster4
 # cilium clustermesh connect --context kind-cluster4 --destination-context kind-cluster1
@@ -495,7 +495,7 @@ ip addr add 172.18.0.5/16 brd + dev br-7b088f685feb
 # kubectl run --restart Never --rm -it --image giantswarm/tiny-tools tinytools -- /bin/sh -c 'for i in $(seq 1 20); do curl http://global-base; done'
 
 cilium status 
-# cilium clustermesh status --context kind-kind-1 --wait
+# cilium clustermesh status --context kind-cluster2 --wait
 # cilium clustermesh status --context kind-cluster2 --wait
 
 # cilium clustermesh enable --context kind-kind-1 --service-type NodePort

@@ -23,8 +23,8 @@ hubble:
   relay:
     enabled: true
 cluster:
-  id: 2
-  name: cluster2
+  id: 5
+  name: cluster5
 clustermesh:
   useAPIServer: true
   config:
@@ -57,10 +57,10 @@ clustermesh:
     #   port: 2379
     #   ips:
     #   - 172.16.0.81
-    # - name: kind-5
-    #   port: 2379
-    #   ips:
-    #   - 172.16.0.67
+    - name: kind-5
+      port: 2379
+      ips:
+      - 172.16.0.67
   apiserver:
     tls:
       auto:
