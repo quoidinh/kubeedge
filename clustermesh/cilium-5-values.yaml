@@ -123,7 +123,7 @@ clustermesh:
       extraVolumeMounts: []
       # -- KVStoreMesh Security context
       securityContext:
-        allowPrivilegeEscalation: false
+        allowPrivilegeEscalation: true
         capabilities:
           drop:
             - ALL
