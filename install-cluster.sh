@@ -287,13 +287,15 @@ sudo mv hubble /usr/local/bin
 sudo sysctl fs.inotify.max_user_instances=8192
 sudo sysctl fs.inotify.max_user_watches=524288
 ulimit -Hn
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.yaml
 # sudo sysctl -p
 # # sudo ip addr add 172.18.0.4/16 brd + dev br-2ecf150f8e48
 # # sudo ip addr add 172.18.0.5/16 brd + dev br-f7fd5d8f1f88
 # # sudo ip addr add 172.18.0.6/16 brd + dev br-f7fd5d8f1f88
 # sudo ip addr add 172.18.130.218/16 brd + dev br-2ecf150f8e48
 
-ip addr add 172.18.0.5/16 brd + dev br-7b088f685feb
+# ip addr add 172.18.0.5/16 brd + dev br-7b088f685feb
+
 
 # kubectl apply -f bgp-peering-policy.yml
 # kubectl apply -f bgp-peering-policy-pool.yml
