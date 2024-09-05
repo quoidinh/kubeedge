@@ -287,7 +287,8 @@ sudo mv hubble /usr/local/bin
 sudo sysctl fs.inotify.max_user_instances=8192
 sudo sysctl fs.inotify.max_user_watches=524288
 ulimit -Hn
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.yaml
+# kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.yaml
+# kubectl delete -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.yaml
 # sudo sysctl -p
 # # sudo ip addr add 172.18.0.4/16 brd + dev br-2ecf150f8e48
 # # sudo ip addr add 172.18.0.5/16 brd + dev br-f7fd5d8f1f88
@@ -306,32 +307,32 @@ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/
 # kind create cluster --name cluster1 --config kind-cluster.yaml
 # kubectl config use kind-cluster1
 # # helm install  cilium cilium/cilium --namespace kube-system -f quick-install-cluster1.yaml
- cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=kubernetes \
-  --namespace kube-system \
-   --set hubble.relay.enabled=true \
-   --set hubble.enabled=true \
-   --set hubble.relay.enabled=true \
-   --set hubble.ui.enabled=true \
-   --set hubble.ui.service.type=NodePort \
-   --set hubble.relay.service.type=NodePort \
-   --set hubble.ui.enabled=true \
-   --set hubble.metrics.dashboards.enabled=true \
-   --set hostServices.enabled=false \
-   --set externalIPs.enabled=true \
-   --set nodePort.enabled=true \
-   --set hubble.tls.enabled=false \
-   --set hubble.tls.auto.enabled=false \
-   --set hubble.relay.tls.server.enabled=false \
-   --set prometheus.enabled=true \
-   --set operator.prometheus.enabled=true \
-   --set hubble.metrics.enableOpenMetrics=true \
-   --set l7Proxy=true \
-   --set externalWorkloads.enabled=true \
-   --set clustermesh.useAPIServer=true \
-   --set enable-bgp-control-plane.enabled=true \
-   --set externalWorkloads.enabled=true \
-   --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
-   --set hostPort.enabled=true
+#  cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=kubernetes \
+#   --namespace kube-system \
+#    --set hubble.relay.enabled=true \
+#    --set hubble.enabled=true \
+#    --set hubble.relay.enabled=true \
+#    --set hubble.ui.enabled=true \
+#    --set hubble.ui.service.type=NodePort \
+#    --set hubble.relay.service.type=NodePort \
+#    --set hubble.ui.enabled=true \
+#    --set hubble.metrics.dashboards.enabled=true \
+#    --set hostServices.enabled=false \
+#    --set externalIPs.enabled=true \
+#    --set nodePort.enabled=true \
+#    --set hubble.tls.enabled=false \
+#    --set hubble.tls.auto.enabled=false \
+#    --set hubble.relay.tls.server.enabled=false \
+#    --set prometheus.enabled=true \
+#    --set operator.prometheus.enabled=true \
+#    --set hubble.metrics.enableOpenMetrics=true \
+#    --set l7Proxy=true \
+#    --set externalWorkloads.enabled=true \
+#    --set clustermesh.useAPIServer=true \
+#    --set enable-bgp-control-plane.enabled=true \
+#    --set externalWorkloads.enabled=true \
+#    --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
+#    --set hostPort.enabled=true
 # # cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=kubernetes \
 # #     --set hubble.relay.enabled=true \
 # #    --set hubble.enabled=true \
@@ -478,10 +479,13 @@ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/
 # --set k8sServicePort=6443 
 #  cilium clustermesh connect --destination-endpoint 172.16.0.41:2379
 # cilium clustermesh connect --context kind-cluster1 --destination-endpoint 172.16.0.67:2379
+# cilium clustermesh connect --context kind-cluster1 --destination-context kind-cluster1
 # cilium clustermesh connect --context kind-cluster1 --destination-context kind-cluster2
 # cilium clustermesh connect --context kind-cluster2 --destination-context kind-cluster3
 # cilium clustermesh connect --context kind-cluster3 --destination-context kind-cluster4
 # cilium clustermesh connect --context kind-cluster4 --destination-context kind-cluster1
+
+# kubectl exec -it -n kube-system clustermesh-apiserver-594b8cb686-lt748 -c kvstoremesh -- /user/bin/clustermesh-apiserver kvstoremesh-dbg troubleshoot kind-cluster4
 
 # export KUBECONFIG=./kubeconfig-cluster1.yaml:./kubeconfig-cluster2.yaml:./kubeconfig-cluster3.yaml:./kubeconfig-cluster4.yaml:./kubeconfig-cluster5.yaml
 # kubectl config view --flatten > merged-kubeconfig.yaml
@@ -563,11 +567,11 @@ sudo ufw allow 4245/tcp comment "Hubble Observability"
 # kubectl create deployment locust --image paultur/locustproject:latest
 # kubectl expose deployment locust --type LoadBalancer --port 81 --target-port 8089
 # nohup kubectl port-forward service/locust --namespace=default --address 0.0.0.0 9998:81 &
-kubectl patch svc  clustermesh-apiserver -n kube-system -p '{"spec": {"type": "NodePort", "externalIPs":["172.16.0.67"]}}'
+# kubectl patch svc  clustermesh-apiserver -n kube-system -p '{"spec": {"type": "NodePort", "externalIPs":["172.16.0.67"]}}'
 kubectl get pods --all-namespaces
 kubectl get nodes,pods,svc,deploy -A
 echo "All ok ;)"
-
+# https://github.com/yugabyte/yugabyte-db/issues/9478  postgis
 # https://docs.coreweave.com/coreweave-kubernetes/getting-started/advanced-kubeconfig-environments
 # kubectl patch svc  clustermesh-apiserver -n kube-system -p '{"spec": {"type": "NodePort", "externalIPs":["172.18.0.5"]}}'
 # kubectl config use kind-cluster1

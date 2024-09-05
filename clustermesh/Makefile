@@ -1,7 +1,7 @@
 .PHONY: create-clusters
 create-clusters:
 	kind create cluster --config kind-1.yaml
-	kind create cluster --config kind-5.yaml
+	kind create cluster --config kind-2.yaml
 
 .PHONY: install-metallb
 install-metallb:

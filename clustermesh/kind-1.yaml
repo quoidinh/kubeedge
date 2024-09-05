@@ -3,11 +3,30 @@ apiVersion: kind.x-k8s.io/v1alpha4
 name: cluster1
 nodes:
 - role: control-plane
-- role: worker
-- role: worker
-- role: worker
-- role: worker
-- role: worker
+- role: worker #frontend
+- role: worker #marketplace
+- role: worker #notification
+- role: worker #media
+- role: worker #classification
+- role: worker #streaming
+# - role: worker
+# - role: worker
+# - role: worker
+# - role: worker
+# - role: worker
+
+# deployment-fe.yaml
+# deployment-marketplace.yaml
+# deployment-media.yaml
+# deployment-streaming.yaml
+# deployment-worker-classification.yaml
+# deployment-worker-default.yaml
+# deployment-worker-marketplace.yaml
+# deployment-worker-notification.yaml
+# deployment-worker-pull.yaml
+# deployment-worker-suggestion.yaml
+# deployment-worker-sync.yaml
+
 networking:
   disableDefaultCNI: true
   podSubnet: "10.2.0.0/16"

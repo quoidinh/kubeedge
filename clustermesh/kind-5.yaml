@@ -4,6 +4,7 @@ name: cluster5
 nodes:
 - role: control-plane
 - role: worker
+- role: worker
 networking:
   disableDefaultCNI: true
   podSubnet: "10.10.0.0/16"

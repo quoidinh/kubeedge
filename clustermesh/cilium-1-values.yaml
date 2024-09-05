@@ -55,9 +55,9 @@ certgen:
   # -- Affinity for certgen
   affinity: {}
 # -- Configure L2 announcements
-l2announcements:
-  # -- Enable L2 announcements
-  enabled: true
+# l2announcements:
+#   # -- Enable L2 announcements
+#   enabled: true
   # -- If a lease is not renewed for X duration, the current leader is considered dead, a new leader is picked
   # leaseDuration: 15s
   # -- The interval at which the leader will renew the lease
@@ -65,12 +65,12 @@ l2announcements:
   # -- The timeout between retries if renewal fails
   # leaseRetryPeriod: 2s
 # -- Configure L2 pod announcements
-l2podAnnouncements:
-  # -- Enable L2 pod announcements
-  enabled: true
-  # -- Interface used for sending Gratuitous ARP pod announcements
-  interface: "eth0"
-# -- Configure BGP
+# l2podAnnouncements:
+#   # -- Enable L2 pod announcements
+#   enabled: true
+#   # -- Interface used for sending Gratuitous ARP pod announcements
+#   interface: "eth0"
+# # -- Configure BGP
 bgp:
   # -- Enable BGP support inside Cilium; embeds a new ConfigMap for BGP inside
   # cilium-agent and cilium-operator
@@ -91,16 +91,16 @@ bgpControlPlane:
     create: false
     # -- The name of the secret namespace to which Cilium agents are given read access
     name: kube-system
-etcd:
-  # -- Enable etcd mode for the agent.
-  enabled: true
-  # -- List of etcd endpoints
-  endpoints:
-    - https://172.16.0.41:2379
-    - https://172.16.0.113:2379
-    - https://172.16.0.59:2379
-    - https://172.16.0.81:2379
-    - https://172.16.0.67:2379
+# etcd:
+#   # -- Enable etcd mode for the agent.
+#   enabled: true
+#   # -- List of etcd endpoints
+#   endpoints:
+#     - https://172.16.0.149:2379
+#     - https://172.16.0.66:2379
+    # - https://172.16.0.59:2379
+    # - https://172.16.0.81:2379
+    # - https://172.16.0.67:2379
   # -- Enable use of TLS/SSL for connectivity to etcd.
   ssl: true
 cluster:
@@ -114,7 +114,7 @@ clustermesh:
     - name: kind-cluster1
       port: 2379
       ips:
-      - 172.16.0.41
+      - 172.16.0.149
       tls:
         # tls.crt from clustermesh-apiserver-remote-cert secret in Cluster 1
         # tls.key from clustermesh-apiserver-remote-cert secret in Cluster 1
@@ -123,32 +123,33 @@ clustermesh:
     - name: kind-cluster2
       port: 2379
       ips:
-      - 172.16.0.113
+      - 172.16.0.66
       tls:
         #kubectl get secret clustermesh-apiserver-remote-cert -n kube-system -o yaml
         # tls.crt from clustermesh-apiserver-remote-cert secret in Cluster 1
         # tls.key from clustermesh-apiserver-remote-cert secret in Cluster 1
     #     cert: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJtekNDQVVLZ0F3SUJBZ0lVR2Y1N0pEem9TZE9STGNTREdpSS9DNEdQLzNZd0NnWUlLb1pJemowRUF3SXcKRkRFU01CQUdBMVVFQXhNSlEybHNhWFZ0SUVOQk1CNFhEVEkwTURrd01qRXlOVGt3TUZvWERUSTNNRGt3TWpFeQpOVGt3TUZvd0VURVBNQTBHQTFVRUF4TUdjbVZ0YjNSbE1Ga3dFd1lIS29aSXpqMENBUVlJS29aSXpqMERBUWNEClFnQUUvSlZReWEwMnFrWm9Mby9BZDlGV0ZmUE5Oc3FUM0JQVGdGSnJyWXk4TE83WUwwVXZLdlEzVUEvV0NGWDIKR01LQ29rVDNWL2VDeTBiN09vM3lUSlF3a2FOMU1ITXdEZ1lEVlIwUEFRSC9CQVFEQWdXZ01CTUdBMVVkSlFRTQpNQW9HQ0NzR0FRVUZCd01DTUF3R0ExVWRFd0VCL3dRQ01BQXdIUVlEVlIwT0JCWUVGTDYySksrYnh1TTNlaVFHCnprZkljTkJVYzlkT01COEdBMVVkSXdRWU1CYUFGTXhMUlk5aWdSSEtlUEc1K2J4M1BLSUl4bVdnTUFvR0NDcUcKU000OUJBTUNBMGNBTUVRQ0lESFdwNXFtUVk1TDJwWXdkbWR2VG9JOW1hNjV1Mk1ESjdJRy9hbWVrRmhSQWlCegoyS2dLWWwrWjZUNWVML1AvdmkyT2xnTkJPSXhwdkpZdVppa0JUemlHVWc9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
     #     key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUowWGlqK2ZGOENidmNMYmhWdGJoK1VuUE1HZ0NJTkNJYVFOekMxMlEwZnBvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFL0pWUXlhMDJxa1pvTG8vQWQ5RldGZlBOTnNxVDNCUFRnRkpycll5OExPN1lMMFV2S3ZRMwpVQS9XQ0ZYMkdNS0Nva1QzVi9lQ3kwYjdPbzN5VEpRd2tRPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
-    - name: kind-cluster3
-      port: 2379
-      ips:
-      - 172.16.0.59
-    - name: kind-cluster4
-      port: 2379
-      ips:
-      - 172.16.0.81
-    - name: kind-cluster5
-      port: 2379
-      ips:
-      - 172.16.0.67
+    # - name: kind-cluster3
+    #   port: 2379
+    #   ips:
+    #   - 172.16.0.59
+    # - name: kind-cluster4
+    #   port: 2379
+    #   ips:
+    #   - 172.16.0.81
+    # - name: kind-cluster5
+    #   port: 2379
+    #   ips:
+    #   - 172.16.0.67
   apiserver:
     tls:
       auto:
         enabled: false
     service:
       type: NodePort
-      loadBalancerIP: 172.16.0.41
+      loadBalancerIP: 172.16.0.149 
+       
     # -- TCP port for the clustermesh-apiserver health API.
     healthPort: 9880
     etcd:
