@@ -313,11 +313,11 @@ clustermesh:
 k8s:
   requireIPv4PodCIDR: true
   requireIPv6PodCIDR: false
-# tunnel: disabled
+tunnel: disabled
 # ipv4NativeRoutingCIDR: ${ipv4_native_routing_cidr}
 
-# endpointRoutes:
-#   enabled: true
+endpointRoutes:
+  enabled: true
 
 # cni:
 #   binPath: /home/kubernetes/bin
@@ -327,6 +327,6 @@ k8s:
 #   type: wireguard
 #   nodeEncryption: false
 
-# l7Proxy: true
-# autoDirectNodeRoutes: false
-# enableIPv4Masquerade: true
+l7Proxy: true
+autoDirectNodeRoutes: false
+enableIPv4Masquerade: true
