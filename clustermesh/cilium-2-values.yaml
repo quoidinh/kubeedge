@@ -87,15 +87,15 @@ certgen:
 #     podCIDR: false
 # -- This feature set enables virtual BGP routers to be created via
 # CiliumBGPPeeringPolicy CRDs.
-bgpControlPlane:
-  # -- Enables the BGP control plane.
-  enabled: true
-  # -- SecretsNamespace is the namespace which BGP support will retrieve secrets from.
-  secretsNamespace:
-    # -- Create secrets namespace for BGP secrets.
-    create: false
-    # -- The name of the secret namespace to which Cilium agents are given read access
-    name: kube-system
+# bgpControlPlane:
+#   # -- Enables the BGP control plane.
+#   enabled: true
+#   # -- SecretsNamespace is the namespace which BGP support will retrieve secrets from.
+#   secretsNamespace:
+#     # -- Create secrets namespace for BGP secrets.
+#     create: false
+#     # -- The name of the secret namespace to which Cilium agents are given read access
+#     name: kube-system
 etcd:
   # -- Enable etcd mode for the agent.
   enabled: true
@@ -110,7 +110,7 @@ etcd:
   ssl: true
 cluster:
   id: 2
-  name: cluster3
+  name: cluster2
 clustermesh:
   useAPIServer: true
   config:
@@ -120,7 +120,7 @@ clustermesh:
       port: 2379
       ips:
       - 172.16.0.149
-      tls:
+      # tls:
         # tls.crt from clustermesh-apiserver-remote-cert secret in Cluster 1
         # tls.key from clustermesh-apiserver-remote-cert secret in Cluster 1
         # cert: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURpakNDQVhLZ0F3SUJBZ0lVSkE1MmNhWHZKdmxzdVRpWXhCckQ3aGtDTzhFd0RRWUpLb1pJaHZjTkFRRU4KQlFBd1JURUxNQWtHQTFVRUJoTUNWVk14RXpBUkJnTlZCQWdNQ2xkaGMyaHBibWQwYjI0eEVEQU9CZ05WQkFjTQpCMU5sWVhSMGJHVXhEekFOQmdOVkJBTU1Ca05wYkdsMWJUQWVGdzB5TkRBNU1ESXhOREEyTURCYUZ3MHlOekE1Ck1ESXhOREEyTURCYU1CRXhEekFOQmdOVkJBTVRCbkpsYlc5MFpUQlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDkKQXdFSEEwSUFCQ1k0eFBHU3JvWmF2b2FCbHpyZ0l3dXR2eWVEVUdLT1lSZDFCY0VOZzljQWJYcGpYM0RyS0ozYgpLRjBZbXVIWlByK2pETkZWakdJWVVmWFBROWJIT3FlamNUQnZNQTRHQTFVZER3RUIvd1FFQXdJRm9EQWRCZ05WCkhTVUVGakFVQmdnckJnRUZCUWNEQVFZSUt3WUJCUVVIQXdJd0RBWURWUjBUQVFIL0JBSXdBREFkQmdOVkhRNEUKRmdRVXNwTDAydzBGNzZzZDVhTE1DenF5UXhRUXFud3dFUVlEVlIwUkJBb3dDSUlHY21WdGIzUmxNQTBHQ1NxRwpTSWIzRFFFQkRRVUFBNElDQVFDN0t4djBHRjAyRlFvbS9zUjU1dytjcUJvcUxON1FJaEx6eGVYRlNHTXhJa0VUClUwTklHQThtcjkvUS9obENENFE2eXhlTTRzRkhab0tnOGgydXdsU0tRYkNmbGM0QVhkWmovU1FDQTVzZ1NIdFcKa1BtcGhQME5jTGNObFM3UmFic0RtLzk5NXpoMjRFWDVFdmZ3WE15aDRGR0lqSW1JUE0vbDhuUXZjN2pNL0JUeQpyZzk0eUxtK3hkQ0RFblduZkMzSUFkU0pmcXVqTVNxRm9UMGk1UXRwSit3dEltTnFVZ3F1MzNWb0lhN0NDdnpjCnA5M0x5OVJIUU1kblpNT2JjWlpGZlZyaHdVRVJQdklJcEpGa0ZXTFVlbjY5NDl4WGQ1N25wai9WQkEyd1U0L28KRW81SCtGV0VlZmpieC9tU211WXFnR0JsVUJGY0YrNllldjM0NHdrQkQwZU83M1JpbG5HNVNPYjUxdzU0WWtaZwpuTG1CS0NDQ0ViTXRoSms5eFhIUTZyMXBLb1pIcURQZERqL3dqMUwrQ3NCTU1FWkVDdTR5dWE0bjJMZGgvdU4yCkNJU2txTWY1enVjQzJUZzlNVlNRWk1Xc0hJTktMSGc5MERyWVhqcEJuUVlzWGNQV2NFaHhIQkdmekVMbXdnQkgKUTF0bjQ4djdiQk4vdjZVNzlRUDBHRXdJUkNoRzBFb01oWTAzazVWYjBOWFIwSHg4ZlhqUFhSaEV2eGt0MElYNwpzelM1L1dsMlV6QWNQVFhtejZCUVZSS1FXRjNpanRnbEt2TklqWWFnMENOR1ZCZ0JLVHJzNTRKbW1qT3VySDZWCnhFbFc5cFNBY0p2TkVpM3A2NDJtbFlpR0phaVEzT3BtUlZ6dFVRSTkxaXNDdTgrRlpzVVJVWDU5d2VETSt3PT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
@@ -129,7 +129,7 @@ clustermesh:
       port: 2379
       ips:
       - 172.16.0.66
-      tls:
+      # tls:
         #kubectl get secret clustermesh-apiserver-remote-cert -n kube-system -o yaml
         # tls.crt from clustermesh-apiserver-remote-cert secret in Cluster 1
         # tls.key from clustermesh-apiserver-remote-cert secret in Cluster 1
@@ -230,7 +230,9 @@ clustermesh:
 
     apiserver:
       service:
-        type: LoadBalancer
+        type: NodePort
+      # service:
+      #   type: LoadBalancer
         annotations:
           cloud.google.com/load-balancer-type: Internal
           external-dns.alpha.kubernetes.io/hostname: clustermesh-apiserver.${cluster_type}.stacksec.local
