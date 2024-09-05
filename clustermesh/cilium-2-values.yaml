@@ -96,18 +96,18 @@ certgen:
 #     create: false
 #     # -- The name of the secret namespace to which Cilium agents are given read access
 #     name: kube-system
-etcd:
-  # -- Enable etcd mode for the agent.
-  enabled: true
-  # -- List of etcd endpoints
-  endpoints:
-    - https://172.16.0.149:2379
-    - https://172.16.0.66:2379
-    # - https://172.16.0.59:2379
-    # - https://172.16.0.81:2379
-    # - https://172.16.0.67:2379
-  # -- Enable use of TLS/SSL for connectivity to etcd.
-  ssl: true
+# etcd:
+#   # -- Enable etcd mode for the agent.
+#   enabled: true
+#   # -- List of etcd endpoints
+#   endpoints:
+#     - https://172.16.0.149:2379
+#     - https://172.16.0.66:2379
+#     # - https://172.16.0.59:2379
+#     # - https://172.16.0.81:2379
+#     # - https://172.16.0.67:2379
+#   # -- Enable use of TLS/SSL for connectivity to etcd.
+#   ssl: true
 cluster:
   id: 2
   name: cluster2
@@ -312,14 +312,14 @@ clustermesh:
             - "clustermesh-apiserver.kube-system"
             - "clustermesh-apiserver"
 
-k8s:
-  requireIPv4PodCIDR: true
-  requireIPv6PodCIDR: false
-tunnel: disabled
+# k8s:
+#   requireIPv4PodCIDR: true
+#   requireIPv6PodCIDR: false
+# tunnel: disabled
 # ipv4NativeRoutingCIDR: ${ipv4_native_routing_cidr}
 
-endpointRoutes:
-  enabled: true
+# endpointRoutes:
+#   enabled: true
 
 # cni:
 #   binPath: /home/kubernetes/bin
@@ -329,6 +329,6 @@ endpointRoutes:
 #   type: wireguard
 #   nodeEncryption: false
 
-l7Proxy: true
-autoDirectNodeRoutes: false
-enableIPv4Masquerade: true
+# l7Proxy: true
+# autoDirectNodeRoutes: false
+# enableIPv4Masquerade: true
