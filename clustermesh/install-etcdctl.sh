@@ -1,16 +1,17 @@
 #!/bin/bash
 
-ETCD_VERSION=$éETCD_VERSION:-v3.3.1è
+ETCD_VER=v3.5.15
 
-curl -L https://github.com/coreos/etcd/releases/download/$ETCD_VERSION/etcd-$ETCD_VERSION-linux-amd64.tar.gz -o etcd-$ETCD_VERSION-linux-amd64.tar.gz
+# choose either URL
+GOOGLE_URL=https://storage.googleapis.com/etcd
+GITHUB_URL=https://github.com/etcd-io/etcd/releases/download
+DOWNLOAD_URL=${GOOGLE_URL}
 
-tar xzvf etcd-$ETCD_VERSION-linux-amd64.tar.gz
-rm etcd-$ETCD_VERSION-linux-amd64.tar.gz
+rm -f /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz
+rm -rf /tmp/etcd-download-test && mkdir -p /tmp/etcd-download-test
 
-cd etcd-$ETCD_VERSION-linux-amd64
-sudo cp etcd /usr/local/bin/
-sudo cp etcdctl /usr/local/bin/
-
-rm -rf etcd-$ETCD_VERSION-linux-amd64
+curl -L ${DOWNLOAD_URL}/${ETCD_VER}/etcd-${ETCD_VER}-linux-amd64.tar.gz -o /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz
+tar xzvf /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz -C /tmp/etcd-download-test --strip-components=1
+rm -f /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz
 
 etcdctl --version
