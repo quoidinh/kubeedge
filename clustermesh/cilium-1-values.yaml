@@ -142,75 +142,75 @@ clustermesh:
     #   port: 2379
     #   ips:
     #   - 172.16.0.67
-  apiserver:
-    tls:
-      auto:
-        enabled: false
-    service:
-      type: NodePort
-      # loadBalancerIP: 172.16.0.149 
+  # apiserver:
+  #   tls:
+  #     auto:
+  #       enabled: false
+  #   service:
+  #     type: NodePort
+  #     # loadBalancerIP: 172.16.0.149 
        
-    # -- TCP port for the clustermesh-apiserver health API.
-    healthPort: 9880
-    etcd:
-      # The etcd binary is included in the clustermesh API server image, so the same image from above is reused.
-      # Independent override isn't supported, because clustermesh-apiserver is tested against the etcd version it is
-      # built with.
+  #   # -- TCP port for the clustermesh-apiserver health API.
+  #   healthPort: 9880
+  #   etcd:
+  #     # The etcd binary is included in the clustermesh API server image, so the same image from above is reused.
+  #     # Independent override isn't supported, because clustermesh-apiserver is tested against the etcd version it is
+  #     # built with.
 
-      # -- Specifies the resources for etcd container in the apiserver
-      resources: {}
-      # requests:
-      #   cpu: 200m
-      #   memory: 256Mi
-      # limits:
-      #   cpu: 1000m
-      #   memory: 256Mi
+  #     # -- Specifies the resources for etcd container in the apiserver
+  #     resources: {}
+  #     # requests:
+  #     #   cpu: 200m
+  #     #   memory: 256Mi
+  #     # limits:
+  #     #   cpu: 1000m
+  #     #   memory: 256Mi
 
-      # -- Security context to be added to clustermesh-apiserver etcd containers
-      securityContext: {}
-      # -- lifecycle setting for the etcd container
-      lifecycle: {}
-      init:
-        # -- Specifies the resources for etcd init container in the apiserver
-        resources: {}
-        requests:
-          cpu: 100m
-          memory: 100Mi
-        limits:
-          cpu: 100m
-          memory: 100Mi
+  #     # -- Security context to be added to clustermesh-apiserver etcd containers
+  #     securityContext: {}
+  #     # -- lifecycle setting for the etcd container
+  #     lifecycle: {}
+  #     init:
+  #       # -- Specifies the resources for etcd init container in the apiserver
+  #       resources: {}
+  #       requests:
+  #         cpu: 100m
+  #         memory: 100Mi
+  #       limits:
+  #         cpu: 100m
+  #         memory: 100Mi
 
-        # -- Additional arguments to `clustermesh-apiserver etcdinit`.
-        extraArgs: []
-        # -- Additional environment variables to `clustermesh-apiserver etcdinit`.
-        extraEnv: []
-    kvstoremesh:
-      # -- Enable KVStoreMesh. KVStoreMesh caches the information retrieved
-      # from the remote clusters in the local etcd instance.
-      enabled: true
-      # -- Additional KVStoreMesh arguments.
-      extraArgs: []
-      # -- Additional KVStoreMesh environment variables.
-      extraEnv: []
-      # -- Resource requests and limits for the KVStoreMesh container
-      resources: {}
-      requests:
-        cpu: 100m
-        memory: 64Mi
-      limits:
-        cpu: 1000m
-        memory: 1024M
+  #       # -- Additional arguments to `clustermesh-apiserver etcdinit`.
+  #       extraArgs: []
+  #       # -- Additional environment variables to `clustermesh-apiserver etcdinit`.
+  #       extraEnv: []
+  #   kvstoremesh:
+  #     # -- Enable KVStoreMesh. KVStoreMesh caches the information retrieved
+  #     # from the remote clusters in the local etcd instance.
+  #     enabled: true
+  #     # -- Additional KVStoreMesh arguments.
+  #     extraArgs: []
+  #     # -- Additional KVStoreMesh environment variables.
+  #     extraEnv: []
+  #     # -- Resource requests and limits for the KVStoreMesh container
+  #     resources: {}
+  #     requests:
+  #       cpu: 100m
+  #       memory: 64Mi
+  #     limits:
+  #       cpu: 1000m
+  #       memory: 1024M
 
-      # -- Additional KVStoreMesh volumeMounts.
-      extraVolumeMounts: []
-      # -- KVStoreMesh Security context
-      securityContext:
-        allowPrivilegeEscalation: true
-        capabilities:
-          drop:
-            - ALL
-      # -- lifecycle setting for the KVStoreMesh container
-      lifecycle: {}
+  #     # -- Additional KVStoreMesh volumeMounts.
+  #     extraVolumeMounts: []
+  #     # -- KVStoreMesh Security context
+  #     securityContext:
+  #       allowPrivilegeEscalation: true
+  #       capabilities:
+  #         drop:
+  #           - ALL
+  #     # -- lifecycle setting for the KVStoreMesh container
+  #     lifecycle: {}
   # apiserver:
   #   tls:
   #     auto:
@@ -222,3 +222,89 @@ clustermesh:
   #       key: "<base64-encoded-key>"
   #   service:
   #     type: LoadBalancer
+
+    apiserver:
+      service:
+        type: LoadBalancer
+        annotations:
+          cloud.google.com/load-balancer-type: Internal
+          external-dns.alpha.kubernetes.io/hostname: clustermesh-apiserver.${cluster_type}.stacksec.local
+      # -- TCP port for the clustermesh-apiserver health API.
+      healthPort: 9880
+      etcd:
+        # The etcd binary is included in the clustermesh API server image, so the same image from above is reused.
+        # Independent override isn't supported, because clustermesh-apiserver is tested against the etcd version it is
+        # built with.
+
+        # -- Specifies the resources for etcd container in the apiserver
+        resources: {}
+        # requests:
+        #   cpu: 200m
+        #   memory: 256Mi
+        # limits:
+        #   cpu: 1000m
+        #   memory: 256Mi
+
+        # -- Security context to be added to clustermesh-apiserver etcd containers
+        securityContext: {}
+        # -- lifecycle setting for the etcd container
+        lifecycle: {}
+        init:
+          # -- Specifies the resources for etcd init container in the apiserver
+          resources: {}
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+
+          # -- Additional arguments to `clustermesh-apiserver etcdinit`.
+          extraArgs: []
+          # -- Additional environment variables to `clustermesh-apiserver etcdinit`.
+          extraEnv: []
+      kvstoremesh:
+        # -- Enable KVStoreMesh. KVStoreMesh caches the information retrieved
+        # from the remote clusters in the local etcd instance.
+        enabled: true
+        # -- Additional KVStoreMesh arguments.
+        extraArgs: []
+        # -- Additional KVStoreMesh environment variables.
+        extraEnv: []
+        # -- Resource requests and limits for the KVStoreMesh container
+        resources: {}
+        requests:
+          cpu: 100m
+          memory: 64Mi
+        limits:
+          cpu: 1000m
+          memory: 1024M
+
+        # -- Additional KVStoreMesh volumeMounts.
+        extraVolumeMounts: []
+        # -- KVStoreMesh Security context
+        securityContext:
+          allowPrivilegeEscalation: true
+          capabilities:
+            drop:
+              - ALL
+        # -- lifecycle setting for the KVStoreMesh container
+        lifecycle: {}
+      tls:
+        auto:
+          enabled: true
+          method: certmanager
+          certManagerIssuerRef:
+            group: cert-manager.io
+            kind: ClusterIssuer
+            name: stacksec-ca
+        server:
+          extraDnsNames: 
+            - "clustermesh-apiserver.${cluster_type}.stacksec.local"
+            - "clustermesh-apiserver.kube-system.svc.cluster.local"
+            - "clustermesh-apiserver.kube-system"
+            - "clustermesh-apiserver"
+
+k8s:
+  requireIPv4PodCIDR: true
+  requireIPv6PodCIDR: false
