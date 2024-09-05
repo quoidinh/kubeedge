@@ -509,7 +509,7 @@ etcdctl --version
 # kubectl config view --flatten > merged-kubeconfig.yaml
 # # Next set the KUBECONFIG to the newly created merged kubeconfig.
 # export KUBECONFIG=./merged-kubeconfig.yaml
-
+# https://kodekloud.com/blog/kubectl-change-context/
 # kubectl config get-contexts
 # kubectl config get-clusters
 
