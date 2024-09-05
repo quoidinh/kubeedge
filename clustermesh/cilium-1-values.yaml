@@ -91,13 +91,13 @@ bgpControlPlane:
     create: false
     # -- The name of the secret namespace to which Cilium agents are given read access
     name: kube-system
-# etcd:
-#   # -- Enable etcd mode for the agent.
-#   enabled: true
-#   # -- List of etcd endpoints
-#   endpoints:
-#     - https://172.16.0.149:2379
-#     - https://172.16.0.66:2379
+etcd:
+  # -- Enable etcd mode for the agent.
+  enabled: true
+  # -- List of etcd endpoints
+  endpoints:
+    - https://172.16.0.149:2379
+    - https://172.16.0.66:2379
     # - https://172.16.0.59:2379
     # - https://172.16.0.81:2379
     # - https://172.16.0.67:2379
