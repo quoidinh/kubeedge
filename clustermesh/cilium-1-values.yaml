@@ -77,9 +77,9 @@ bgp:
   enabled: true
   announce:
     # -- Enable allocation and announcement of service LoadBalancer IPs
-    loadbalancerIP: true
+    loadbalancerIP: false
     # -- Enable announcement of node pod CIDR
-    podCIDR: true
+    podCIDR: false
 # -- This feature set enables virtual BGP routers to be created via
 # CiliumBGPPeeringPolicy CRDs.
 bgpControlPlane:
@@ -159,12 +159,12 @@ clustermesh:
 
       # -- Specifies the resources for etcd container in the apiserver
       resources: {}
-      requests:
-        cpu: 200m
-        memory: 256Mi
-      limits:
-        cpu: 1000m
-        memory: 256Mi
+      # requests:
+      #   cpu: 200m
+      #   memory: 256Mi
+      # limits:
+      #   cpu: 1000m
+      #   memory: 256Mi
 
       # -- Security context to be added to clustermesh-apiserver etcd containers
       securityContext: {}
