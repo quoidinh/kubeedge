@@ -1,7 +1,12 @@
 debug:
   enabled: true
+# nodeinit:
+#   enabled: true
+#   restartPods: true
 nodeinit:
   enabled: true
+  reconfigureKubelet: true
+  removeCbrBridge: true
   restartPods: true
 # kubeProxyReplacement: partial
 hostServices:
@@ -308,3 +313,20 @@ clustermesh:
 k8s:
   requireIPv4PodCIDR: true
   requireIPv6PodCIDR: false
+tunnel: disabled
+ipv4NativeRoutingCIDR: ${ipv4_native_routing_cidr}
+
+endpointRoutes:
+  enabled: true
+
+cni:
+  binPath: /home/kubernetes/bin
+
+encryption:
+  enabled: false
+  type: wireguard
+  nodeEncryption: false
+
+l7Proxy: true
+autoDirectNodeRoutes: false
+enableIPv4Masquerade: true
