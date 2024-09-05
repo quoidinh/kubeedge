@@ -502,11 +502,14 @@ etcdctl --version
 # cilium clustermesh connect --context kind-cluster4 --destination-context kind-cluster1
 
 # kubectl exec -it -n kube-system clustermesh-apiserver-594b8cb686-lt748 -c kvstoremesh -- /user/bin/clustermesh-apiserver kvstoremesh-dbg troubleshoot kind-cluster4
-
-# export KUBECONFIG=./kubeconfig-cluster1.yaml:./kubeconfig-cluster2.yaml:./kubeconfig-cluster3.yaml:./kubeconfig-cluster4.yaml:./kubeconfig-cluster5.yaml
+# kubectl config set-context kind-cluster1 --user=kind-cluster1
+# kubectl config set-context kind-cluster2 --user=kind-cluster2
+# export KUBECONFIG=./kubeconfig-cluster1.yaml:./kubeconfig-cluster2.yaml
+# :./kubeconfig-cluster3.yaml:./kubeconfig-cluster4.yaml:./kubeconfig-cluster5.yaml
 # kubectl config view --flatten > merged-kubeconfig.yaml
 # # Next set the KUBECONFIG to the newly created merged kubeconfig.
 # export KUBECONFIG=./merged-kubeconfig.yaml
+
 # kubectl config get-contexts
 # kubectl config get-clusters
 
