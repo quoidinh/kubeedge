@@ -108,8 +108,8 @@ etcd:
 #   # -- Enable use of TLS/SSL for connectivity to etcd.
   ssl: true
 cluster:
-  id: 1
-  name: cluster1
+  id: 4
+  name: cluster4
 clustermesh:
   useAPIServer: true
   config:
