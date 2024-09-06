@@ -514,6 +514,11 @@ etcdctl --version
 # https://kodekloud.com/blog/kubectl-change-context/
 # kubectl config get-contexts
 # kubectl config get-clusters
+# kubectl config delete-cluster my-cluster
+# kubectl config delete-context my-cluster-context
+# kubectl config unset users.my-cluster-admin
+# kubectl config unset clusters
+
 
 # kubectl config use kind-cluster1
 # kubectl delete -f https://raw.githubusercontent.com/bmcustodio/kind-cilium-mesh/master/common/rebel-base.yaml -f https://raw.githubusercontent.com/cilium/cilium/v1.11.0-rc3/examples/kubernetes/clustermesh/global-service-example/cluster2.yaml
