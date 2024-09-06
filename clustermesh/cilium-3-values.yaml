@@ -104,7 +104,7 @@ etcd:
     - https://172.16.0.149:2379
     - https://172.16.0.66:2379
     - https://172.16.0.157:2379
-    - https://172.16.0.234:2379
+    # - https://172.16.0.234:2379
 #   # -- Enable use of TLS/SSL for connectivity to etcd.
   ssl: true
 cluster:
@@ -133,10 +133,10 @@ clustermesh:
       port: 2379
       ips:
       - 172.16.0.157
-    - name: kind-cluster4
-      port: 2379
-      ips:
-      - 172.16.0.234
+    # - name: kind-cluster4
+    #   port: 2379
+    #   ips:
+    #   - 172.16.0.234
   # apiserver:
   #   tls:
   #     auto:

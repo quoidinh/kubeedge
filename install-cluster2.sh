@@ -13,6 +13,7 @@ HOSTNAME="kind-cluster2"
 sudo hostnamectl set-hostname "${HOSTNAME}.mesh.cilium.io"
 PUBLIC_IP_ADDRESS=`hostname -I|cut -d" " -f 1` #hostname -I|cut -d" " -f 1 #172.17.0.1
 sudo echo "${PUBLIC_IP_ADDRESS} ${HOSTNAME}.mesh.cilium.io" >> /etc/hosts
+sudo echo "${HOSTNAME}.mesh.cilium.io" >> /etc/hostname
 echo "Removing existing Docker Installation...."
 sudo apt install ipvsadm
 sudo apt-get purge aufs-tools docker-ce docker-ce-cli containerd.io pigz cgroupfs-mount -y
