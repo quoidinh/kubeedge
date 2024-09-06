@@ -45,9 +45,9 @@ cilium install \
 # cilium hubble enable --ui
 #  cilium clustermesh status --wait
 cilium install \
-    --set cluster.name=kind-cluster3 --set cluster.id=3 \
+    --set cluster.name=kind-cluster1 --set cluster.id=1 \
     --namespace kube-system \
-    --values cilium-3-values.yaml \
+    --values cilium-1-values.yaml \
     --set tls.ca.cert=$(base64 -i ./certs/ca.crt | tr -d \\n) \
     --set tls.ca.key=$(base64 -i ./certs/ca.key | tr -d \\n) \
     --set clustermesh.apiserver.tls.ca.cert=$(base64 -i ./certs/ca.crt | tr -d \\n) \
@@ -62,8 +62,8 @@ cilium install \
     --set clustermesh.apiserver.tls.remote.key=$(base64 -i ./certs/clustermesh-client.key | tr -d \\n)
 # cilium clustermesh enable --service-type NodePort
 # cilium hubble enable --ui
-#  cilium clustermesh status --wait
-
+# cilium clustermesh status --wait
+# cilium status --wait
 
 # helm upgrade -i cilium cilium/cilium \
 #     --version 1.15.4 \

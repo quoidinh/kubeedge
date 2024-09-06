@@ -5,10 +5,10 @@ nodes:
 - role: control-plane
 - role: worker #frontend
 - role: worker #marketplace
-- role: worker #classification
-- role: worker #notification
-- role: worker #streaming
-- role: worker #media
+# - role: worker #classification
+# - role: worker #notification
+# - role: worker #streaming
+# - role: worker #media
 # - role: worker
 # - role: worker
 # - role: worker

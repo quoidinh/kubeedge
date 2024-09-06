@@ -6,9 +6,9 @@ nodes:
 - role: worker #frontend
 - role: worker #marketplace
 - role: worker #notification
-- role: worker #media
-- role: worker #classification
-- role: worker #streaming
+# - role: worker #media
+# - role: worker #classification
+# - role: worker #streaming
 # - role: worker
 # - role: worker
 # - role: worker
