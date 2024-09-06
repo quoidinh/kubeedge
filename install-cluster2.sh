@@ -9,8 +9,8 @@ sudo sed -i.bak '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 echo "Installing necessary dependencies...."
 sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common -y
 echo "Setting up hostname...."
-HOSTNAMEH="kind-cluster2"
-sudo hostnamectl set-hostname "${HOSTNAMEH}.mesh.cilium.io"
+HOSTNAME="kind-cluster2"
+sudo hostnamectl set-hostname "${HOSTNAME}.mesh.cilium.io"
 PUBLIC_IP_ADDRESS=`hostname -I|cut -d" " -f 1` #hostname -I|cut -d" " -f 1 #172.17.0.1
 sudo echo "${PUBLIC_IP_ADDRESS} ${HOSTNAME}.mesh.cilium.io" >> /etc/hosts
 echo "Removing existing Docker Installation...."
