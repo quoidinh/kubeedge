@@ -2,10 +2,9 @@
 
 mkdir -p certs
 
-# openssl genrsa -out certs/ca.key 4096
 # openssl req -x509 -new  -sha512 -key  certs/ca.key -config ca.conf -days 365 -out certs/ca.crt
 openssl req -x509 -new -sha512 -noenc \
--key certs/ca.key -days 365 \
+-key certs/ca.key -days 3650 \
 -config ca.conf \
 -out certs/ca.crt
 
@@ -15,11 +14,10 @@ certs=(
 
 for i in ${certs[*]}; do
   openssl genrsa -out "certs/${i}.key" 4096
-
   openssl req -new -key "certs/${i}.key" -sha256 \
     -config "ca.conf" \
     -out "certs/${i}.csr"
-  openssl x509 -req -in "certs/${i}.csr" -CA "certs/ca.crt" -CAkey "certs/ca.key" -CAcreateserial -out server.crt -days 3650  -extfile ca.conf 
+  openssl x509 -req -in "certs/${i}.csr" -CA "certs/ca.crt" -CAkey "certs/ca.key" -CAcreateserial -out "certs/${i}.crt" -days 3650  -extfile ca.conf 
 
   # openssl x509 -req -days 3650 -in "certs/${i}.csr" \
   #   -sha256 -CA "certs/ca.crt" \
