@@ -20,7 +20,7 @@ for i in ${certs[*]}; do
     -config "ca.conf" \
     -out "certs/${i}.csr"
   
-  openssl x509 -req -days 3653 -in "certs/${i}.csr" \
+  openssl x509 -req -days 365 -in "certs/${i}.csr" \
     -copy_extensions copyall \
     -sha256 -CA "certs/ca.crt" \
     -CAkey "certs/ca.key" \
