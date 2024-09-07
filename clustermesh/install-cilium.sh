@@ -22,14 +22,14 @@ for i in {1..5};
     --set clustermesh.apiserver.tls.remote.cert=$(base64 -i ./certs/clustermesh-client.crt | tr -d \\n) \
     --set clustermesh.apiserver.tls.remote.key=$(base64 -i ./certs/clustermesh-client.key | tr -d \\n)
     # cilium clustermesh enable --service-type NodePort
-    cilium clustermesh enable --create-ca --context kind-cluster$i --service-type LoadBalancer
+    # cilium clustermesh enable --create-ca --context kind-cluster$i --service-type LoadBalancer
     cilium hubble enable --ui
     cilium clustermesh status --wait
     done
 cilium install \
-    --set cluster.name=kind-cluster2 --set cluster.id=2 \
+    --set cluster.name=kind-cluster1 --set cluster.id=1 \
     --namespace kube-system \
-    --values cilium-2-values.yaml \
+    --values cilium-1-values.yaml \
     --set tls.ca.cert=$(base64 -i ./certs/ca.crt | tr -d \\n) \
     --set tls.ca.key=$(base64 -i ./certs/ca.key | tr -d \\n) \
     --set clustermesh.apiserver.tls.ca.cert=$(base64 -i ./certs/ca.crt | tr -d \\n) \
@@ -46,8 +46,8 @@ cilium install \
 # cilium clustermesh enable --create-ca --context kind-cluster1 --service-type LoadBalancer
 cilium clustermesh enable --service-type LoadBalancer
 # cilium hubble enable --ui
-kubectl get secret --context kind-cluster1 -n kube-system cilium-ca -o yaml > cilium-ca.yaml
-kubectl apply -f cilium-ca.yaml --context kind-cluster2
+# kubectl get secret -n kube-system cilium-ca -o yaml > cilium-ca.yaml
+# kubectl apply -f cilium-ca.yaml --context kind-cluster2
 
 
 #  cilium clustermesh status --wait
