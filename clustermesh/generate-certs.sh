@@ -19,10 +19,9 @@ for i in ${certs[*]}; do
   openssl req -new -key "certs/${i}.key" -sha256 \
     -config "ca.conf" \
     -out "certs/${i}.csr"
+openssl x509 -req -in request.csr -signkey private.key -out certificate.crt -days 3650 -copy_extensions=copyall
 
   openssl x509 -req -days 3650 -in "certs/${i}.csr" \
-    # -new \
-    # -extensions v3_req
     -sha256 -CA "certs/ca.crt" \
     -CAkey "certs/ca.key" \
     -CAcreateserial \
