@@ -19,7 +19,7 @@ for i in ${certs[*]}; do
   openssl req -new -key "certs/${i}.key" -sha256 \
     -config "ca.conf" \
     -out "certs/${i}.csr"
-  openssl x509 -req -in "certs/${i}.csr" -CA "certs/ca.crt" -CAkey "certs/ca.key" -CAcreateserial -out server.crt -days 3650 -extensions v3_ext -extfile ca.conf 
+  openssl x509 -req -in "certs/${i}.csr" -CA "certs/ca.crt" -CAkey "certs/ca.key" -CAcreateserial -out server.crt -days 3650  -extfile ca.conf 
 
   # openssl x509 -req -days 3650 -in "certs/${i}.csr" \
   #   -sha256 -CA "certs/ca.crt" \
@@ -27,6 +27,7 @@ for i in ${certs[*]}; do
   #   -CAcreateserial \
   #   -out "certs/${i}.crt" \
   #   -copy_extensions copyall 
+  # -extensions v3_ext
 done
 #  https://fossies.org/linux/cilium/clustermesh-apiserver/tls.rst
 # https://gist.github.com/ganeshan/8ad68b18159bf7ab2abcfcbebcc1086c
