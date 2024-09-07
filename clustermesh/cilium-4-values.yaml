@@ -313,7 +313,7 @@ clustermesh:
         lifecycle: {}
       tls:
         auto:
-          enabled: true
+          enabled: false
           method: helm
           # certManagerIssuerRef:
           #   group: cert-manager.io
