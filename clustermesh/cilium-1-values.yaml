@@ -87,13 +87,13 @@ l2podAnnouncements:
     # podCIDR: false
 # -- This feature set enables virtual BGP routers to be created via
 # CiliumBGPPeeringPolicy CRDs.
-bgpControlPlane:
+# bgpControlPlane:
 #   # -- Enables the BGP control plane.
-  enabled: true
+  # enabled: true
 #   # -- SecretsNamespace is the namespace which BGP support will retrieve secrets from.
-  secretsNamespace:
+  # secretsNamespace:
 #     # -- Create secrets namespace for BGP secrets.
-    create: false
+    # create: false
 #     # -- The name of the secret namespace to which Cilium agents are given read access
 #     name: kube-system
 # etcd:
@@ -156,7 +156,6 @@ clustermesh:
         # tls.key from clustermesh-apiserver-remote-cert secret in Cluster 1
         cert: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNiVENDQVZXZ0F3SUJBZ0lVRUVURXo3Um5UQkNYQ0Zta3M5N1A3aEs5dnNZd0RRWUpLb1pJaHZjTkFRRUwKQlFBd1JURUxNQWtHQTFVRUJoTUNWVk14RXpBUkJnTlZCQWdNQ2xkaGMyaHBibWQwYjI0eEVEQU9CZ05WQkFjTQpCMU5sWVhSMGJHVXhEekFOQmdOVkJBTU1Ca05wYkdsMWJUQWVGdzB5TkRBNU1EY3hPRFEyTURCYUZ3MHlOekE1Ck1EY3hPRFEyTURCYU1CRXhEekFOQmdOVkJBTVRCbkpsYlc5MFpUQlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDkKQXdFSEEwSUFCRE9IWDV6QVFpZUtEeXAwVmszQTQzS0h4b3d2SzRsZWhzdFovS3c3aGVHOVNLdnBEZXFwaHdqRApuSXJ0cmt0czNnbGhTUGhTc09EV0Z4dlJkVDdITkFLalZEQlNNQTRHQTFVZER3RUIvd1FFQXdJRm9EQVRCZ05WCkhTVUVEREFLQmdnckJnRUZCUWNEQWpBTUJnTlZIUk1CQWY4RUFqQUFNQjBHQTFVZERnUVdCQlJwT29iWTJQbWUKYllJM1hDWTlQRC9aMXpHaE1UQU5CZ2txaGtpRzl3MEJBUXNGQUFPQ0FRRUFiLytpMFFHemlvSmRDVmF5dnRxMwpmNHIrR0pPaHVERDdHaFovd2hCWWdGdTlwRUdNUjFLdGI0QkEwYlh2cU1KRy9MbXJnUWQ4WjJHWFNwQU1HQ2pkCjF1UEtaZnIyNlJ6V1VOZTB6U3hDWm1JbG5WbFRMeGdqVEFsWkV4bGZxT05LWkFiSmMxWUZVb3AyMVdTQWhpdS8KVFV1Uk5xMlA4ajhhVnlCamhxbTVMUm1maWlYbmFsRGdIMnEzMnpnY0gwVGdsbGhZZnBIVnVzajVsaTVyN0FlZApxZ1RhdG5Wdytlb0IzM1BhWkZsTUk2M3dzcVFsNnQxYzc3YWYzQXk4cGtKUFJQQjdLNCtqdVVuSG04cG9EdG5LClg1Tzc0UUtOZ3dnWVltTHF2SWZDY0hGcGxpbHc1S2QxaTBCdW9lUmUvcXdYWmhEbHpKdlZEZDIrYjRBcGhXd0oKR3c9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
         key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSU1IaTNUZWxPTXhScWhkaElwMXlDYXZnejhERk8zZDdVZnM2K2hNSk9LVktvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFTTRkZm5NQkNKNG9QS25SV1RjRGpjb2ZHakM4cmlWNkd5MW44ckR1RjRiMUlxK2tONnFtSApDTU9jaXUydVMyemVDV0ZJK0ZLdzROWVhHOUYxUHNjMEFnPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
-
     # - name: kind-cluster5
     #   port: 2379
     #   ips:
@@ -357,4 +356,15 @@ clustermesh:
 # autoDirectNodeRoutes: false
 # enableIPv4Masquerade: true
 externalWorkloads:
+  enabled: true
+extraConfig: 
+  enable-envoy-config: "true"
+
+bgp:
+  enabled: false
+  announce:
+    loadbalancerIP: false
+    podCIDR: false
+
+bgpControlPlane:
   enabled: true

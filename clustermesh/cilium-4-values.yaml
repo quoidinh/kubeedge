@@ -87,13 +87,13 @@ l2podAnnouncements:
     # podCIDR: false
 # -- This feature set enables virtual BGP routers to be created via
 # CiliumBGPPeeringPolicy CRDs.
-bgpControlPlane:
+# bgpControlPlane:
 #   # -- Enables the BGP control plane.
-  enabled: true
+  # enabled: true
 #   # -- SecretsNamespace is the namespace which BGP support will retrieve secrets from.
-  secretsNamespace:
+  # secretsNamespace:
 #     # -- Create secrets namespace for BGP secrets.
-    create: false
+    # create: false
 #     # -- The name of the secret namespace to which Cilium agents are given read access
 #     name: kube-system
 # etcd:
@@ -356,4 +356,12 @@ clustermesh:
 # autoDirectNodeRoutes: false
 # enableIPv4Masquerade: true
 externalWorkloads:
+  enabled: true
+bgp:
+  enabled: false
+  announce:
+    loadbalancerIP: false
+    podCIDR: false
+
+bgpControlPlane:
   enabled: true
