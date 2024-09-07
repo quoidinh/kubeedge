@@ -26,9 +26,9 @@ for i in {1..5};
     cilium clustermesh status --wait
     done
 cilium install \
-    --set cluster.name=kind-cluster1 --set cluster.id=1 \
+    --set cluster.name=kind-cluster3 --set cluster.id=3 \
     --namespace kube-system \
-    --values cilium-1-values.yaml \
+    --values cilium-3-values.yaml \
     --set tls.ca.cert=$(base64 -i ./certs/ca.crt | tr -d \\n) \
     --set tls.ca.key=$(base64 -i ./certs/ca.key | tr -d \\n) \
     --set clustermesh.apiserver.tls.ca.cert=$(base64 -i ./certs/ca.crt | tr -d \\n) \
@@ -45,9 +45,9 @@ cilium install \
 # cilium hubble enable --ui
 #  cilium clustermesh status --wait
 cilium install \
-    --set cluster.name=kind-cluster2 --set cluster.id=2 \
+    --set cluster.name=kind-cluster1 --set cluster.id=1 \
     --namespace kube-system \
-    --values cilium-2-values.yaml \
+    --values cilium-1-values.yaml \
     --set tls.ca.cert=$(base64 -i ./certs/ca.crt | tr -d \\n) \
     --set tls.ca.key=$(base64 -i ./certs/ca.key | tr -d \\n) \
     --set clustermesh.apiserver.tls.ca.cert=$(base64 -i ./certs/ca.crt | tr -d \\n) \
@@ -82,3 +82,8 @@ cilium install \
 #     --set clustermesh.apiserver.tls.client.key=$(base64 -i ./certs/clustermesh-client.key | tr -d \\n) \
 #     --set clustermesh.apiserver.tls.remote.cert=$(base64 -i ./certs/clustermesh-client.crt | tr -d \\n) \
 #     --set clustermesh.apiserver.tls.remote.key=$(base64 -i ./certs/clustermesh-client.key | tr -d \\n)
+
+
+sudo -i
+echo | openssl s_client -showcerts -servername kind-cluster1.mesh.cilium.io -connect mesh.cilium.io:443 2>/dev/null | awk '/-----BEGIN CERTIFICATE-----/, /-----END CERTIFICATE-----/' >> /usr/local/share/ca-certificates/ca-certificates.crt 
+update-ca-certificates
