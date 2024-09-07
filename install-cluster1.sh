@@ -279,6 +279,11 @@ cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=ku
    --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
    --set hostPort.enabled=true
 
+helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
+helm search repo metrics-server/metrics-server -l | head
+helm upgrade --install metrics-server metrics-server/metrics-server  --namespace kube-system #--version 3.5.0
+
+
 echo "Install latest Hubble CLI"
 HUBBLE_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/hubble/master/stable.txt)
 curl -LO "https://github.com/cilium/hubble/releases/download/$HUBBLE_VERSION/hubble-linux-amd64.tar.gz"
@@ -289,8 +294,8 @@ sudo mv hubble /usr/local/bin
 sudo sysctl fs.inotify.max_user_instances=8192
 sudo sysctl fs.inotify.max_user_watches=524288
 ulimit -Hn
-ETCD_VER=v3.5.15
 
+ETCD_VER=v3.5.15
 # choose either URL
 GOOGLE_URL=https://storage.googleapis.com/etcd
 GITHUB_URL=https://github.com/etcd-io/etcd/releases/download
