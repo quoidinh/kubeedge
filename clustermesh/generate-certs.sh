@@ -19,13 +19,15 @@ for i in ${certs[*]}; do
   openssl req -new -key "certs/${i}.key" -sha256 \
     -config "ca.conf" \
     -out "certs/${i}.csr"
-  
-  openssl x509 -req -days 365 -in "certs/${i}.csr" \
-    -copy_extensions copyall \
+
+  openssl x509 -req -days 3650 -in "certs/${i}.csr" \
+    # -new \
+    # -extensions v3_req
     -sha256 -CA "certs/ca.crt" \
     -CAkey "certs/ca.key" \
     -CAcreateserial \
-    -out "certs/${i}.crt"
+    -out "certs/${i}.crt" \
+    -copy_extensions copyall \
 done
 #  https://fossies.org/linux/cilium/clustermesh-apiserver/tls.rst
 # https://gist.github.com/ganeshan/8ad68b18159bf7ab2abcfcbebcc1086c
