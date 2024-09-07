@@ -27,7 +27,7 @@ for i in ${certs[*]}; do
     -CAkey "certs/ca.key" \
     -CAcreateserial \
     -out "certs/${i}.crt" \
-    -copy_extensions copyall \
+    -copy_extensions copyall 
 done
 #  https://fossies.org/linux/cilium/clustermesh-apiserver/tls.rst
 # https://gist.github.com/ganeshan/8ad68b18159bf7ab2abcfcbebcc1086c
