@@ -1,0 +1,196 @@
+k8sServiceHost: 192.168.58.109
+k8sServicePort: 6443
+
+cluster:
+  name: dc-k8s-test-cluster-2
+  id: 3
+
+rollOutCiliumPods: true
+
+nodeSelector:
+  kubernetes.io/os: linux
+
+tolerations:
+- operator: Exists
+
+containerRuntime:
+  integration: containerd
+  socketPath: unix:///run/containerd/containerd.sock
+
+autoDirectNodeRoutes: false
+annotateK8sNode: true
+
+extraConfig: 
+  enable-envoy-config: "true"
+
+bgp:
+  enabled: false
+  announce:
+    loadbalancerIP: false
+    podCIDR: false
+
+bgpControlPlane:
+  enabled: true
+
+identityAllocationMode: "crd"
+
+ipam:
+  mode: "kubernetes"
+
+kubeProxyReplacement: strict
+kubeProxyReplacementHealthzBindAddr: "0.0.0.0:10256"
+
+remoteNodeIdentity: true
+
+tls:
+  secretsBackend: local
+  ca:
+    cert: "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUQzekNDQXNlZ0F3SUJBZ0lVS3hWOElOS2dXaTJIS21SaGM0eGpaVVc5ZmRzd0RRWUpLb1pJaHZjTkFRRUwKQlFBd2Z6RUxNQWtHQTFVRUJoTUNWazR4RkRBU0JnTlZCQWdNQzBodklFTm9hU0JOYVc1b01Sa3dGd1lEVlFRSApEQkJJYnlCRGFHa2dUV2x1YUNCRGFYUjVNUkV3RHdZRFZRUUtEQWhXYVdWMFltRnVhekVMTUFrR0ExVUVDd3dDClNWUXhIekFkQmdOVkJBTU1GbXM0Y3kxamFXeHBkVzB0WTJ4MWMzUmxjbTFsYzJnd0hoY05Nakl4TWpJeU1ERXkKTWpJeFdoY05Nekl4TWpFNU1ERXlNakl4V2pCL01Rc3dDUVlEVlFRR0V3SldUakVVTUJJR0ExVUVDQXdMU0c4ZwpRMmhwSUUxcGJtZ3hHVEFYQmdOVkJBY01FRWh2SUVOb2FTQk5hVzVvSUVOcGRIa3hFVEFQQmdOVkJBb01DRlpwClpYUmlZVzVyTVFzd0NRWURWUVFMREFKSlZERWZNQjBHQTFVRUF3d1dhemh6TFdOcGJHbDFiUzFqYkhWemRHVnkKYldWemFEQ0NBU0l3RFFZSktvWklodmNOQVFFQkJRQURnZ0VQQURDQ0FRb0NnZ0VCQU1Dakh5Y1ZPZ3lvYzFPKwpST3ZIWEhwUXRIMzltelozOE00TnhRVldlcmY3clYwMzBrQURWRURkNENzQnVhSXpXQmtGRi9WQ2lKR3gxY3Z6CjYyTEdSSlhNbm56bitISUdUVzloLy9jdngyNU8vd0lDQ0p2TGFuc05CV01hMG8xNk9oT0g2MEZxMUxLZmU0Mk0KS3BmR2JaUmE5cVJXTERpMDVPUklKWXlzRjFGTHhUOEREUnk0dTVnamhlclp0NWpNd2tUMEdnM2dPUjMrTEIyNgowUCtlQkhOdDNWeUVBbW1Wa3BEVkoyRk41MDBESG9Dc3N0clc4RDZIUTdTSmU4emNGalV5QzB4QWFnZ1NqOEJtCmN6czZ2V1BlNTBneXpsUVQrYXFCMHVWeE1BUWdJVVBTY2xYdjY3N0daNndPbmkzV0pIL2s3U1JKL1JndTdlcloKODZBUk91RUNBd0VBQWFOVE1GRXdIUVlEVlIwT0JCWUVGS1UwQ0lOWlZZaEdGOVB0U1dBYU5obVVmZGdjTUI4RwpBMVVkSXdRWU1CYUFGS1UwQ0lOWlZZaEdGOVB0U1dBYU5obVVmZGdjTUE4R0ExVWRFd0VCL3dRRk1BTUJBZjh3CkRRWUpLb1pJaHZjTkFRRUxCUUFEZ2dFQkFHU2EyUVBocXFZYU5aL0FLMFYrTDczZWJyZnptdDhIYU04NlQzL28KZXdHY2s1MlhESkNBMDhZMUdmVXRGckwxS3NKc29OYjZhNm93SjZHZWZ3aVhMNjZNMC9RNjc2eG5pTS9TeTFocApEOGpNVit1dUZ4RGxEb05Ha0JEZzdTYXBQS3I0YkJSZmoxVU5vM0RqUGNvbW9yaTFWcXprZWRObGZocHhXaU5NCmtTVmM5MzFYV2ZMNEFHaGRzak9sOE5iZEN6VFZBNXRVNzI3UWlmN1BTQzBucThxL2tUdGR4S0VjdlRnZkNKWkUKdW9vdXJpaVZxMmxvejZuKyt0Mjk2NmFnL29EMkpWMSsreGRRZU1aSnArWDVudmErRUxtZkllZVVidzhwWXppNgoxcXB6bEtwY3lVbkNncllVeDVseXhVVUY4dWdBTE4xaVNqUWpBVTlUd2ZzZFBiYz0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+    key: "LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUV2d0lCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktrd2dnU2xBZ0VBQW9JQkFRREFveDhuRlRvTXFITlQKdmtUcngxeDZVTFI5L1pzMmQvRE9EY1VGVm5xMys2MWROOUpBQTFSQTNlQXJBYm1pTTFnWkJSZjFRb2lSc2RYTAo4K3RpeGtTVnpKNTg1L2h5QmsxdllmLzNMOGR1VHY4Q0FnaWJ5MnA3RFFWakd0S05lam9UaCt0QmF0U3luM3VOCmpDcVh4bTJVV3Zha1ZpdzR0T1RrU0NXTXJCZFJTOFUvQXcwY3VMdVlJNFhxMmJlWXpNSkU5Qm9ONERrZC9pd2QKdXREL25nUnpiZDFjaEFKcGxaS1ExU2RoVGVkTkF4NkFyTExhMXZBK2gwTzBpWHZNM0JZMU1ndE1RR29JRW8vQQpabk03T3IxajN1ZElNczVVRS9tcWdkTGxjVEFFSUNGRDBuSlY3K3UreG1lc0RwNHQxaVIvNU8wa1NmMFlMdTNxCjJmT2dFVHJoQWdNQkFBRUNnZ0VBTW1GM0lFMlk1UDZaU3VtVU5PWHE5Y0p0c2hYRnBqVXdNWFBBZDJqcXAzdVgKRjY0bHVzQWtKT0xpWWQwTm83SXg5RGswenR3Ync1N3kvMmhIdzRsL0huNXBaTmwyVEx3QlBJUXc0WUVKYzN3TgpqWVRpbzN4TDJPcks0ZVI5OUtwbXpmemFOajJ1YXhqeXcwNUpSWENMOENUcUpJaTFBQSt2WFZUUkhUMVV5OW5FCjR0a2E4eEJiSGxhQm1DY2UxU3J6bmp6Vmo1djduQ3JMVTgzKzJoNlZHdHZaQXl3R1R1SlRCZGpVRm1qaktiYmgKNjhlRE1OWkNEVEJsTTd5RTBLbzlPRkFGdWYvNFAwc3JxQUZiMk8xdUd1RnNkaVlBQ2VRaXlUL3JuN1NPZDVxQwp6VUFKL0g2QWRSNUVIUUQ3b0hvNGR4OGZwRFp6RHJzNHBpb1BXaEVHMFFLQmdRRHFvc2dhelZySkZkVHpKei9ECjBqM0xkMXhmSmQvelp6R29xcGw2d0piOVFnM3ZsVjdVTm03RFBPM293WFVJRS82WTZoejI1ZmZ1TDBIb3dRaE4Kb1JMemNzK0FWL010VEw1M0VEeGhDRDY0Y3ErSmtlRjZKMGkyTUIvRXhvL09XMlpLNlNtME55U1FXYURkVExRcQpGbEpsdHBzazR0cm5Ba1VxdUJmVVV2eHBmd0tCZ1FEU0xXQndQeEZEbWFSczZDZFI3VDdXS2w0RlprWjdleFJWCkhCL051eWNQNU5SUGlGYnNyWDhVL0dHd2dhbUlJMHpnVzdGaWswbm54K2FnWHZVRHJRWkk1YXkycC92ejZtbzMKbG5XbUI1ZDhYVVNHWjF3clh6YjRlc0xFT1VqRHdWTlhkb1JQaHdvRGRXcDNRL2w3RDF5b3VKRDBlYjJaa0IwbQpwbkRKL0Z6TG53S0JnUUNOTExSSnJCVmJ1QThRM2lTM3BlQVlkQkRZRHVuWWdkYVhMVTU3VlRXRDNDS1diTUZKCjNoWjIwa296S1hOSkVQNjI4dVhLaUVQTXhCSmNBUWtGN0V5Q3ZpbXJoeitCbWhOZmdCMVVKS25ZUU9qdFZTRGQKWnBXUlNSTlVTa1JzWFFJSFFKTWZJNjZVUzlsR1RjaDVLa1VaZmUyTEhCT3B1dXZ5OENFbVYyZ1g4UUtCZ1FDcgpBcGpSTzcrRVRXTG42Z3owTUNGTWlMUnZtRVFJL0tBU2tBdWdqWUsrLytWdndQTlpKK0dhNWE5bXVsbUNsNVpaCmhzSFIveDNISlhPVlVTM3lpN250WGxNbFc1RTVhYVo3REVVMWpqL0h4T3VZb0VqeVVVcWM2dVhHV3dYRm9XdDYKWXNoTkhRY2N3VkNiTWdld0JWUFRSRGxOY2pDKzNlK2FIeHJ1ZmhQUzZRS0JnUUNzM2NvQU9NRDhsV1Rtc1Q0eApPVkNmK1prSU5kUWZieEU4Mkd3QmVNbXhFSVhDdHBpSXg2b1V2akNFa1JsR29sUWZtUFAxKzJ4YmtMeUJJZ1ZyCmdPZ3BFWURrdHZWUmZQQ1FVYzg2cFNQSWdYRlYrV1hubkZxckk3YVFCMFNMTHFWb2d3dnZ2SHdKbHpaam9iQmMKZFJRUCtzMXFKUjJyVmRFUWRLZXk2bTU2bVE9PQotLS0tLUVORCBQUklWQVRFIEtFWS0tLS0tCg=="
+
+tunnel: "vxlan"
+
+ingressController:
+  enabled: false
+  enforceHttps: false
+  ingressLBAnnotationPrefixes: ['service.beta.kubernetes.io', 'service.kubernetes.io', 'sandbox.vietbank.com.vn', 'k8s-test.vietbank.com.vn']
+  secretsNamespace:
+    create: true
+    name: cilium-secrets
+    sync: true
+
+hubble:
+  enabled: true
+  metrics:
+    port: 9965
+    enabled: 
+    - dns
+    - drop
+    - tcp
+    - flow
+    - icmp
+    - http
+    serviceMonitor:
+      enabled: true
+      interval: "10s"
+      relabelings:
+        - sourceLabels:
+            - __meta_kubernetes_pod_node_name
+          targetLabel: node
+          replacement: ${1}
+  relay:
+    enabled: true
+    rollOutPods: true
+    replicas: 2
+    nodeSelector:
+      node-role.kubernetes.io/infra: ""
+    tolerations: 
+    - key: node-role.kubernetes.io/master
+      effect: NoSchedule
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule
+    service:
+      type: ClusterIP
+      nodePort: 31234
+    prometheus:
+      enabled: true
+      port: 9966
+      serviceMonitor:
+        enabled: true
+        interval: "10s"
+  ui:
+    enabled: true
+    nodeSelector:
+      node-role.kubernetes.io/infra: ""
+    tolerations:
+    - key: node-role.kubernetes.io/master
+      effect: NoSchedule
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule
+    service:
+      type: ClusterIP
+      nodePort: 31235
+
+monitor:
+  enabled: true
+
+prometheus:
+  enabled: true
+  port: 9962
+  serviceMonitor:
+    enabled: true
+    interval: "10s"
+    relabelings:
+      - sourceLabels:
+          - __meta_kubernetes_pod_node_name
+        targetLabel: node
+        replacement: ${1}
+
+etcd:
+  enabled: false
+  tolerations:
+  - operator: Exists
+  nodeSelector:
+    node-role.kubernetes.io/infra: ""
+  k8sService: true
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: null
+    maxUnavailable: 1
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  clusterDomain: cluster.local
+
+operator:
+  enabled: true
+  replicas: 2
+  nodeSelector:
+    node-role.kubernetes.io/infra: ""
+  tolerations:
+  - key: node-role.kubernetes.io/master
+    effect: NoSchedule
+  - key: node-role.kubernetes.io/control-plane
+    effect: NoSchedule
+  prometheus:
+    enabled: true
+    port: 9963
+    serviceMonitor:
+      enabled: true
+      interval: "10s"
+
+clustermesh:
+  useAPIServer: true
+  config:
+    enabled: true
+    domain: mesh.cilium.io
+    clusters: []
+  apiserver:
+    service:
+      type: NodePort
+      nodePort: 32379
+    replicas: 3
+
+    tls:
+      auto:
+        enabled: true
+        method: helm
+        certManagerIssuerRef: {}
+      server:
+        extraIpAddresses: 
+        - 192.168.58.109
+        - 192.168.58.120
+        - 192.168.58.121
+        - 192.168.58.122
+    nodeSelector:
+      node-role.kubernetes.io/infra: ""
+    tolerations:
+    - key: node-role.kubernetes.io/master
+      effect: NoSchedule
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule
+
+externalWorkloads:
+  enabled: true
