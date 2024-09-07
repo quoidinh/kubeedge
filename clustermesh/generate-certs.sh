@@ -3,16 +3,26 @@
 mkdir -p certs
 
 # openssl req -x509 -new  -sha512 -key  certs/ca.key -config ca.conf -days 365 -out certs/ca.crt
-openssl req -x509 -new -sha512 -noenc \
--key certs/ca.key -days 3650 \
--config ca.conf \
--out certs/ca.crt
+# openssl req -x509 -new -sha512 -noenc \
+# -key certs/ca.key -days 3650 \
+# -config ca.conf \
+# -out certs/ca.crt
+
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+               -keyout certs/ca.key \
+               -out certs/ca.crt \
+               -config ca.conf
+
+sudo cp ca.crt /usr/share/ca-certificates/
+su -
+dpkg-reconfigure ca-certificates
 
 certs=(
     "clustermesh-server" "clustermesh-admin" "clustermesh-client"
 )
 
 for i in ${certs[*]}; do
+  
   openssl genrsa -out "certs/${i}.key" 4096
   openssl req -new -key "certs/${i}.key" -sha256 \
     -config "ca.conf" \
