@@ -96,18 +96,18 @@ l2podAnnouncements:
     # create: false
 #     # -- The name of the secret namespace to which Cilium agents are given read access
 #     name: kube-system
-# etcd:
-#   # -- Enable etcd mode for the agent.
-#   enabled: true
-#   # -- List of etcd endpoints
-#   endpoints:
-#     - https://172.16.0.149:2379
-#     - https://172.16.0.66:2379
-#     - https://172.16.0.157:2379
-#     - https://172.16.0.234:2379
+etcd:
+  # -- Enable etcd mode for the agent.
+  enabled: false
+  # -- List of etcd endpoints
+  # endpoints:
+  #   - http://172.16.0.149:2379
+  #   - http://172.16.0.66:2379
+  #   - http://172.16.0.157:2379
+  #   - http://172.16.0.234:2379
 #     # - https://172.16.0.67:2379
 #   # -- Enable use of TLS/SSL for connectivity to etcd.
-  ssl: true
+  # ssl: false
 cluster:
   id: 1
   name: cluster1
@@ -247,9 +247,9 @@ clustermesh:
         nodePort: 32379
       # service:
       #   type: LoadBalancer
-        annotations:
-          cloud.google.com/load-balancer-type: Internal
-          external-dns.alpha.kubernetes.io/hostname: clustermesh-apiserver.${cluster_type}.stacksec.local
+        # annotations:
+        #   cloud.google.com/load-balancer-type: Internal
+        #   external-dns.alpha.kubernetes.io/hostname: clustermesh-apiserver.${cluster_type}.stacksec.local
       # -- TCP port for the clustermesh-apiserver health API.
       healthPort: 9880
       etcd:
@@ -287,7 +287,7 @@ clustermesh:
       kvstoremesh:
         # -- Enable KVStoreMesh. KVStoreMesh caches the information retrieved
         # from the remote clusters in the local etcd instance.
-        enabled: true
+        enabled: false
         # -- Additional KVStoreMesh arguments.
         extraArgs: []
         # -- Additional KVStoreMesh environment variables.
@@ -313,7 +313,7 @@ clustermesh:
         lifecycle: {}
       tls:
         auto:
-          enabled: true
+          enabled: false
           method: helm
           # certManagerIssuerRef:
           #   group: cert-manager.io

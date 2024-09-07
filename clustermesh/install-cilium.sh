@@ -42,8 +42,8 @@ cilium install \
     --set clustermesh.apiserver.tls.client.key=$(base64 -i ./certs/clustermesh-client.key | tr -d \\n) \
     --set clustermesh.apiserver.tls.remote.cert=$(base64 -i ./certs/clustermesh-client.crt | tr -d \\n) \
     --set clustermesh.apiserver.tls.remote.key=$(base64 -i ./certs/clustermesh-client.key | tr -d \\n)
-# cilium clustermesh enable --create-ca --service-type NodePort
-# cilium clustermesh enable --create-ca --context kind-cluster1 --service-type LoadBalancer
+# cilium clustermesh enable --service-type NodePort
+# cilium clustermesh enable --context kind-cluster1 --service-type LoadBalancer
 cilium clustermesh enable --service-type LoadBalancer
 # cilium hubble enable --ui
 # kubectl get secret -n kube-system cilium-ca -o yaml > cilium-ca.yaml
