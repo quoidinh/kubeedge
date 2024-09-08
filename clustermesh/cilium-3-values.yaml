@@ -245,6 +245,7 @@ clustermesh:
       service:
         type: NodePort
         nodePort: 32379
+      replicas: 3
       # service:
       #   type: LoadBalancer
         # annotations:
