@@ -255,7 +255,8 @@ rm cilium-linux-${CLI_ARCH}.tar.gz.sha256sum
 sudo apt install etcd-client
 sudo snap install etcd
 
-helm repo add cilium https://helm.cilium.io/
+helm repo add stable --insecure-skip-tls-verify https://charts.helm.sh/stable
+# helm repo add cilium https://helm.cilium.io/
 
 cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=kubernetes \
   --namespace kube-system \

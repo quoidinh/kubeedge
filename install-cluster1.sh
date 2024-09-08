@@ -255,7 +255,8 @@ rm cilium-linux-${CLI_ARCH}.tar.gz.sha256sum
 sudo apt install etcd-client
 sudo snap install etcd
 
-helm repo add cilium https://helm.cilium.io/
+helm repo add stable --insecure-skip-tls-verify https://charts.helm.sh/stable
+# helm repo add cilium https://helm.cilium.io/
 
 cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=kubernetes \
   --namespace kube-system \
@@ -508,11 +509,11 @@ etcdctl --version
 # cilium clustermesh connect --context kind-cluster3 --destination-context kind-cluster4
 # cilium clustermesh connect --context kind-cluster4 --destination-context kind-cluster1
 
- cilium clustermesh connect --context kind-c1 --destination-context kind-cluster2
+#  cilium clustermesh connect --context kind-c1 --destination-context kind-cluster2
 # kubectl exec -it -n kube-system clustermesh-apiserver-594b8cb686-lt748 -c kvstoremesh -- /user/bin/clustermesh-apiserver kvstoremesh-dbg troubleshoot kind-cluster4
 # kubectl config set-context kind-cluster1 --user=kind-cluster1
 # kubectl config set-context kind-cluster2 --user=kind-cluster2
-# export KUBECONFIG=./kubeconfig-cluster1.yaml:./kubeconfig-cluster2.yaml
+# export KUBECONFIG=./config-149.yaml:./config-66.yaml
 # :./kubeconfig-cluster3.yaml:./kubeconfig-cluster4.yaml:./kubeconfig-cluster5.yaml
 # kubectl config view --flatten > merged-kubeconfig.yaml
 # # Next set the KUBECONFIG to the newly created merged kubeconfig.
