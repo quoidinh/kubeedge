@@ -27,9 +27,9 @@ for i in {1..5};
     cilium clustermesh status --wait
     done
 cilium install cilium cilium/cilium \
-    --set cluster.name=kind-cluster1 --set cluster.id=1 \
+    --set cluster.name=kind-cluster2 --set cluster.id=2 \
     --namespace kube-system \
-    --values cilium-1-values.yaml 
+    --values cilium-2-values.yaml 
     # --set tls.ca.cert=$(base64 -i ./certs/ca.crt | tr -d \\n) \
     # --set tls.ca.key=$(base64 -i ./certs/ca.key | tr -d \\n) \
     # --set clustermesh.apiserver.tls.ca.cert=$(base64 -i ./certs/ca.crt | tr -d \\n) \

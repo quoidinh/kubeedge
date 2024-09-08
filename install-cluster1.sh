@@ -665,7 +665,7 @@ echo "All ok ;)"
 # nohup  kubectl port-forward svc/nginx-svc --namespace=default --address 0.0.0.0 8081:80 &
 # nohup kubectl port-forward service/nginx-svc --namespace=default 8081:80 &
 # nohup kubectl port-forward service/rebel-base --namespace=default --address 0.0.0.0 8081:80 &
-
+# kubectl port-forward service/clustermesh-apiserver --namespace=kube-system clustermesh-apiserver --address 0.0.0.0 2379:2379
 
 
 # kubectl get pods
