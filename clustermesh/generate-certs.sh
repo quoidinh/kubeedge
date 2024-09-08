@@ -33,10 +33,10 @@ for i in ${certs[*]}; do
   openssl req -new -key "certs/${i}.key" -sha256 \
     -config "ca.conf" \
     -out "certs/${i}.csr"
-  # openssl x509 -req -days 3650 -in "certs/${i}.csr" -signkey "certs/${i}.key" -out "certs/${i}.crt"
+  openssl x509 -req -in "certs/${i}.csr"  -CA /etc/kubernetes/pki/ca.crt -CAKey /etc/kubernetes/pki/ca.key -CAcreateserial -out "certs/${i}.crt" -days 3650  -copy_extensions copyall 
 
-  openssl x509 -req -in "certs/${i}.csr" -CA "certs/ca.crt" -CAkey "certs/ca.key" -CAcreateserial -out "certs/${i}.crt" -days 3650  -extfile ca.conf 
-
+  openssl x509 -req -in "certs/${i}.csr"  -CA /etc/kubernetes/pki/ca.crt -CAKey /etc/kubernetes/pki/ca.key -CAcreateserial -out "certs/${i}.crt" -days 3650  -extfile ca.conf 
+# -CA "certs/ca.crt" -CAkey "certs/ca.key"
   # openssl x509 -req -days 3650 -in "certs/${i}.csr" \
   #   -sha256 -CA "certs/ca.crt" \
   #   -CAkey "certs/ca.key" \
