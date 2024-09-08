@@ -1,0 +1,13 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: cluster4
+nodes:
+- role: control-plane
+- role: worker
+- role: worker
+networking:
+  disableDefaultCNI: true
+  podSubnet: "10.8.0.0/16"
+  serviceSubnet: "10.9.0.0/16"
+  # apiServerAddress: "172.16.0.113"
+  # apiServerPort: 6443
