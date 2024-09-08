@@ -244,7 +244,7 @@ clustermesh:
     apiserver:
       service:
         type: NodePort
-        nodePort: 32379
+        # nodePort: 32379
       replicas: 3
       # service:
       #   type: LoadBalancer
@@ -335,6 +335,10 @@ clustermesh:
             - "kind-cluster2.mesh.cilium.io"
             - "kind-cluster3.mesh.cilium.io"
             - "kind-cluster4.mesh.cilium.io"
+            - "cluster1.mesh.cilium.io"
+            - "cluster2.mesh.cilium.io"
+            - "cluster3.mesh.cilium.io"
+            - "cluster4.mesh.cilium.io"
 
 # k8s:
 #   requireIPv4PodCIDR: true

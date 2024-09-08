@@ -244,7 +244,7 @@ clustermesh:
     apiserver:
       service:
         type: NodePort
-        nodePort: 32379
+        # nodePort: 32379
       replicas: 3
       # service:
       #   type: LoadBalancer
@@ -314,7 +314,7 @@ clustermesh:
         lifecycle: {}
       tls:
         auto:
-          enabled: false
+          enabled: true
           method: helm
           # certManagerIssuerRef:
           #   group: cert-manager.io
