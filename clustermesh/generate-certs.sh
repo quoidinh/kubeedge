@@ -17,6 +17,7 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 # sudo cp certs/ca.crt /usr/share/ca-certificates/
 # su -
 # dpkg-reconfigure ca-certificates
+# kubectl edit deployment -n kube-system clustermesh-apiserver
 
   # 344  openssl verify certs/ca.crt
   # 345  openssl verify certs/clustermesh-admin.crt

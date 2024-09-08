@@ -311,6 +311,14 @@ rm -f /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz
 
 etcdctl --version
 
+# kubectl create secret generic -n kube-system cilium-etcd-secrets \
+#     --from-file=etcd-client-ca.crt=kind-cluster1.mesh.cilium.io.csr \
+#     --from-file=etcd-client.key=kind-cluster1.mesh.cilium.io.key \
+#     --from-file=etcd-client.crt=kind-cluster1.mesh.cilium.io.crt
+  # kubectl get secret cilium-ca -n kube-system -o yaml
+  # kubectl get svc clustermesh-apiserver -n kube-system
+  # kubectl get secret clustermesh-apiserver-remote-cert -n kube-system -o yaml
+# kubectl edit deployment -n kube-system clustermesh-apiserver
 # kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.yaml
 # kubectl delete -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.yaml
 # sudo sysctl -p

@@ -71,12 +71,11 @@ cilium install \
 # cilium hubble enable --ui
 # cilium clustermesh status --wait
 # cilium status --wait
-
-# helm upgrade -i cilium cilium/cilium \
-#     --version 1.15.4 \
-#     --namespace kube-system \
-#     --kube-context kind-cluster1 \
-#     --values cilium-2-values.yaml \
+helm --debug upgrade --install cilium cilium/cilium  --namespace kube-system --kube-context kind-cluster1  --values cilium-1-values.yaml
+helm upgrade -i cilium cilium/cilium \
+    --namespace kube-system \
+    --kube-context kind-cluster1 \
+    --values cilium-1-values.yaml \
 #     --set tls.ca.cert=$(base64 -i ./certs/ca.crt | tr -d \\n) \
 #     --set tls.ca.key=$(base64 -i ./certs/ca.key | tr -d \\n) \
 #     --set clustermesh.apiserver.tls.ca.cert=$(base64 -i ./certs/ca.crt | tr -d \\n) \
