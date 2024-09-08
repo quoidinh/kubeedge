@@ -281,11 +281,11 @@ externalWorkloads:
 extraConfig: 
   enable-envoy-config: "true"
 
-bgp:
-  enabled: true
-  announce:
-    loadbalancerIP: true
-    podCIDR: false
+# bgp:
+#   enabled: true
+#   announce:
+#     loadbalancerIP: true
+#     podCIDR: false
 
 bgpControlPlane:
   enabled: true
