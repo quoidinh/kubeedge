@@ -98,7 +98,7 @@ l2podAnnouncements:
 #     name: kube-system
 etcd:
   # -- Enable etcd mode for the agent.
-  enabled: false
+  enabled: true
   # -- List of etcd endpoints
   # endpoints:
   #   - http://172.16.0.149:2379
@@ -107,7 +107,7 @@ etcd:
   #   - http://172.16.0.234:2379
 #     # - https://172.16.0.67:2379
 #   # -- Enable use of TLS/SSL for connectivity to etcd.
-  # ssl: false
+  ssl: false
 cluster:
   id: 1
   name: cluster1
