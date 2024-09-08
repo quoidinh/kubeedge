@@ -96,18 +96,18 @@ l2podAnnouncements:
     # create: false
 #     # -- The name of the secret namespace to which Cilium agents are given read access
 #     name: kube-system
-etcd:
-  # -- Enable etcd mode for the agent.
-  enabled: true
-  # -- List of etcd endpoints
-  endpoints:
-    - https://172.16.0.149:2379
-    - https://172.16.0.66:2379
-    - https://172.16.0.157:2379
-    - https://172.16.0.234:2379
-#     # - https://172.16.0.67:2379
-#   # -- Enable use of TLS/SSL for connectivity to etcd.
-  ssl: true
+# etcd:
+#   # -- Enable etcd mode for the agent.
+#   enabled: true
+#   # -- List of etcd endpoints
+#   endpoints:
+#     - https://172.16.0.149:2379
+#     - https://172.16.0.66:2379
+#     - https://172.16.0.157:2379
+#     - https://172.16.0.234:2379
+# #     # - https://172.16.0.67:2379
+# #   # -- Enable use of TLS/SSL for connectivity to etcd.
+#   ssl: true
 cluster:
   id: 2
   name: cluster2
@@ -281,11 +281,11 @@ externalWorkloads:
 extraConfig: 
   enable-envoy-config: "true"
 
-bgp:
-  enabled: true
-  announce:
-    loadbalancerIP: true
-    podCIDR: false
+# bgp:
+#   enabled: true
+#   announce:
+#     loadbalancerIP: true
+#     podCIDR: false
 
 bgpControlPlane:
   enabled: true
