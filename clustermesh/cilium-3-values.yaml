@@ -88,29 +88,29 @@ l2podAnnouncements:
 # -- This feature set enables virtual BGP routers to be created via
 # CiliumBGPPeeringPolicy CRDs.
 # bgpControlPlane:
-# #   # -- Enables the BGP control plane.
-#   enabled: true
-# #   # -- SecretsNamespace is the namespace which BGP support will retrieve secrets from.
-#   secretsNamespace:
-# #     # -- Create secrets namespace for BGP secrets.
-#     create: false
+#   # -- Enables the BGP control plane.
+  # enabled: true
+#   # -- SecretsNamespace is the namespace which BGP support will retrieve secrets from.
+  # secretsNamespace:
+#     # -- Create secrets namespace for BGP secrets.
+    # create: false
 #     # -- The name of the secret namespace to which Cilium agents are given read access
 #     name: kube-system
-etcd:
-  # -- Enable etcd mode for the agent.
-  enabled: true
-  # -- List of etcd endpoints
-  endpoints:
-    - https://172.16.0.149:2379
-    - https://172.16.0.66:2379
-    - https://172.16.0.157:2379
-    - https://172.16.0.234:2379
-#     # - https://172.16.0.67:2379
-#   # -- Enable use of TLS/SSL for connectivity to etcd.
-  ssl: true
+# etcd:
+#   # -- Enable etcd mode for the agent.
+#   enabled: true
+#   # -- List of etcd endpoints
+#   endpoints:
+#     - https://172.16.0.149:2379
+#     - https://172.16.0.66:2379
+#     - https://172.16.0.157:2379
+#     - https://172.16.0.234:2379
+# #     # - https://172.16.0.67:2379
+# #   # -- Enable use of TLS/SSL for connectivity to etcd.
+#   ssl: true
 cluster:
-  id: 3
-  name: cluster3
+  id: 1
+  name: cluster1
 clustermesh:
   useAPIServer: true
   config:
@@ -160,185 +160,101 @@ clustermesh:
     #   port: 2379
     #   ips:
     #   - 172.16.0.67
-  # apiserver:
-  #   tls:
-  #     auto:
-  #       enabled: false
-  #   service:
-  #     type: NodePort
-  #     # loadBalancerIP: 172.16.0.149 
-       
-  #   # -- TCP port for the clustermesh-apiserver health API.
-  #   healthPort: 9880
-  #   etcd:
-  #     # The etcd binary is included in the clustermesh API server image, so the same image from above is reused.
-  #     # Independent override isn't supported, because clustermesh-apiserver is tested against the etcd version it is
-  #     # built with.
 
-  #     # -- Specifies the resources for etcd container in the apiserver
-  #     resources: {}
-  #     # requests:
-  #     #   cpu: 200m
-  #     #   memory: 256Mi
-  #     # limits:
-  #     #   cpu: 1000m
-  #     #   memory: 256Mi
+    # apiserver:
+    #   service:
+    #     type: NodePort
+    #     # nodePort: 32379
+    #   replicas: 3
+    #   # service:
+    #   #   type: LoadBalancer
+    #     # annotations:
+    #     #   cloud.google.com/load-balancer-type: Internal
+    #     #   external-dns.alpha.kubernetes.io/hostname: clustermesh-apiserver.${cluster_type}.stacksec.local
+    #   # -- TCP port for the clustermesh-apiserver health API.
+    #   healthPort: 9880
+    #   etcd:
+    #     # The etcd binary is included in the clustermesh API server image, so the same image from above is reused.
+    #     # Independent override isn't supported, because clustermesh-apiserver is tested against the etcd version it is
+    #     # built with.
 
-  #     # -- Security context to be added to clustermesh-apiserver etcd containers
-  #     securityContext: {}
-  #     # -- lifecycle setting for the etcd container
-  #     lifecycle: {}
-  #     init:
-  #       # -- Specifies the resources for etcd init container in the apiserver
-  #       resources: {}
-  #       requests:
-  #         cpu: 100m
-  #         memory: 100Mi
-  #       limits:
-  #         cpu: 100m
-  #         memory: 100Mi
+    #     # -- Specifies the resources for etcd container in the apiserver
+    #     resources: {}
+    #     requests:
+    #       cpu: 200m
+    #       memory: 256Mi
+    #     limits:
+    #       cpu: 1000m
+    #       memory: 256Mi
 
-  #       # -- Additional arguments to `clustermesh-apiserver etcdinit`.
-  #       extraArgs: []
-  #       # -- Additional environment variables to `clustermesh-apiserver etcdinit`.
-  #       extraEnv: []
-  #   kvstoremesh:
-  #     # -- Enable KVStoreMesh. KVStoreMesh caches the information retrieved
-  #     # from the remote clusters in the local etcd instance.
-  #     enabled: true
-  #     # -- Additional KVStoreMesh arguments.
-  #     extraArgs: []
-  #     # -- Additional KVStoreMesh environment variables.
-  #     extraEnv: []
-  #     # -- Resource requests and limits for the KVStoreMesh container
-  #     resources: {}
-  #     requests:
-  #       cpu: 100m
-  #       memory: 64Mi
-  #     limits:
-  #       cpu: 1000m
-  #       memory: 1024M
+    #     # -- Security context to be added to clustermesh-apiserver etcd containers
+    #     securityContext: {}
+    #     # -- lifecycle setting for the etcd container
+    #     lifecycle: {}
+    #     init:
+    #       # -- Specifies the resources for etcd init container in the apiserver
+    #       resources: {}
+    #       requests:
+    #         cpu: 100m
+    #         memory: 100Mi
+    #       limits:
+    #         cpu: 100m
+    #         memory: 100Mi
 
-  #     # -- Additional KVStoreMesh volumeMounts.
-  #     extraVolumeMounts: []
-  #     # -- KVStoreMesh Security context
-  #     securityContext:
-  #       allowPrivilegeEscalation: true
-  #       capabilities:
-  #         drop:
-  #           - ALL
-  #     # -- lifecycle setting for the KVStoreMesh container
-  #     lifecycle: {}
-  # apiserver:
-  #   tls:
-  #     auto:
-  #       method: cronJob
-  #     ca:
-  #       # ca.crt from the cilium-ca secret in Cluster 1 (important - not Cluster 2)
-  #       cert: "<base64-encoded-cert>"
-  #       # ca.key from the cilium-ca secret in Cluster 1 (important - not Cluster 2)
-  #       key: "<base64-encoded-key>"
-  #   service:
-  #     type: LoadBalancer
+    #       # -- Additional arguments to `clustermesh-apiserver etcdinit`.
+    #       extraArgs: []
+    #       # -- Additional environment variables to `clustermesh-apiserver etcdinit`.
+    #       extraEnv: []
+    #   kvstoremesh:
+    #     # -- Enable KVStoreMesh. KVStoreMesh caches the information retrieved
+    #     # from the remote clusters in the local etcd instance.
+    #     enabled: true
+    #     # -- Additional KVStoreMesh arguments.
+    #     extraArgs: []
+    #     # -- Additional KVStoreMesh environment variables.
+    #     extraEnv: []
+    #     # -- Resource requests and limits for the KVStoreMesh container
+    #     resources: {}
+    #     requests:
+    #       cpu: 100m
+    #       memory: 64Mi
+    #     limits:
+    #       cpu: 1000m
+    #       memory: 1024M
 
-    apiserver:
-      service:
-        type: NodePort
-        # nodePort: 32379
-      replicas: 3
-      # service:
-      #   type: LoadBalancer
-        # annotations:
-        #   cloud.google.com/load-balancer-type: Internal
-        #   external-dns.alpha.kubernetes.io/hostname: clustermesh-apiserver.${cluster_type}.stacksec.local
-      # -- TCP port for the clustermesh-apiserver health API.
-      healthPort: 9880
-      etcd:
-        # The etcd binary is included in the clustermesh API server image, so the same image from above is reused.
-        # Independent override isn't supported, because clustermesh-apiserver is tested against the etcd version it is
-        # built with.
-
-        # -- Specifies the resources for etcd container in the apiserver
-        resources: {}
-        requests:
-          cpu: 200m
-          memory: 256Mi
-        limits:
-          cpu: 1000m
-          memory: 256Mi
-
-        # -- Security context to be added to clustermesh-apiserver etcd containers
-        securityContext: {}
-        # -- lifecycle setting for the etcd container
-        lifecycle: {}
-        init:
-          # -- Specifies the resources for etcd init container in the apiserver
-          resources: {}
-          requests:
-            cpu: 100m
-            memory: 100Mi
-          limits:
-            cpu: 100m
-            memory: 100Mi
-
-          # -- Additional arguments to `clustermesh-apiserver etcdinit`.
-          extraArgs: []
-          # -- Additional environment variables to `clustermesh-apiserver etcdinit`.
-          extraEnv: []
-      kvstoremesh:
-        # -- Enable KVStoreMesh. KVStoreMesh caches the information retrieved
-        # from the remote clusters in the local etcd instance.
-        enabled: false
-        # -- Additional KVStoreMesh arguments.
-        extraArgs: []
-        # -- Additional KVStoreMesh environment variables.
-        extraEnv: []
-        # -- Resource requests and limits for the KVStoreMesh container
-        resources: {}
-        requests:
-          cpu: 100m
-          memory: 64Mi
-        limits:
-          cpu: 1000m
-          memory: 1024M
-
-        # -- Additional KVStoreMesh volumeMounts.
-        extraVolumeMounts: []
-        # -- KVStoreMesh Security context
-        securityContext:
-          allowPrivilegeEscalation: true
-          capabilities:
-            drop:
-              - ALL
-        # -- lifecycle setting for the KVStoreMesh container
-        lifecycle: {}
-      tls:
-        auto:
-          enabled: true
-          method: certmanager
-          certManagerIssuerRef:
-            group: cert-manager.io
-            kind: ClusterIssuer
-            name: stacksec-ca
-        server:
-          extraIpAddresses: 
-            - 172.16.0.149
-            - 172.16.0.66
-            - 172.16.0.157
-            - 172.16.0.234
-          extraDnsNames: 
-            - "clustermesh-apiserver.${cluster_type}.stacksec.local"
-            - "clustermesh-apiserver.kube-system.svc.cluster.local"
-            - "clustermesh-apiserver.kube-system"
-            - "clustermesh-apiserver"
-            - "kind-cluster1.mesh.cilium.io"
-            - "kind-cluster2.mesh.cilium.io"
-            - "kind-cluster3.mesh.cilium.io"
-            - "kind-cluster4.mesh.cilium.io"
-            - "cluster1.mesh.cilium.io"
-            - "cluster2.mesh.cilium.io"
-            - "cluster3.mesh.cilium.io"
-            - "cluster4.mesh.cilium.io"
+    #     # -- Additional KVStoreMesh volumeMounts.
+    #     extraVolumeMounts: []
+    #     # -- KVStoreMesh Security context
+    #     securityContext:
+    #       allowPrivilegeEscalation: true
+    #       capabilities:
+    #         drop:
+    #           - ALL
+    #     # -- lifecycle setting for the KVStoreMesh container
+    #     lifecycle: {}
+    #   tls:
+    #     auto:
+    #       enabled: true
+    #       method: certmanager
+    #       certManagerIssuerRef:
+    #         group: cert-manager.io
+    #         kind: ClusterIssuer
+    #         name: stacksec-ca
+    #     server:
+    #       extraIpAddresses: 
+    #         - 172.16.0.149
+    #         - 172.16.0.66
+    #         - 172.16.0.157
+    #         - 172.16.0.234
+    #       extraDnsNames: 
+    #         - "clustermesh-apiserver.${cluster_type}.stacksec.local"
+    #         - "clustermesh-apiserver.kube-system.svc.cluster.local"
+    #         - "clustermesh-apiserver.kube-system"
+    #         - "clustermesh-apiserver"
+    #         - "kind-cluster1.mesh.cilium.io"
+    #         - "kind-cluster2.mesh.cilium.io"
+    #         - "kind-cluster3.mesh.cilium.io"
+    #         - "kind-cluster4.mesh.cilium.io"
 
 # k8s:
 #   requireIPv4PodCIDR: true
@@ -362,10 +278,13 @@ clustermesh:
 # enableIPv4Masquerade: true
 externalWorkloads:
   enabled: true
+extraConfig: 
+  enable-envoy-config: "true"
+
 bgp:
-  enabled: false
+  enabled: true
   announce:
-    loadbalancerIP: false
+    loadbalancerIP: true
     podCIDR: false
 
 bgpControlPlane:
