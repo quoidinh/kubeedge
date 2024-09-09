@@ -672,7 +672,6 @@ echo "All ok ;)"
 
 # kubectl -n default get svc/service-gp-peering-pool -o jsonpath='{.status.conditions}' | jq
 
-
 # nohup  kubectl port-forward svc/nginx-svc --namespace=default --address 0.0.0.0 8081:80 &
 # nohup kubectl port-forward service/nginx-svc --namespace=default 8081:80 &
 # nohup kubectl port-forward service/rebel-base --namespace=default --address 0.0.0.0 8081:80 &
