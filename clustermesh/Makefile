@@ -4,6 +4,7 @@ create-clusters:
 	kind create cluster --config kind-2.yaml
 	kind create cluster --config kind-3.yaml
 	kind create cluster --config kind-4.yaml
+	kind create cluster --config kind-5.yaml
 
 .PHONY: install-metallb
 install-metallb:
@@ -23,4 +24,4 @@ install-test-bed:
 
 .PHONY: test-clustermesh
 test-clustermesh:
-	kubectl run --restart Never --rm -it --image nicolaka/netshoot netshoot -- /bin/sh -c 'for i in $$(seq 1 100); do curl http://rebel-base/; done'
+	kubectl run --restart Never --rm -it --image nicolaka/netshoot netshoot -- /bin/sh -c 'for i in $$(seq 1 100); do curl http://global-service-base/; done'

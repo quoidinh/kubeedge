@@ -517,8 +517,8 @@ etcdctl --version
 # cilium clustermesh connect --context kind-cluster3 --destination-context kind-cluster4
 # cilium clustermesh connect --context kind-cluster4 --destination-context kind-cluster1
 
-cilium clustermesh connect --context kind-cluster2 --destination-context kind-cluster5
-
+# cilium clustermesh connect --context kind-cluster2 --destination-context kind-cluster5
+# https://gist.github.com/hongchaodeng/7d62f3b5d30b58c783c382d9b629b819 
 #  cilium clustermesh connect --context kind-c1 --destination-context kind-cluster2
 # kubectl exec -it -n kube-system clustermesh-apiserver-594b8cb686-lt748 -c kvstoremesh -- /user/bin/clustermesh-apiserver kvstoremesh-dbg troubleshoot kind-cluster4
 # kubectl config set-context kind-cluster1 --user=kind-cluster1
@@ -593,7 +593,7 @@ sudo ufw allow 4245/tcp comment "Hubble Observability"
 # kubectl apply -f app-nginx1.yaml
 # kubectl describe deploy test-app
 # kubectl autoscale deployment test-app --cpu-percent=15 --min=1 --max=20
-# # kubectl scale statefulset test-app --replicas=3
+# # kubectl scale statefulset global-service-base --replicas=1
 # nohup kubectl port-forward service/test-app --namespace=default --address 0.0.0.0 9999:8080 &
 
 # helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx

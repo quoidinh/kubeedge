@@ -34,7 +34,7 @@ ST=OR
 O=Blah
 localityName=Portland
 commonName=$DOMAIN
-organizationalUnitName=emso co., ltd
+organizationalUnitName=Blah Blah
 emailAddress=admin@example.com
 "
 
@@ -61,7 +61,3 @@ fail_if_error $?
 # Generate the cert (good for 10 years)
 openssl x509 -req -days 3650 -in $DOMAIN.csr -signkey $DOMAIN.key -out $DOMAIN.crt
 fail_if_error $?
-
-sudo cp $DOMAIN.crt /usr/share/ca-certificates/
-su -
-dpkg-reconfigure ca-certificates

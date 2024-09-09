@@ -42,7 +42,7 @@ spec:
     name: nginx-deployment
 ---
 #nginx-hpa.yaml 
-apiVersion: autoscaling/v1
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: nginx-deployment
@@ -53,11 +53,36 @@ spec:
     name: nginx-deployment
   minReplicas: 1   # Số pod scale nhỏ nhất
   maxReplicas: 10  # Số pod scale lớn nhất
- 
+behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Pods
+        value: 4
+        periodSeconds: 60
+    scaleUp:
+      stabilizationWindowSeconds: 60
+      policies:
+      - type: Pods
+        value: 2
+        periodSeconds: 60
+metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 60
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 60
   # thực hiện scale khi CPU hoạt động ở mức 10%
   # so với CPU mà pod được xác định
   # (ở trên mình để cpu của pod là 100m)
-  targetCPUUtilizationPercentage: 15
+  # targetCPUUtilizationPercentage: 15
 # kubectl run -i --tty load-generator --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://nginx-deployment/; done"
 # helm upgrade ingress-nginx ingress-nginx \
 # --repo https://kubernetes.github.io/ingress-nginx \
