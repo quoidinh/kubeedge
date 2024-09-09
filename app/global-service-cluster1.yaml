@@ -97,7 +97,7 @@ spec:
             - /dev/null
             - localhost
 ---
-apiVersion: autoscaling/v2
+apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: global-service-base
