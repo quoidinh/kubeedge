@@ -280,7 +280,7 @@ encryption:
 externalWorkloads:
   enabled: true
 extraConfig: 
-  enable-envoy-config: true
+  enable-envoy-config: "true"
 
 # bgp:
 #   enabled: true
