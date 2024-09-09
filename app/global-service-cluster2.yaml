@@ -108,7 +108,7 @@ spec:
     name: global-service-base
   minReplicas: 1   # Số pod scale nhỏ nhất
   maxReplicas: 10  # Số pod scale lớn nhất
-  targetCPUUtilizationPercentage: 30
+  # targetCPUUtilizationPercentage: 30
   behavior:
     scaleDown:
       stabilizationWindowSeconds: 300
