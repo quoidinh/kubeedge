@@ -11,6 +11,10 @@ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.5/confi
 kubectl wait deployment -n metallb-system controller --for condition=Available=True --timeout=90s --context kind-cluster2
 kubectl apply -f metallb-2.yaml --context=kind-cluster2
 
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.5/config/manifests/metallb-native.yaml --context=kind-cluster3
-kubectl wait deployment -n metallb-system controller --for condition=Available=True --timeout=90s --context kind-cluster3
-kubectl apply -f metallb-3.yaml --context=kind-cluster3
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.5/config/manifests/metallb-native.yaml --context=kind-cluster5
+kubectl wait deployment -n metallb-system controller --for condition=Available=True --timeout=90s --context kind-cluster5
+kubectl apply -f metallb-5.yaml --context=kind-cluster5
+
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.5/config/manifests/metallb-native.yaml --context=kind-cluster6
+kubectl wait deployment -n metallb-system controller --for condition=Available=True --timeout=90s --context kind-cluster6
+kubectl apply -f metallb-6.yaml --context=kind-cluster6

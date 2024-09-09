@@ -517,6 +517,8 @@ etcdctl --version
 # cilium clustermesh connect --context kind-cluster3 --destination-context kind-cluster4
 # cilium clustermesh connect --context kind-cluster4 --destination-context kind-cluster1
 
+cilium clustermesh connect --context kind-cluster2 --destination-context kind-cluster5
+
 #  cilium clustermesh connect --context kind-c1 --destination-context kind-cluster2
 # kubectl exec -it -n kube-system clustermesh-apiserver-594b8cb686-lt748 -c kvstoremesh -- /user/bin/clustermesh-apiserver kvstoremesh-dbg troubleshoot kind-cluster4
 # kubectl config set-context kind-cluster1 --user=kind-cluster1

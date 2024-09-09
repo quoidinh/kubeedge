@@ -61,7 +61,7 @@ kind: ConfigMap
 metadata:
   name: nginx-base-response
 data:
-  message: "{\"Galaxy\": \"Alderaan\", \"Cluster\": \"Cluster-1\"}\n"
+  message: "{\"Galaxy\": \"Alderaan\", \"Cluster\": \"Cluster-2\"}\n"
 ---
 apiVersion: apps/v1
 kind: Deployment
