@@ -29,13 +29,6 @@ spec:
       containers:
       - name: global-service-base
         image: docker.io/nginx:1.15.8
-        resources:
-          limits:
-            cpu: 100m
-            memory: 100Mi
-          requests:
-            cpu: 100m
-            memory: 100Mi
         volumeMounts:
           - name: html
             mountPath: /usr/share/nginx/html/
@@ -55,6 +48,35 @@ spec:
             items:
               - key: message
                 path: index.html
+  # replicas: 2
+  # template:
+  #   metadata:
+  #     labels:
+  #       name: global-service-base
+  #   spec:
+  #     containers:
+  #     - name: global-service-base
+  #       image: docker.io/nginx:1.15.8
+  #             image: docker.io/nginx:1.15.8
+  #       volumeMounts:
+  #         - name: html
+  #           mountPath: /usr/share/nginx/html/
+  #       livenessProbe:
+  #         httpGet:
+  #           path: /
+  #           port: 80
+  #         periodSeconds: 1
+  #       readinessProbe:
+  #         httpGet:
+  #           path: /
+  #           port: 80
+  #     volumes:
+  #       - name: html
+  #         configMap:
+  #           name: rebel-base-response
+  #           items:
+  #             - key: message
+  #               path: index.html
 ---
 apiVersion: v1
 kind: ConfigMap
