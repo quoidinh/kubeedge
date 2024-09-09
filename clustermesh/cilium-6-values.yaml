@@ -111,10 +111,10 @@ l2podAnnouncements:
 cluster:
   id: 6
   name: cluster6
-# clustermesh:
-#   useAPIServer: true
-#   config:
-#     enabled: false
+clustermesh:
+  useAPIServer: true
+  # config:
+  #   enabled: false
 #     # domain: mesh.cilium.io
 #     # clusters:
 #     # - name: kind-cluster1
@@ -161,18 +161,18 @@ cluster:
 #     #   ips:
 #     #   - 172.16.0.66
 
-#     apiserver:
-#       service:
-#         type: NodePort
+  apiserver:
+    service:
+      type: NodePort
 #         nodePort: 2379
-#       replicas: 3
+      replicas: 3
 #       # service:
 #       #   type: LoadBalancer
 #         # annotations:
 #         #   cloud.google.com/load-balancer-type: Internal
 #         #   external-dns.alpha.kubernetes.io/hostname: clustermesh-apiserver.${cluster_type}.stacksec.local
 #       # -- TCP port for the clustermesh-apiserver health API.
-#       healthPort: 9880
+      healthPort: 9880
 #       etcd:
 #         # The etcd binary is included in the clustermesh API server image, so the same image from above is reused.
 #         # Independent override isn't supported, because clustermesh-apiserver is tested against the etcd version it is
@@ -205,10 +205,10 @@ cluster:
 #           extraArgs: []
 #           # -- Additional environment variables to `clustermesh-apiserver etcdinit`.
 #           extraEnv: []
-#       kvstoremesh:
+      # kvstoremesh:
 #         # -- Enable KVStoreMesh. KVStoreMesh caches the information retrieved
 #         # from the remote clusters in the local etcd instance.
-#         enabled: true
+        # enabled: true
 #         # -- Additional KVStoreMesh arguments.
 #         extraArgs: []
 #         # -- Additional KVStoreMesh environment variables.
@@ -232,14 +232,14 @@ cluster:
 #               - ALL
 #         # -- lifecycle setting for the KVStoreMesh container
 #         lifecycle: {}
-#       tls:
-#         auto:
-#           enabled: true
-#           method: certmanager
-#           certManagerIssuerRef:
-#             group: cert-manager.io
-#             kind: ClusterIssuer
-#             name: stacksec-ca
+      # tls:
+      #   auto:
+      #     enabled: true
+      #     method: certmanager
+      #     certManagerIssuerRef:
+      #       group: cert-manager.io
+      #       kind: ClusterIssuer
+      #       name: stacksec-ca
 #         # server:
 #           # extraIpAddresses: 
 #           #   - 172.16.0.149
@@ -257,10 +257,10 @@ cluster:
 #           #   - "kind-cluster4.mesh.cilium.io"
 #           #   - "kind-cluster5.mesh.cilium.io"
 
-# k8s:
-#   requireIPv4PodCIDR: true
-#   requireIPv6PodCIDR: false
-# tunnel: disabled
+k8s:
+  requireIPv4PodCIDR: true
+  requireIPv6PodCIDR: false
+tunnel: disabled
 # ipv4NativeRoutingCIDR: ${ipv4_native_routing_cidr}
 
 # endpointRoutes:
@@ -269,10 +269,10 @@ cluster:
 # cni:
 #   binPath: /home/kubernetes/bin
 
-# encryption:
-#   enabled: false
-#   type: wireguard
-#   nodeEncryption: false
+encryption:
+  enabled: true
+  type: wireguard
+  nodeEncryption: false
 
 # l7Proxy: true
 # autoDirectNodeRoutes: false
@@ -280,7 +280,7 @@ cluster:
 externalWorkloads:
   enabled: true
 extraConfig: 
-  enable-envoy-config: "true"
+  enable-envoy-config: true
 
 # bgp:
 #   enabled: true
