@@ -30,6 +30,10 @@ cilium install cilium cilium/cilium \
     --set cluster.name=kind-cluster2 --set cluster.id=2 \
     --namespace kube-system \
     --values cilium-2-values.yaml 
+cilium install cilium cilium/cilium \
+    --set cluster.name=kind-cluster5 --set cluster.id=5 \
+    --namespace kube-system \
+    --values cilium-5-values.yaml 
     # --set tls.ca.cert=$(base64 -i ./certs/ca.crt | tr -d \\n) \
     # --set tls.ca.key=$(base64 -i ./certs/ca.key | tr -d \\n) \
     # --set clustermesh.apiserver.tls.ca.cert=$(base64 -i ./certs/ca.crt | tr -d \\n) \
@@ -42,7 +46,7 @@ cilium install cilium cilium/cilium \
     # --set clustermesh.apiserver.tls.client.key=$(base64 -i ./certs/clustermesh-client.key | tr -d \\n) \
     # --set clustermesh.apiserver.tls.remote.cert=$(base64 -i ./certs/clustermesh-client.crt | tr -d \\n) \
     # --set clustermesh.apiserver.tls.remote.key=$(base64 -i ./certs/clustermesh-client.key | tr -d \\n)
-helm upgrade --install cilium cilium/cilium  --namespace kube-system --kube-context kind-cluster1  --values cilium-1-values.yaml
+# helm upgrade --install cilium cilium/cilium  --namespace kube-system --kube-context kind-cluster1  --values cilium-1-values.yaml
 # cilium clustermesh enable --service-type NodePort
 # cilium clustermesh enable --service-type LoadBalancer
 # cilium hubble enable --ui
@@ -90,6 +94,6 @@ helm upgrade --install cilium cilium/cilium  --namespace kube-system --kube-cont
 #     --set clustermesh.apiserver.tls.remote.key=$(base64 -i ./certs/clustermesh-client.key | tr -d \\n)
 
 
-sudo -i
-echo | openssl s_client -showcerts -servername kind-cluster1.mesh.cilium.io -connect mesh.cilium.io:443 2>/dev/null | awk '/-----BEGIN CERTIFICATE-----/, /-----END CERTIFICATE-----/' >> /usr/local/share/ca-certificates/ca-certificates.crt 
-update-ca-certificates
+# sudo -i
+# echo | openssl s_client -showcerts -servername kind-cluster2.mesh.cilium.io -connect mesh.cilium.io:443 2>/dev/null | awk '/-----BEGIN CERTIFICATE-----/, /-----END CERTIFICATE-----/' >> /usr/local/share/ca-certificates/ca-certificates.crt 
+# update-ca-certificates
