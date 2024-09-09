@@ -9,7 +9,7 @@ sudo sed -i.bak '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 echo "Installing necessary dependencies...."
 sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common -y
 echo "Setting up hostname...."
-HOSTNAME="kind-cluster1"
+HOSTNAME="kind-cluster5"
 sudo hostnamectl set-hostname "${HOSTNAME}.mesh.cilium.io"
 PUBLIC_IP_ADDRESS=`hostname -I|cut -d" " -f 1` #hostname -I|cut -d" " -f 1 #172.17.0.1
 sudo echo "${PUBLIC_IP_ADDRESS} ${HOSTNAME}.mesh.cilium.io" >> /etc/hosts
@@ -31,7 +31,7 @@ sudo apt autoremove -y
 apt-get update && \
  apt-get install -y apt-transport-https add-apt-repository "deb [arch=amd64] download.docker.com/linux/ubuntu bionic stable" curl -s packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - echo "deb apt.kubernetes.io kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list apt update && \
  apt install -qy docker.io apt-get update && \
- apt-get install -y kubeadm kubelet kubectl kubernetes-cni 
+ apt-get install -y kubeadm kubelet kubectl kubernetes-cni
 
 echo "Installing Docker...."
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -219,7 +219,6 @@ swapoff -a    # will turn off the swap
 sudo kubeadm init --apiserver-advertise-address=localhost,127.0.0.1,${PUBLIC_IP_ADDRESS},172.17.0.1 --apiserver-cert-extra-sans=localhost,127.0.0.1,${PUBLIC_IP_ADDRESS},172.17.0.1 --v=6 --ignore-preflight-errors=all 
 # sudo kubeadm init phase certs apiserver --apiserver-cert-extra-sans=localhost,127.0.0.1,${PUBLIC_IP_ADDRESS},172.17.0.1 --pod-network-cidr=10.0.0.0/16 --v=6 --ignore-preflight-errors=all 
 
-# sudo kubeadm init phase certs apiserver --apiserver-cert-extra-sans 172.17.0.1 --apiserver-cert-extra-sans ${PUBLIC_IP_ADDRESS} --apiserver-cert-extra-sans localhost --apiserver-cert-extra-sans 127.0.0.1 --pod-network-cidr=10.0.0.0/16 --v=6 --ignore-preflight-errors=all  
 sudo sleep 10
 
 mkdir -p $HOME/.kube

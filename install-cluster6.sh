@@ -9,7 +9,7 @@ sudo sed -i.bak '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 echo "Installing necessary dependencies...."
 sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common -y
 echo "Setting up hostname...."
-HOSTNAME="kind-cluster1"
+HOSTNAME="kind-cluster6"
 sudo hostnamectl set-hostname "${HOSTNAME}.mesh.cilium.io"
 PUBLIC_IP_ADDRESS=`hostname -I|cut -d" " -f 1` #hostname -I|cut -d" " -f 1 #172.17.0.1
 sudo echo "${PUBLIC_IP_ADDRESS} ${HOSTNAME}.mesh.cilium.io" >> /etc/hosts
@@ -31,7 +31,7 @@ sudo apt autoremove -y
 apt-get update && \
  apt-get install -y apt-transport-https add-apt-repository "deb [arch=amd64] download.docker.com/linux/ubuntu bionic stable" curl -s packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - echo "deb apt.kubernetes.io kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list apt update && \
  apt install -qy docker.io apt-get update && \
- apt-get install -y kubeadm kubelet kubectl kubernetes-cni 
+ apt-get install -y kubeadm kubelet kubectl kubernetes-cni
 
 echo "Installing Docker...."
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -219,7 +219,6 @@ swapoff -a    # will turn off the swap
 sudo kubeadm init --apiserver-advertise-address=localhost,127.0.0.1,${PUBLIC_IP_ADDRESS},172.17.0.1 --apiserver-cert-extra-sans=localhost,127.0.0.1,${PUBLIC_IP_ADDRESS},172.17.0.1 --v=6 --ignore-preflight-errors=all 
 # sudo kubeadm init phase certs apiserver --apiserver-cert-extra-sans=localhost,127.0.0.1,${PUBLIC_IP_ADDRESS},172.17.0.1 --pod-network-cidr=10.0.0.0/16 --v=6 --ignore-preflight-errors=all 
 
-# sudo kubeadm init phase certs apiserver --apiserver-cert-extra-sans 172.17.0.1 --apiserver-cert-extra-sans ${PUBLIC_IP_ADDRESS} --apiserver-cert-extra-sans localhost --apiserver-cert-extra-sans 127.0.0.1 --pod-network-cidr=10.0.0.0/16 --v=6 --ignore-preflight-errors=all  
 sudo sleep 10
 
 mkdir -p $HOME/.kube
@@ -850,85 +849,85 @@ echo "All ok ;)"
 #     --version v1.0.4 \
 #     --set installCRDs=true
     
-# #echo "Install cert-manager without helm"
-# #kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.4/cert-manager.yaml
+#echo "Install cert-manager without helm"
+kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.4/cert-manager.yaml
 
-# echo "Create test cert-manager"
-# cat <<EOF | kubectl apply -f -
-# apiVersion: v1
-# kind: Namespace
-# metadata:
-#   name: cert-manager-test
-# ---
-# apiVersion: cert-manager.io/v1
-# kind: Issuer
-# metadata:
-#   name: test-selfsigned
-#   namespace: cert-manager-test
-# spec:
-#   selfSigned: {}
-# ---
-# apiVersion: cert-manager.io/v1
-# kind: Certificate
-# metadata:
-#   name: selfsigned-cert
-#   namespace: cert-manager-test
-# spec:
-#   dnsNames:
-#     - example.com
-#   secretName: selfsigned-cert-tls
-#   issuerRef:
-#     name: test-selfsigned
-# EOF
+echo "Create test cert-manager"
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cert-manager-test
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: test-selfsigned
+  namespace: cert-manager-test
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: selfsigned-cert
+  namespace: cert-manager-test
+spec:
+  dnsNames:
+    - kind-cluster2.mesh.cilium.io
+  secretName: selfsigned-cert-tls
+  issuerRef:
+    name: test-selfsigned
+EOF
 
 # echo "Check the status of the newly created certificate"
-# kubectl wait --for=condition=ready certificate -n cert-manager-test selfsigned-cert
+kubectl wait --for=condition=ready certificate -n cert-manager-test selfsigned-cert
 
 # echo "Cleanup test namespace"
-# kubectl delete ns cert-manager-test
+kubectl delete ns cert-manager-test
 
-# echo "Install kubectl plugin for cert-manager"
-# curl -L -o kubectl-cert-manager.tar.gz https://github.com/jetstack/cert-manager/releases/download/v1.0.4/kubectl-cert_manager-linux-amd64.tar.gz
-# tar xzf kubectl-cert-manager.tar.gz
-# sudo mv kubectl-cert_manager /usr/local/bin
+echo "Install kubectl plugin for cert-manager"
+curl -L -o kubectl-cert-manager.tar.gz https://github.com/jetstack/cert-manager/releases/download/v1.0.4/kubectl-cert_manager-linux-amd64.tar.gz
+tar xzf kubectl-cert-manager.tar.gz
+sudo mv kubectl-cert_manager /usr/local/bin
 
-# echo "Create ClusterIssuers for email velizarx@gmail.com"
-# cat <<EOF | kubectl apply -f -
-# ---
-# apiVersion: cert-manager.io/v1alpha2
-# kind: ClusterIssuer
-# metadata:
-#   name: letsencrypt-staging
-# spec:
-#   acme:
-#     server: https://acme-staging-v02.api.letsencrypt.org/directory
-#     email: velizarx@gmail.com
-#     privateKeySecretRef:
-#       name: letsencrypt-staging
-#     solvers:
-#     - http01:
-#         ingress:
-#           class: nginx
-# ---
-# apiVersion: cert-manager.io/v1alpha2
-# kind: ClusterIssuer
-# metadata:
-#   name: letsencrypt-prod
-# spec:
-#   acme:
-#     server: https://acme-v02.api.letsencrypt.org/directory
-#     email: velizarx@gmail.com
-#     privateKeySecretRef:
-#       name: letsencrypt-prod
-#     solvers:
-#     - http01:
-#         ingress:
-#           class: nginx
-# EOF
+echo "Create ClusterIssuers for email velizarx@gmail.com"
+cat <<EOF | kubectl apply -f -
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: velizarx@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: velizarx@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+EOF
 
-# echo "Check the status of the newly created issuers"
-# kubectl wait --for=condition=ready clusterissuer letsencrypt-prod
-# kubectl wait --for=condition=ready clusterissuer letsencrypt-staging
+echo "Check the status of the newly created issuers"
+kubectl wait --for=condition=ready clusterissuer letsencrypt-prod
+kubectl wait --for=condition=ready clusterissuer letsencrypt-staging
 
 # rm /etc/kubernetes/pki/apiserver.* -f
 # kubeadm init phase certs apiserver --apiserver-cert-extra-sans 172.17.0.1 --apiserver-cert-extra-sans 10.96.0.1 --apiserver-cert-extra-sans 172.16.0.41 --apiserver-cert-extra-sans 42.96.60.76 --apiserver-cert-extra-sans localhost

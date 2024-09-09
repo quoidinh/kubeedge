@@ -31,7 +31,7 @@ sudo apt autoremove -y
 apt-get update && \
  apt-get install -y apt-transport-https add-apt-repository "deb [arch=amd64] download.docker.com/linux/ubuntu bionic stable" curl -s packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - echo "deb apt.kubernetes.io kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list apt update && \
  apt install -qy docker.io apt-get update && \
- apt-get install -y kubeadm kubelet kubectl kubernetes-cni kubeadm init --ignore-preflight-errors=all –
+ apt-get install -y kubeadm kubelet kubectl kubernetes-cni 
 
 echo "Installing Docker...."
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -

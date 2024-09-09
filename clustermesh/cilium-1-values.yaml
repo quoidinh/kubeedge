@@ -240,22 +240,22 @@ clustermesh:
             group: cert-manager.io
             kind: ClusterIssuer
             name: stacksec-ca
-        # server:
-          # extraIpAddresses: 
-          #   - 172.16.0.149
-          #   - 172.16.0.66
-          #   - 172.16.0.157
-          #   - 172.16.0.234
-          # extraDnsNames: 
-          #   - "clustermesh-apiserver.${cluster_type}.stacksec.local"
-          #   - "clustermesh-apiserver.kube-system.svc.cluster.local"
-          #   - "clustermesh-apiserver.kube-system"
-          #   - "clustermesh-apiserver"
-          #   - "kind-cluster1.mesh.cilium.io"
-          #   - "kind-cluster2.mesh.cilium.io"
-          #   - "kind-cluster3.mesh.cilium.io"
-          #   - "kind-cluster4.mesh.cilium.io"
-          #   - "kind-cluster5.mesh.cilium.io"
+        server:
+          extraIpAddresses: 
+            - 172.16.0.149
+            - 172.16.0.66
+            - 172.16.0.157
+            - 172.16.0.234
+          extraDnsNames: 
+            - "clustermesh-apiserver.${cluster_type}.stacksec.local"
+            - "clustermesh-apiserver.kube-system.svc.cluster.local"
+            - "clustermesh-apiserver.kube-system"
+            - "clustermesh-apiserver"
+            - "kind-cluster1.mesh.cilium.io"
+            - "kind-cluster2.mesh.cilium.io"
+            - "kind-cluster3.mesh.cilium.io"
+            - "kind-cluster4.mesh.cilium.io"
+            - "kind-cluster5.mesh.cilium.io"
 
 # k8s:
 #   requireIPv4PodCIDR: true

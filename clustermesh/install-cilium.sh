@@ -57,7 +57,7 @@ cilium install cilium cilium/cilium \
 # kubectl get secret -n kube-system cilium-ca -o yaml > cilium-ca.yaml
 # kubectl apply -f cilium-ca.yaml --context kind-cluster2
 
-cilium clustermesh connect --context kind-cluster2 --destination-context kind-cluster6
+# cilium clustermesh connect --context kind-cluster2 --destination-context kind-cluster5
 
 #  cilium clustermesh status --wait
 # cilium install \
