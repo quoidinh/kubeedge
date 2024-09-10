@@ -29,12 +29,12 @@ spec:
         - name: registry # Tên secret đã tạo
       # nodeSelector:
       #   magnum.openstack.org/nodegroup: ng-media
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: magnum.openstack.org/nodegroup
-                    operator: In
-                    values:
-                      - ng-web
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #         - matchExpressions:
+      #             - key: magnum.openstack.org/nodegroup
+      #               operator: In
+      #               values:
+      #                 - ng-web
