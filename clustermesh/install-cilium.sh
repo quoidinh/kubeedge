@@ -35,9 +35,9 @@ cilium install cilium cilium/cilium \
     --namespace kube-system \
     --values cilium-5-values.yaml 
 cilium install cilium cilium/cilium \
-    --set cluster.name=kind-cluster6 --set cluster.id=6 \
+    --set cluster.name=kind-cluster4 --set cluster.id=4 \
     --namespace kube-system \
-    --values cilium-6-values.yaml 
+    --values cilium-4-values.yaml 
     # --set tls.ca.cert=$(base64 -i ./certs/ca.crt | tr -d \\n) \
     # --set tls.ca.key=$(base64 -i ./certs/ca.key | tr -d \\n) \
     # --set clustermesh.apiserver.tls.ca.cert=$(base64 -i ./certs/ca.crt | tr -d \\n) \
@@ -57,7 +57,7 @@ cilium install cilium cilium/cilium \
 # kubectl get secret -n kube-system cilium-ca -o yaml > cilium-ca.yaml
 # kubectl apply -f cilium-ca.yaml --context kind-cluster2
 
-# cilium clustermesh connect --context kind-cluster2 --destination-context kind-cluster5
+# cilium clustermesh connect --context kind-cluster2 --destination-context kind-cluster4
 
 #  cilium clustermesh status --wait
 # cilium install \

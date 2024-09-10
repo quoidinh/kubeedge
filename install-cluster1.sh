@@ -219,7 +219,6 @@ swapoff -a    # will turn off the swap
 sudo kubeadm init --apiserver-advertise-address=localhost,127.0.0.1,${PUBLIC_IP_ADDRESS},172.17.0.1 --apiserver-cert-extra-sans=localhost,127.0.0.1,${PUBLIC_IP_ADDRESS},172.17.0.1 --v=6 --ignore-preflight-errors=all 
 # sudo kubeadm init phase certs apiserver --apiserver-cert-extra-sans=localhost,127.0.0.1,${PUBLIC_IP_ADDRESS},172.17.0.1 --pod-network-cidr=10.0.0.0/16 --v=6 --ignore-preflight-errors=all 
 
-# sudo kubeadm init phase certs apiserver --apiserver-cert-extra-sans 172.17.0.1 --apiserver-cert-extra-sans ${PUBLIC_IP_ADDRESS} --apiserver-cert-extra-sans localhost --apiserver-cert-extra-sans 127.0.0.1 --pod-network-cidr=10.0.0.0/16 --v=6 --ignore-preflight-errors=all  
 sudo sleep 10
 
 mkdir -p $HOME/.kube
@@ -321,10 +320,10 @@ rm -f /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz
 
 etcdctl --version
 
-# kubectl create secret generic -n kube-system cilium-etcd-secrets \
-#     --from-file=etcd-client-ca.crt=kind-cluster1.mesh.cilium.io.csr \
-#     --from-file=etcd-client.key=kind-cluster1.mesh.cilium.io.key \
-#     --from-file=etcd-client.crt=kind-cluster1.mesh.cilium.io.crt
+kubectl create secret generic -n kube-system cilium-etcd-secrets \
+    --from-file=etcd-client-ca.crt=kind-cluster2.mesh.cilium.io.csr \
+    --from-file=etcd-client.key=kind-cluster2.mesh.cilium.io.key \
+    --from-file=etcd-client.crt=kind-cluster2.mesh.cilium.io.crt
   # kubectl get secret cilium-ca -n kube-system -o yaml
   # kubectl get svc clustermesh-apiserver -n kube-system
   # kubectl get secret clustermesh-apiserver-remote-cert -n kube-system -o yaml

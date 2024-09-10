@@ -31,7 +31,7 @@ sudo apt autoremove -y
 apt-get update && \
  apt-get install -y apt-transport-https add-apt-repository "deb [arch=amd64] download.docker.com/linux/ubuntu bionic stable" curl -s packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - echo "deb apt.kubernetes.io kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list apt update && \
  apt install -qy docker.io apt-get update && \
- apt-get install -y kubeadm kubelet kubectl kubernetes-cni 
+ apt-get install -y kubeadm kubelet kubectl kubernetes-cni
 
 echo "Installing Docker...."
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -203,15 +203,24 @@ swapoff -a    # will turn off the swap
 # sudo kubeadm init --v=6 --ignore-preflight-errors=all
 # kubeadm init --control-plane-endpoint="172.17.0.1:6443" --upload-certs --apiserver-advertise-address=172.17.0.1 --v=6 --ignore-preflight-errors=all
 # sudo kubeadm init --control-plane-endpoint=172.17.0.1:6443 --skip-phases=addon/kube-proxy --upload-certs --apiserver-advertise-address=172.17.0.1 --pod-network-cidr 10.244.0.0/16  --v=6 --ignore-preflight-errors=all
-sudo kubeadm init --pod-network-cidr=10.0.0.0/16 --v=6 --ignore-preflight-errors=all    
+# sudo kubeadm init --pod-network-cidr=10.0.0.0/16 --v=6 --ignore-preflight-errors=all   
+
 # sudo kubeadm init --v=6 --ignore-preflight-errors=all    
-
 # sudo kubeadm init --upload-certs --apiserver-advertise-address=43.132.179.71 --v=6 --ignore-preflight-errors=all
-
 # kubeadm join kube1.tonyshark.lol:6443 --token itm1v6.50adqfgmi6r399b8 \
 # 	--discovery-token-ca-cert-hash sha256:a499acfbd899d882a92bc3fabd7ae56854661dfa3bbe2ada85b784c16bc4f8e3 --v=6 --ignore-preflight-errors=all
 #https://stackoverflow.com/questions/53525975/kubernetes-error-uploading-crisocket-timed-out-waiting-for-the-condition
+
+
+# # remove current apiserver certificates
+# sudo rm /etc/kubernetes/pki/apiserver.*
+
+# generate new certificates
+sudo kubeadm init --apiserver-advertise-address=localhost,127.0.0.1,${PUBLIC_IP_ADDRESS},172.17.0.1 --apiserver-cert-extra-sans=localhost,127.0.0.1,${PUBLIC_IP_ADDRESS},172.17.0.1 --v=6 --ignore-preflight-errors=all 
+# sudo kubeadm init phase certs apiserver --apiserver-cert-extra-sans=localhost,127.0.0.1,${PUBLIC_IP_ADDRESS},172.17.0.1 --pod-network-cidr=10.0.0.0/16 --v=6 --ignore-preflight-errors=all 
+
 sudo sleep 10
+
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
@@ -280,6 +289,11 @@ cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=ku
    --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
    --set hostPort.enabled=true
 
+helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
+helm search repo metrics-server/metrics-server -l | head
+helm upgrade --install metrics-server metrics-server/metrics-server  --namespace kube-system #--version 3.5.0
+
+
 echo "Install latest Hubble CLI"
 HUBBLE_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/hubble/master/stable.txt)
 curl -LO "https://github.com/cilium/hubble/releases/download/$HUBBLE_VERSION/hubble-linux-amd64.tar.gz"
@@ -290,8 +304,8 @@ sudo mv hubble /usr/local/bin
 sudo sysctl fs.inotify.max_user_instances=8192
 sudo sysctl fs.inotify.max_user_watches=524288
 ulimit -Hn
-ETCD_VER=v3.5.15
 
+ETCD_VER=v3.5.15
 # choose either URL
 GOOGLE_URL=https://storage.googleapis.com/etcd
 GITHUB_URL=https://github.com/etcd-io/etcd/releases/download
@@ -306,6 +320,14 @@ rm -f /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz
 
 etcdctl --version
 
+# kubectl create secret generic -n kube-system cilium-etcd-secrets \
+#     --from-file=etcd-client-ca.crt=kind-cluster1.mesh.cilium.io.csr \
+#     --from-file=etcd-client.key=kind-cluster1.mesh.cilium.io.key \
+#     --from-file=etcd-client.crt=kind-cluster1.mesh.cilium.io.crt
+  # kubectl get secret cilium-ca -n kube-system -o yaml
+  # kubectl get svc clustermesh-apiserver -n kube-system
+  # kubectl get secret clustermesh-apiserver-remote-cert -n kube-system -o yaml
+# kubectl edit deployment -n kube-system clustermesh-apiserver
 # kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.yaml
 # kubectl delete -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.yaml
 # sudo sysctl -p
@@ -326,32 +348,32 @@ etcdctl --version
 # kind create cluster --name cluster1 --config kind-cluster.yaml
 # kubectl config use kind-cluster1
 # # helm install  cilium cilium/cilium --namespace kube-system -f quick-install-cluster1.yaml
-#  cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=kubernetes \
-#   --namespace kube-system \
-#    --set hubble.relay.enabled=true \
-#    --set hubble.enabled=true \
-#    --set hubble.relay.enabled=true \
-#    --set hubble.ui.enabled=true \
-#    --set hubble.ui.service.type=NodePort \
-#    --set hubble.relay.service.type=NodePort \
-#    --set hubble.ui.enabled=true \
-#    --set hubble.metrics.dashboards.enabled=true \
-#    --set hostServices.enabled=false \
-#    --set externalIPs.enabled=true \
-#    --set nodePort.enabled=true \
-#    --set hubble.tls.enabled=false \
-#    --set hubble.tls.auto.enabled=false \
-#    --set hubble.relay.tls.server.enabled=false \
-#    --set prometheus.enabled=true \
-#    --set operator.prometheus.enabled=true \
-#    --set hubble.metrics.enableOpenMetrics=true \
-#    --set l7Proxy=true \
-#    --set externalWorkloads.enabled=true \
-#    --set clustermesh.useAPIServer=true \
-#    --set enable-bgp-control-plane.enabled=true \
-#    --set externalWorkloads.enabled=true \
-#    --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
-#    --set hostPort.enabled=true
+ cilium install  cilium cilium/cilium --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=kubernetes \
+  --namespace kube-system \
+   --set hubble.relay.enabled=true \
+   --set hubble.enabled=true \
+   --set hubble.relay.enabled=true \
+   --set hubble.ui.enabled=true \
+   --set hubble.ui.service.type=NodePort \
+   --set hubble.relay.service.type=NodePort \
+   --set hubble.ui.enabled=true \
+   --set hubble.metrics.dashboards.enabled=true \
+   --set hostServices.enabled=false \
+   --set externalIPs.enabled=true \
+   --set nodePort.enabled=true \
+   --set hubble.tls.enabled=false \
+   --set hubble.tls.auto.enabled=false \
+   --set hubble.relay.tls.server.enabled=false \
+   --set prometheus.enabled=true \
+   --set operator.prometheus.enabled=true \
+   --set hubble.metrics.enableOpenMetrics=true \
+   --set l7Proxy=true \
+   --set externalWorkloads.enabled=true \
+   --set clustermesh.useAPIServer=true \
+   --set enable-bgp-control-plane.enabled=true \
+   --set externalWorkloads.enabled=true \
+   --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}" \
+   --set hostPort.enabled=true
 # # cilium install --set cluster.name=cluster1 --set cluster.id=1 --set ipam.mode=kubernetes \
 # #     --set hubble.relay.enabled=true \
 # #    --set hubble.enabled=true \
@@ -504,17 +526,24 @@ etcdctl --version
 # cilium clustermesh connect --context kind-cluster3 --destination-context kind-cluster4
 # cilium clustermesh connect --context kind-cluster4 --destination-context kind-cluster1
 
+# cilium clustermesh connect --context kind-cluster2 --destination-context kind-cluster5
+# https://gist.github.com/hongchaodeng/7d62f3b5d30b58c783c382d9b629b819 
+#  cilium clustermesh connect --context kind-c1 --destination-context kind-cluster2
 # kubectl exec -it -n kube-system clustermesh-apiserver-594b8cb686-lt748 -c kvstoremesh -- /user/bin/clustermesh-apiserver kvstoremesh-dbg troubleshoot kind-cluster4
 # kubectl config set-context kind-cluster1 --user=kind-cluster1
 # kubectl config set-context kind-cluster2 --user=kind-cluster2
-# export KUBECONFIG=./kubeconfig-cluster1.yaml:./kubeconfig-cluster2.yaml
-# :./kubeconfig-cluster3.yaml:./kubeconfig-cluster4.yaml:./kubeconfig-cluster5.yaml
+# export KUBECONFIG=./kubeconfig-cluster1.yaml:./kubeconfig-cluster2.yaml:./kubeconfig-cluster3.yaml:./kubeconfig-cluster4.yaml
 # kubectl config view --flatten > merged-kubeconfig.yaml
 # # Next set the KUBECONFIG to the newly created merged kubeconfig.
 # export KUBECONFIG=./merged-kubeconfig.yaml
 # https://kodekloud.com/blog/kubectl-change-context/
 # kubectl config get-contexts
 # kubectl config get-clusters
+# kubectl config delete-cluster my-cluster
+# kubectl config delete-context my-cluster-context
+# kubectl config unset users.my-cluster-admin
+# kubectl config unset clusters
+
 
 # kubectl config use kind-cluster1
 # kubectl delete -f https://raw.githubusercontent.com/bmcustodio/kind-cilium-mesh/master/common/rebel-base.yaml -f https://raw.githubusercontent.com/cilium/cilium/v1.11.0-rc3/examples/kubernetes/clustermesh/global-service-example/cluster2.yaml
@@ -573,7 +602,7 @@ sudo ufw allow 4245/tcp comment "Hubble Observability"
 # kubectl apply -f app-nginx1.yaml
 # kubectl describe deploy test-app
 # kubectl autoscale deployment test-app --cpu-percent=15 --min=1 --max=20
-# # kubectl scale statefulset test-app --replicas=3
+# # kubectl scale statefulset global-service-base --replicas=1
 # nohup kubectl port-forward service/test-app --namespace=default --address 0.0.0.0 9999:8080 &
 
 # helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
@@ -647,7 +676,7 @@ echo "All ok ;)"
 # nohup  kubectl port-forward svc/nginx-svc --namespace=default --address 0.0.0.0 8081:80 &
 # nohup kubectl port-forward service/nginx-svc --namespace=default 8081:80 &
 # nohup kubectl port-forward service/rebel-base --namespace=default --address 0.0.0.0 8081:80 &
-
+# kubectl port-forward service/clustermesh-apiserver --namespace=kube-system clustermesh-apiserver --address 0.0.0.0 2379:2379
 
 
 # kubectl get pods
