@@ -18,16 +18,19 @@ kubectl delete -f deployment-fe.yaml
 kubectl apply -f marketplace-config.yaml
 kubectl apply -f sn-config.yaml
 
-kubectl apply -f deployment.yaml 
-kubectl apply -f deployment-media.yaml 
+kubectl apply -f marketplace-service.yaml 
+kubectl apply -f web-service.yaml
 
+# kubectl apply -f media-service.yaml 
+# kubectl apply -f streaming-service.yaml 
+# kubectl apply -f deployment-media.yaml 
 # kubectl apply -f deployment-streaming.yaml 
 # kubectl apply -f deployment-worker-pull.yaml 
 # kubectl apply -f deployment-worker-suggestion.yaml 
 # kubectl apply -f deployment-worker-classification.yaml 
 # kubectl apply -f deployment-worker-sync.yaml 
 
-
+kubectl apply -f deployment.yaml 
 kubectl apply -f deployment-worker-default.yaml 
 kubectl apply -f deployment-worker-notification.yaml
 kubectl apply -f deployment-marketplace.yaml 
