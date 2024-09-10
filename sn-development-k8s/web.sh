@@ -36,3 +36,6 @@ kubectl apply -f deployment-fe.yaml
 
 kubectl apply -f marketplace-service.yaml 
 kubectl apply -f web-service.yaml
+
+# nohup kubectl -n default port-forward svc/sn-web --address 0.0.0.0  80:80&
+# nohup kubectl -n default port-forward svc/sn-marketplace --address 0.0.0.0  80:80&
