@@ -15,10 +15,10 @@ spec:
       containers:
         - name: sn-worker-suggestion
           image: registry.emso.vn/sn-web:0.2.9
-          resources:
-            requests:
-              cpu: "3.5"     
-              memory: "3Gi"
+          # resources:
+          #   requests:
+          #     cpu: "3.5"     
+          #     memory: "3Gi"
           command: ["bundle", "exec"]
           args: ["sidekiq", "-c", "25", "-q", "suggestion"]
           envFrom:

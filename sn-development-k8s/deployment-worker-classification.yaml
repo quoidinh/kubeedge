@@ -15,10 +15,10 @@ spec:
       containers:
         - name: sn-worker-classification
           image: registry.emso.vn/sn-web:0.2.9
-          resources:
-            requests:
-              cpu: "2"     
-              memory: "1.5Gi"
+          # resources:
+          #   requests:
+          #     cpu: "2"     
+          #     memory: "1.5Gi"
           command: ["bundle", "exec"]
           args: ["sidekiq", "-c", "2", "-q", "classification"]
           envFrom:
