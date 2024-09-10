@@ -3,11 +3,26 @@ apiVersion: kind.x-k8s.io/v1alpha4
 name: cluster6
 nodes:
 - role: control-plane
-- role: worker
-- role: worker
-networking:
-  disableDefaultCNI: true
-  podSubnet: "10.12.0.0/16"
-  serviceSubnet: "10.13.0.0/16"
-  # apiServerAddress: "172.16.0.113"
-  # apiServerPort: 6443
+- role: worker #frontend
+- role: worker #marketplace
+# - role: worker #classification
+# - role: worker #notification
+# - role: worker #streaming
+# - role: worker #media
+# - role: worker
+# - role: worker
+# - role: worker
+# - role: worker
+# - role: worker
+
+# deployment-fe.yaml
+# deployment-marketplace.yaml
+# deployment-media.yaml
+# deployment-streaming.yaml
+# deployment-worker-classification.yaml
+# deployment-worker-default.yaml
+# deployment-worker-marketplace.yaml
+# deployment-worker-notification.yaml
+# deployment-worker-pull.yaml
+# deployment-worker-suggestion.yaml
+# deployment-worker-sync.yaml
