@@ -18,9 +18,6 @@ kubectl delete -f deployment-fe.yaml
 kubectl apply -f marketplace-config.yaml
 kubectl apply -f sn-config.yaml
 
-kubectl apply -f marketplace-service.yaml 
-kubectl apply -f web-service.yaml
-
 # kubectl apply -f media-service.yaml 
 # kubectl apply -f streaming-service.yaml 
 # kubectl apply -f deployment-media.yaml 
@@ -37,4 +34,5 @@ kubectl apply -f deployment-marketplace.yaml
 kubectl apply -f deployment-worker-marketplace.yaml 
 kubectl apply -f deployment-fe.yaml 
 
-
+kubectl apply -f marketplace-service.yaml 
+kubectl apply -f web-service.yaml
