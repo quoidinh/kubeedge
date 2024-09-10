@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fe-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-sn-prod
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - staging-fe.emso.vn
+    secretName: sn-fe-tls-secret
+  rules:
+  - host: staging-fe.emso.vn
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sn-fe
+            port:
+              name: https
+              

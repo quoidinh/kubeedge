@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sn-media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sn-media
+  template:
+    metadata:
+      labels:
+        app: sn-media
+    spec:
+      containers:
+        - name: sn-media
+          image: registry.emso.vn/sn-web:0.2.9
+          resources:
+            requests:
+              cpu: "7.5"     
+              memory: "7.5Gi"
+          envFrom:
+            - configMapRef:
+                name: sn-config
+          ports:
+            - name: media
+              containerPort: 3000
+      imagePullSecrets:
+        - name: registry # Tên secret đã tạo
+      # nodeSelector:
+      #   magnum.openstack.org/nodegroup: ng-media
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: magnum.openstack.org/nodegroup
+                    operator: In
+                    values:
+                      - ng-web

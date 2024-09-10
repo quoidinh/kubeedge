@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sn-worker-sync
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sn-worker-sync
+  template:
+    metadata:
+      labels:
+        app: sn-worker-sync
+    spec:
+      containers:
+        - name: sn-worker-sync
+          image: registry.emso.vn/sn-web:0.2.9
+          resources:
+            requests:
+              cpu: "2"     
+              memory: "1.5Gi"
+          command: ["bundle", "exec"]
+          args: ["sidekiq", "-c", "25", "-q", "chat_sync", "-q", "marketplace_sync"]
+          envFrom:
+            - configMapRef:
+                name: sn-config
+          ports:
+            - name: streaming
+              containerPort: 4000
+      imagePullSecrets:
+        - name: registry # Tên secret đã tạo
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: magnum.openstack.org/nodegroup
+                    operator: In
+                    values:
+                      - ng-chat
+      

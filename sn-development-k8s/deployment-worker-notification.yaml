@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sn-worker-notification
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sn-worker-notification
+  template:
+    metadata:
+      labels:
+        app: sn-worker-notification
+    spec:
+      containers:
+        - name: sn-worker-notification
+          image: registry.emso.vn/sn-web:0.2.9
+          resources:
+            requests:
+              cpu: "2"     
+              memory: "1.5Gi"
+          command: ["bundle", "exec"]
+          args: ["sidekiq", "-c", "25", "-q", "push"]
+          envFrom:
+            - configMapRef:
+                name: sn-config
+          ports:
+            - name: streaming
+              containerPort: 4000
+      imagePullSecrets:
+        - name: registry # Tên secret đã tạo
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: magnum.openstack.org/nodegroup
+                    operator: In
+                    values:
+                      - ng-chat
+      

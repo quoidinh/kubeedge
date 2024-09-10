@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sn-worker-classification
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sn-worker-classification
+  template:
+    metadata:
+      labels:
+        app: sn-worker-classification
+    spec:
+      containers:
+        - name: sn-worker-classification
+          image: registry.emso.vn/sn-web:0.2.9
+          resources:
+            requests:
+              cpu: "2"     
+              memory: "1.5Gi"
+          command: ["bundle", "exec"]
+          args: ["sidekiq", "-c", "2", "-q", "classification"]
+          envFrom:
+            - configMapRef:
+                name: sn-config
+          ports:
+            - name: streaming
+              containerPort: 4000
+      imagePullSecrets:
+        - name: registry # Tên secret đã tạo
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #         - matchExpressions:
+      #             - key: magnum.openstack.org/nodegroup
+      #               operator: In
+      #               values:
+      #                 - ng-chat
+      

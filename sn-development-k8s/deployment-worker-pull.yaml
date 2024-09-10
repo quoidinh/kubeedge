@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sn-worker-pull
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sn-worker-pull
+  template:
+    metadata:
+      labels:
+        app: sn-worker-pull
+    spec:
+      containers:
+        - name: sn-worker-pull
+          image: registry.emso.vn/sn-web:0.2.9
+          resources:
+            requests:
+              cpu: "3.5"     
+              memory: "3Gi"
+          command: ["bundle", "exec"]
+          args: ["sidekiq", "-c", "25", "-q", "pull"]
+          envFrom:
+            - configMapRef:
+                name: sn-config
+          ports:
+            - name: streaming
+              containerPort: 4000
+      imagePullSecrets:
+        - name: registry # Tên secret đã tạo
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: magnum.openstack.org/nodegroup
+                    operator: In
+                    values:
+                      - ng-web
+      

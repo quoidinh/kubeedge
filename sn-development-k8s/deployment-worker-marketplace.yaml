@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sn-worker-marketplace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sn-worker-marketplace
+  template:
+    metadata:
+      labels:
+        app: sn-worker-marketplace
+    spec:
+      containers:
+        - name: sn-worker-marketplace
+          image: registry.emso.vn/sn-marketplace:0.3.16
+          resources:
+            requests:
+              cpu: "2"     
+              memory: "1.5Gi"
+          command: ["bundle", "exec"]
+          args: ["sidekiq", "-c", "25", "-q", "flash_sale", "-q", "marketplace_pull", "-q", "marketplace_default"]
+          envFrom:
+            - configMapRef:
+                name: marketplace-config
+          ports:
+            - name: streaming
+              containerPort: 4000
+      imagePullSecrets:
+        - name: registry # Tên secret đã tạo
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #         - matchExpressions:
+      #             - key: magnum.openstack.org/nodegroup
+      #               operator: In
+      #               values:
+      #                 - ng-chat
+      
