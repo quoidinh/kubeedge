@@ -24,12 +24,12 @@ spec:
               containerPort: 3000
       imagePullSecrets:
         - name: registry # Tên secret đã tạo
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: magnum.openstack.org/nodegroup
-                    operator: In
-                    values:
-                      - ng-chat
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #         - matchExpressions:
+      #             - key: magnum.openstack.org/nodegroup
+      #               operator: In
+      #               values:
+      #                 - ng-chat
