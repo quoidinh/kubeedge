@@ -1,3 +1,4 @@
+
 kubectl delete -f deployment.yaml 
 kubectl delete -f deployment-streaming.yaml 
 kubectl delete -f deployment-media.yaml 
@@ -13,6 +14,9 @@ kubectl delete -f deployment-worker-marketplace.yaml
 
 kubectl delete -f deployment-fe.yaml 
 
+
+kubectl apply -f marketplace-config.yaml
+kubectl apply -f sn-config.yaml
 kubectl apply -f deployment.yaml 
 kubectl apply -f deployment-streaming.yaml 
 kubectl apply -f deployment-media.yaml 
