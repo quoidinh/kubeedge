@@ -1,10 +1,10 @@
 .PHONY: create-clusters
 create-clusters:
 	kind create cluster --config kind-1.yaml
-	kind create cluster --kubeconfig kubeconfig-cluster2.yaml --config kind-2.yaml
+	kind create cluster --config kind-2.yaml
 	kind create cluster --config kind-3.yaml
 	kind create cluster --kubeconfig kubeconfig-cluster4.yaml --config kind-4.yaml
-	kind create cluster --kubeconfig kubeconfig-cluster5.yaml -config kind-5.yaml
+	kind create cluster -config kind-5.yaml
 
 .PHONY: install-metallb
 install-metallb:

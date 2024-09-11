@@ -61,7 +61,7 @@ spec:
   # thực hiện scale khi CPU hoạt động ở mức 10%
   # so với CPU mà pod được xác định
   # (ở trên mình để cpu của pod là 100m)
-  targetCPUUtilizationPercentage: 15
+  # targetCPUUtilizationPercentage: 15
 # kubectl run -i --tty load-generator --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://42.96.60.76:9999/; done"
 # helm upgrade ingress-nginx ingress-nginx \
 # --repo https://kubernetes.github.io/ingress-nginx \
