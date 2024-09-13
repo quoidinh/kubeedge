@@ -14056,6 +14056,162 @@ data:
     rule_files:
       - "/etc/prometheus-rules/*.rules"
     scrape_configs:
+      - job_name: "kubernetes-apiservers"
+
+    kubernetes_sd_configs:
+      - role: endpoints
+
+    # Default to scraping over https. If required, just disable this or change to
+    # `http`.
+    scheme: https
+
+    # This TLS & authorization config is used to connect to the actual scrape
+    # endpoints for cluster components. This is separate to discovery auth
+    # configuration because discovery & scraping are two separate concerns in
+    # Prometheus. The discovery auth config is automatic if Prometheus runs inside
+    # the cluster. Otherwise, more config options have to be provided within the
+    # <kubernetes_sd_config>.
+    tls_config:
+      ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      # If your node certificates are self-signed or use a different CA to the
+      # master CA, then disable certificate verification below. Note that
+      # certificate verification is an integral part of a secure infrastructure
+      # so this should only be disabled in a controlled environment. You can
+      # disable certificate verification by uncommenting the line below.
+      #
+      # insecure_skip_verify: true
+    authorization:
+      credentials_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+
+    # Keep only the default/kubernetes service endpoints for the https port. This
+    # will add targets for each API server which Kubernetes adds an endpoint to
+    # the default/kubernetes service.
+    relabel_configs:
+      - source_labels:
+          [
+            __meta_kubernetes_namespace,
+            __meta_kubernetes_service_name,
+            __meta_kubernetes_endpoint_port_name,
+          ]
+        action: keep
+        regex: default;kubernetes;https
+
+      # Scrape config for nodes (kubelet).
+      - job_name: "kubernetes-nodes"
+
+        # Default to scraping over https. If required, just disable this or change to
+        # `http`.
+        scheme: https
+
+        # This TLS & authorization config is used to connect to the actual scrape
+        # endpoints for cluster components. This is separate to discovery auth
+        # configuration because discovery & scraping are two separate concerns in
+        # Prometheus. The discovery auth config is automatic if Prometheus runs inside
+        # the cluster. Otherwise, more config options have to be provided within the
+        # <kubernetes_sd_config>.
+        tls_config:
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          # If your node certificates are self-signed or use a different CA to the
+          # master CA, then disable certificate verification below. Note that
+          # certificate verification is an integral part of a secure infrastructure
+          # so this should only be disabled in a controlled environment. You can
+          # disable certificate verification by uncommenting the line below.
+          #
+          # insecure_skip_verify: true
+        authorization:
+          credentials_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+
+        kubernetes_sd_configs:
+          - role: node
+
+        relabel_configs:
+          - action: labelmap
+            regex: __meta_kubernetes_node_label_(.+)
+
+      # Example scrape config for service endpoints.
+      #
+      # The relabeling allows the actual service scrape endpoint to be configured
+      # for all or only some endpoints.
+      - job_name: "kubernetes-service-endpoints"
+
+        kubernetes_sd_configs:
+          - role: endpoints
+
+        relabel_configs:
+          # Example relabel to scrape only endpoints that have
+          # "example.io/should_be_scraped = true" annotation.
+          #  - source_labels: [__meta_kubernetes_service_annotation_example_io_should_be_scraped]
+          #    action: keep
+          #    regex: true
+          #
+          # Example relabel to customize metric path based on endpoints
+          # "example.io/metric_path = <metric path>" annotation.
+          #  - source_labels: [__meta_kubernetes_service_annotation_example_io_metric_path]
+          #    action: replace
+          #    target_label: __metrics_path__
+          #    regex: (.+)
+          #
+          # Example relabel to scrape only single, desired port for the service based
+          # on endpoints "example.io/scrape_port = <port>" annotation.
+          #  - source_labels: [__address__, __meta_kubernetes_service_annotation_example_io_scrape_port]
+          #    action: replace
+          #    regex: ([^:]+)(?::\d+)?;(\d+)
+          #    replacement: $1:$2
+          #    target_label: __address__
+          #
+          # Example relabel to configure scrape scheme for all service scrape targets
+          # based on endpoints "example.io/scrape_scheme = <scheme>" annotation.
+          #  - source_labels: [__meta_kubernetes_service_annotation_example_io_scrape_scheme]
+          #    action: replace
+          #    target_label: __scheme__
+          #    regex: (https?)
+          - action: labelmap
+            regex: __meta_kubernetes_service_label_(.+)
+          - source_labels: [__meta_kubernetes_namespace]
+            action: replace
+            target_label: namespace
+          - source_labels: [__meta_kubernetes_service_name]
+            action: replace
+            target_label: service
+
+      # Example scrape config for probing ingresses via the Blackbox Exporter.
+      #
+      # The relabeling allows the actual ingress scrape endpoint to be configured
+      # for all or only some services.
+      - job_name: "kubernetes-ingresses"
+
+        metrics_path: /probe
+        params:
+          module: [http_2xx]
+
+        kubernetes_sd_configs:
+          - role: ingress
+
+        relabel_configs:
+          # Example relabel to probe only some ingresses that have "example.io/should_be_probed = true" annotation
+          #  - source_labels: [__meta_kubernetes_ingress_annotation_example_io_should_be_probed]
+          #    action: keep
+          #    regex: true
+          - source_labels:
+              [
+                __meta_kubernetes_ingress_scheme,
+                __address__,
+                __meta_kubernetes_ingress_path,
+              ]
+            regex: (.+);(.+);(.+)
+            replacement: ${1}://${2}${3}
+            target_label: __param_target
+          - target_label: __address__
+            replacement: blackbox-exporter.example.com:9115
+          - source_labels: [__param_target]
+            target_label: instance
+          - action: labelmap
+            regex: __meta_kubernetes_ingress_label_(.+)
+          - source_labels: [__meta_kubernetes_namespace]
+            target_label: namespace
+          - source_labels: [__meta_kubernetes_ingress_name]
+            target_label: ingress
+
       # https://github.com/prometheus/prometheus/blob/master/documentation/examples/prometheus-kubernetes.yml#L79
       - job_name: 'kubernetes-endpoints'
         kubernetes_sd_configs:
@@ -14206,6 +14362,38 @@ data:
           - targets: ["172.18.0.4:11000", "172.18.0.4:11000", "172.18.0.4:11000"]
             labels:
               export_type: "redis_export"
+    
+    # Create a job for Docker daemon.
+    #
+    # This example requires Docker daemon to be configured to expose
+    # Prometheus metrics, as documented here:
+    # https://docs.docker.com/config/daemon/prometheus/
+    - job_name: "docker"
+      static_configs:
+        - targets: ["localhost:9323"]
+
+    # Create a job for Docker Swarm containers.
+    #
+    # This example works with cadvisor running using:
+    # docker run --detach --name cadvisor -l prometheus-job=cadvisor
+    #     --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock,ro
+    #     --mount type=bind,src=/,dst=/rootfs,ro
+    #     --mount type=bind,src=/var/run,dst=/var/run
+    #     --mount type=bind,src=/sys,dst=/sys,ro
+    #     --mount type=bind,src=/var/lib/docker,dst=/var/lib/docker,ro
+    #     google/cadvisor -docker_only
+    - job_name: "docker-containers"
+      docker_sd_configs:
+        - host: unix:///var/run/docker.sock # You can also use http/https to connect to the Docker daemon.
+      relabel_configs:
+        # Only keep containers that have a `prometheus-job` label.
+        - source_labels: [__meta_docker_container_label_prometheus_job]
+          regex: .+
+          action: keep
+        # Use the task labels that are prefixed by `prometheus-`.
+        - regex: __meta_docker_container_label_prometheus_(.+)
+          action: labelmap
+          replacement: $1
 ---
 # Source: prometheus/templates/prometheus.yaml
 apiVersion: rbac.authorization.k8s.io/v1
