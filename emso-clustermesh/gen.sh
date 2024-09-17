@@ -1,5 +1,5 @@
 rm -rf ./dist/*
-
+mkdir dist
 #gen ca cert
 openssl genrsa -out ./dist/ca.key 2048
 
