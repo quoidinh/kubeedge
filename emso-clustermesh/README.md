@@ -39,12 +39,22 @@ kind create cluster --config kind-2.yaml
 cilium install cilium cilium/cilium \
     --set cluster.name=k8s-cluster-1 --set cluster.id=1 \
     --namespace kube-system \
-    --values cluster1.yaml
+    --values cilium-1-values.yaml
 
 cilium install cilium cilium/cilium \
     --set cluster.name=k8s-cluster-2 --set cluster.id=2 \
     --namespace kube-system \
-    --values cluster2.yaml
+    --values cilium-2-values.yaml
+
+kubectl config use kind-k8s-cluster-1
+cilium clustermesh enable --service-type NodePort
+cilium hubble enable --ui
+cilium clustermesh status --wait
+
+kubectl config use kind-k8s-cluster-2
+cilium clustermesh enable --service-type NodePort
+cilium hubble enable --ui
+cilium clustermesh status --wait
 
 ### Step 4: Install Cilium in all clusters
 EKS Cluster 

@@ -1,0 +1,292 @@
+debug:
+  enabled: true
+# nodeinit:
+#   enabled: true
+#   restartPods: true
+nodeinit:
+  enabled: true
+  reconfigureKubelet: true
+  removeCbrBridge: true
+  restartPods: true
+# kubeProxyReplacement: partial
+hostServices:
+  enabled: false
+externalIPs:
+  enabled: true
+nodePort:
+  enabled: true
+hostPort:
+  enabled: true
+ipam:
+  mode: kubernetes
+bpf:
+  masquerade: false
+hubble:
+  enabled: true
+  ui:
+    enabled: true
+  relay:
+    enabled: true
+# -- Configure certificate generation for Hubble integration.
+# If hubble.tls.auto.method=cronJob, these values are used
+# for the Kubernetes CronJob which will be scheduled regularly to
+# (re)generate any certificates not provided manually.
+certgen:
+  image:
+    # @schema
+    # type: [null, string]
+    # @schema
+    override: ~
+    repository: "quay.io/cilium/certgen"
+    tag: "v0.2.1"
+    digest: "sha256:ab6b1928e9c5f424f6b0f51c68065b9fd85e2f8d3e5f21fbd1a3cb27e6fb9321"
+    useDigest: true
+    pullPolicy: "Always"
+  # -- Seconds after which the completed job pod will be deleted
+  ttlSecondsAfterFinished: 1800
+  # -- Labels to be added to hubble-certgen pods
+  podLabels: {}
+  # -- Annotations to be added to the hubble-certgen initial Job and CronJob
+  annotations:
+    job: {}
+    cronJob: {}
+  # -- Node tolerations for pod assignment on nodes with taints
+  # ref: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
+  tolerations: []
+  # -- Additional certgen volumes.
+  extraVolumes: []
+  # -- Additional certgen volumeMounts.
+  extraVolumeMounts: []
+  # -- Affinity for certgen
+  affinity: {}
+# -- Configure L2 announcements
+l2announcements:
+#   # -- Enable L2 announcements
+  enabled: true
+  # -- If a lease is not renewed for X duration, the current leader is considered dead, a new leader is picked
+  leaseDuration: 15s
+  # -- The interval at which the leader will renew the lease
+  leaseRenewDeadline: 5s
+  # -- The timeout between retries if renewal fails
+  leaseRetryPeriod: 2s
+# -- Configure L2 pod announcements
+l2podAnnouncements:
+#   # -- Enable L2 pod announcements
+  enabled: true
+#   # -- Interface used for sending Gratuitous ARP pod announcements
+#   interface: "eth0"
+# # -- Configure BGP
+# bgp:
+#   # -- Enable BGP support inside Cilium; embeds a new ConfigMap for BGP inside
+#   # cilium-agent and cilium-operator
+  # enabled: true
+  # announce:
+#     # -- Enable allocation and announcement of service LoadBalancer IPs
+    # loadbalancerIP: false
+#     # -- Enable announcement of node pod CIDR
+    # podCIDR: false
+# -- This feature set enables virtual BGP routers to be created via
+# CiliumBGPPeeringPolicy CRDs.
+# bgpControlPlane:
+#   # -- Enables the BGP control plane.
+  # enabled: true
+#   # -- SecretsNamespace is the namespace which BGP support will retrieve secrets from.
+  # secretsNamespace:
+#     # -- Create secrets namespace for BGP secrets.
+    # create: false
+#     # -- The name of the secret namespace to which Cilium agents are given read access
+#     name: kube-system
+# etcd:
+#   # -- Enable etcd mode for the agent.
+#   enabled: true
+#   # -- List of etcd endpoints
+#   endpoints:
+#     - https://172.16.0.149:2379
+#     - https://172.16.0.66:2379
+#     - https://172.16.0.157:2379
+#     - https://172.16.0.234:2379
+# #     # - https://172.16.0.67:2379
+# #   # -- Enable use of TLS/SSL for connectivity to etcd.
+#   ssl: true
+cluster:
+  id: 2
+  name: cluster2
+clustermesh:
+  useAPIServer: true
+  config:
+    enabled: false
+    # domain: mesh.cilium.io
+    # clusters:
+    # - name: kind-cluster1
+    #   port: 2379
+    #   ips:
+    #   - 172.16.0.149
+    #   # tls:
+    #   #   cert: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURJRENDQWdpZ0F3SUJBZ0lSQU50a1JRWjhnVFZ0ZXlBTHJsSHQ5WlF3RFFZSktvWklodmNOQVFFTEJRQXcKUlRFTE1Ba0dBMVVFQmhNQ1ZWTXhFekFSQmdOVkJBZ01DbGRoYzJocGJtZDBiMjR4RURBT0JnTlZCQWNNQjFObApZWFIwYkdVeER6QU5CZ05WQkFNTUJrTnBiR2wxYlRBZUZ3MHlOREE1TURjeE9URTVNalphRncweU56QTVNRGN4Ck9URTVNalphTUJFeER6QU5CZ05WQkFNVEJuSmxiVzkwWlRDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVAKQURDQ0FRb0NnZ0VCQUsydTRIQjZUZVE2VGlVaHYwTGtpMXlQNWszSEU3b0lRdGRXVWErRk1zWk55NVJkc1pScgpuK2dVSFFBbFFDYmxsWUpLVzhLRmFrQ0FlMGRVSHE1STlYaHlFcjJjbFJzUG1GSU02NGdydlhCM3VyMzcvaE9oCk5sYkxLYUlaazVzTVNPaThBeEFYbDJhTFNheWxaVlJ3RkdxS2xNczdabnZ6czJYOGtHOFk0c01zWnlUdTc4Q3IKVHFSaGVqNnZ3cmlZN0xnUW1PSEN0N0xZMSsvZXFXSTVpS0Q3Zmd5ZjJ3Mm5kaUd1UFZrSHdnUDBBUUpCMFhJagpSWkVDaEdURzRZdWxNQ0tMZW0yYzdPSnpqV1d2bWVZa1l1K3dPTUUzS05NcW5zMzV6RHp1KzhURDlOUUNmemFBCkFONHVTYlFjbXUzcnZUYUl0VGZQZG5lb3AzSERIQm1ldEdVQ0F3RUFBYU0vTUQwd0RnWURWUjBQQVFIL0JBUUQKQWdXZ01CMEdBMVVkSlFRV01CUUdDQ3NHQVFVRkJ3TUJCZ2dyQmdFRkJRY0RBakFNQmdOVkhSTUJBZjhFQWpBQQpNQTBHQ1NxR1NJYjNEUUVCQ3dVQUE0SUJBUUJoUDVBV0FXYWRXbkNHRnl5Y1dNdTIvcTAyS2ZKSWxxa2U3YXMxCkk3UzBud05DbVRFUGE2ZjlUYzJLTUltR01VWTZiR2kzK1hlSkdPbVRqUzNTZTlLZkNRVmJMZUlYUVpVVlR1c0QKVEYzSU1aYVJ5MXN2Szg3Q1JEVnQ0RGxTeUZSWTc5R3VPQlBCazVndjR5akU5Ym1kMEJ3THhrZm5WSDA2a21uRgpEYi9YRFArMmdKMWIvY2tpc3RVQnlHczc5aHFGc1l4bkREMnJNVDFqRHlsdi8xaEJCM0dJVXNDaWlkZTRXR0FyCmVDa1d2MlZidXFiVDRQVDA0em5pc29pTnhIVE1sZ3BWMFl6Rm1UdVBLM0xaWW9lTTJkK3BJNlZYc2twUzRKQkwKSzlMMXhPUURNRWxlTC9tRmdGOTNVc3FNYWRyV3dwVHZjR2xPajQ3MklyVjZzQUJMCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    #   #   key: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFb3dJQkFBS0NBUUVBcmE3Z2NIcE41RHBPSlNHL1F1U0xYSS9tVGNjVHVnaEMxMVpScjRVeXhrM0xsRjJ4CmxHdWY2QlFkQUNWQUp1V1Zna3Bid29WcVFJQjdSMVFlcmtqMWVISVN2WnlWR3crWVVnenJpQ3U5Y0hlNnZmdisKRTZFMlZzc3BvaG1UbXd4STZMd0RFQmVYWm90SnJLVmxWSEFVYW9xVXl6dG1lL096WmZ5UWJ4aml3eXhuSk83dgp3S3RPcEdGNlBxL0N1SmpzdUJDWTRjSzNzdGpYNzk2cFlqbUlvUHQrREovYkRhZDJJYTQ5V1FmQ0EvUUJBa0hSCmNpTkZrUUtFWk1iaGk2VXdJb3Q2Ylp6czRuT05aYStaNWlSaTc3QTR3VGNvMHlxZXpmbk1QTzc3eE1QMDFBSi8KTm9BQTNpNUp0QnlhN2V1OU5vaTFOODkyZDZpbmNjTWNHWjYwWlFJREFRQUJBb0lCQUhSL2cyNE9xMloxc1dyNApxdWk4a2JuaGo5SUZ3WGFjQ2ZHVXBhLzh3U1VBazVnT0RJb0ljcmJobnQ0MUhrVzQ0ME1FaTIzN3ZWeE1rZVF6ClNXMFA1UThJUFFmUUdyZVBDMVdsOHVwZ3BHM204V3h6dFdZSFVZS0FQWW5NYkJTbzlkS2VJZFBPYnpCS0ozM1YKWnhWdkpGS2VaOVcySHpUdkx4c3VnTmIwTTA1RHhFOVdZOUxuVUZudjF4aTFBOVRSNUZaREU1RjNIRXo4Ry85KwpHYmRCeTlZZTJuTHFpNTFvSmNJSXM3Q0ZOVnVHS29leFkxRm5NWFU2SVVjd0JZU2NnT0c3SmgvTThDOURNYnpHCnErelhlMlBQTUc5TW1JcmQzNXVGTG1DT2szV2RjS0VaWkF1UVp2UThLUnh6ajdMMmJrTGxvVmhzeWtQalhsOVYKbzVMdGc5VUNnWUVBeTFPNlBJYy9jNFBBQ2pjZENISFZYNEd4UzRVbk9pRzMyc3NIaVFBNDZpcEQ2cWZsNmJ6Nwp3N1QvNDFTZjRIKzFmVHNMVGVuVXN2NUhXeVlZekl6ZUl1cHQya3prbDBObFowcER0NXpRdzFqSkF6eDFQMklrCjhocWszUXNpcGNKSEg0Qzk4cmlvVHZUL25Dd05PNFFValB6L2J6dlk0TEZuaVB6V3VrTE5TbjhDZ1lFQTJxMDMKdTdhaVNDeE9TelFtK0dSWmMwdmpXbjhrckRzZUd6T3Rwa2h3aXRtdDhpNEs3YS95UVQzY3hmSGhxTHRzK0NoeAp3MXhFRE5OakgyZ3I1WjlQbmtLNFovMFB6aDNOekVpeEYrczdkRDRlYnROc0x2ZUVGenEvMXNRWllka1drenhlCmhYQi9nVXFyT3k1dVNQWGJXZGdibm9hclRKdkY5YlJ3LzNnaHB4c0NnWUVBeFZPdHM1NkNtdVhyVXo2bm81RnUKUmZGRkVvallTQmQvS2d6T2RFeE44Qnd5cTZKa2hGS1BlQ0RLRW1NSGdrWU82Y21Lc0FQV0ZCeXBQYkdjY2Evbwp5YlFBQnRPSEtiSVQwSW1IYk1QNDZ3ellrSloxSjUxbFE3MU44T1FrclAvK0xIbXlYc1NOTzR1VUlvbXlFZWVlClZqSVc2R29Ka2c4NTd2MkttMXZIaHBzQ2dZQjVvQ3hHZ0o4a0sxaGtwWjRqTzVVdzluMStvUWJoc0lQZk4xQVgKRTJWZEpST0ZocXhYWlN3RnM0V3Vwd2tPMHlnWm9rMGNEcDVlejlmcTZRSzVWWEZ3SWNYMU9LQm8wTlRkRVhWRwpTM1NuQThIamZENUlwU3hYeXpwV0ZuM1RtVzNmK0l6T0JUTTEwelVIMXB4S2drdzlYV0NIUEhuY1F5dklyRkxKCkZLVUxEd0tCZ0ExdEs5dHJibkt0RDg3NGRiNFRSVTVwN3FpcFRwSXJycWJyZURpanhoTEkxY1BuaXdWVnJGSlgKTlVOdnBGWUJSaTdxajdTelpveTZWTkc1MS9hYWp3UTgrNjVyVFQ5Y0hPODJlMmpySko0My84b1o2ZUIyM1krRwp4VW5heUxSb0pteE9yM285KzlRUGJEbi9YWUJ2QlZiS1RsZHdLSW5NWEMrR0owQmlmbWRGCi0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0tCg==
+    # - name: kind-cluster2
+    #   port: 2379
+    #   ips:
+    #   - 172.16.0.66
+    #   # tls:
+    #   #   #kubectl get secret clustermesh-apiserver-remote-cert -n kube-system -o yaml
+    #   #   # tls.crt from clustermesh-apiserver-remote-cert secret in Cluster 1
+    #   #   # tls.key from clustermesh-apiserver-remote-cert secret in Cluster 1
+    #   #   cert: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNiVENDQVZXZ0F3SUJBZ0lVRUVURXo3Um5UQkNYQ0Zta3M5N1A3aEs5dnNZd0RRWUpLb1pJaHZjTkFRRUwKQlFBd1JURUxNQWtHQTFVRUJoTUNWVk14RXpBUkJnTlZCQWdNQ2xkaGMyaHBibWQwYjI0eEVEQU9CZ05WQkFjTQpCMU5sWVhSMGJHVXhEekFOQmdOVkJBTU1Ca05wYkdsMWJUQWVGdzB5TkRBNU1EY3hPRFEyTURCYUZ3MHlOekE1Ck1EY3hPRFEyTURCYU1CRXhEekFOQmdOVkJBTVRCbkpsYlc5MFpUQlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDkKQXdFSEEwSUFCRE9IWDV6QVFpZUtEeXAwVmszQTQzS0h4b3d2SzRsZWhzdFovS3c3aGVHOVNLdnBEZXFwaHdqRApuSXJ0cmt0czNnbGhTUGhTc09EV0Z4dlJkVDdITkFLalZEQlNNQTRHQTFVZER3RUIvd1FFQXdJRm9EQVRCZ05WCkhTVUVEREFLQmdnckJnRUZCUWNEQWpBTUJnTlZIUk1CQWY4RUFqQUFNQjBHQTFVZERnUVdCQlJwT29iWTJQbWUKYllJM1hDWTlQRC9aMXpHaE1UQU5CZ2txaGtpRzl3MEJBUXNGQUFPQ0FRRUFiLytpMFFHemlvSmRDVmF5dnRxMwpmNHIrR0pPaHVERDdHaFovd2hCWWdGdTlwRUdNUjFLdGI0QkEwYlh2cU1KRy9MbXJnUWQ4WjJHWFNwQU1HQ2pkCjF1UEtaZnIyNlJ6V1VOZTB6U3hDWm1JbG5WbFRMeGdqVEFsWkV4bGZxT05LWkFiSmMxWUZVb3AyMVdTQWhpdS8KVFV1Uk5xMlA4ajhhVnlCamhxbTVMUm1maWlYbmFsRGdIMnEzMnpnY0gwVGdsbGhZZnBIVnVzajVsaTVyN0FlZApxZ1RhdG5Wdytlb0IzM1BhWkZsTUk2M3dzcVFsNnQxYzc3YWYzQXk4cGtKUFJQQjdLNCtqdVVuSG04cG9EdG5LClg1Tzc0UUtOZ3dnWVltTHF2SWZDY0hGcGxpbHc1S2QxaTBCdW9lUmUvcXdYWmhEbHpKdlZEZDIrYjRBcGhXd0oKR3c9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    #   #   key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSU1IaTNUZWxPTXhScWhkaElwMXlDYXZnejhERk8zZDdVZnM2K2hNSk9LVktvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFTTRkZm5NQkNKNG9QS25SV1RjRGpjb2ZHakM4cmlWNkd5MW44ckR1RjRiMUlxK2tONnFtSApDTU9jaXUydVMyemVDV0ZJK0ZLdzROWVhHOUYxUHNjMEFnPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
+    # #     cert: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJtekNDQVVLZ0F3SUJBZ0lVR2Y1N0pEem9TZE9STGNTREdpSS9DNEdQLzNZd0NnWUlLb1pJemowRUF3SXcKRkRFU01CQUdBMVVFQXhNSlEybHNhWFZ0SUVOQk1CNFhEVEkwTURrd01qRXlOVGt3TUZvWERUSTNNRGt3TWpFeQpOVGt3TUZvd0VURVBNQTBHQTFVRUF4TUdjbVZ0YjNSbE1Ga3dFd1lIS29aSXpqMENBUVlJS29aSXpqMERBUWNEClFnQUUvSlZReWEwMnFrWm9Mby9BZDlGV0ZmUE5Oc3FUM0JQVGdGSnJyWXk4TE83WUwwVXZLdlEzVUEvV0NGWDIKR01LQ29rVDNWL2VDeTBiN09vM3lUSlF3a2FOMU1ITXdEZ1lEVlIwUEFRSC9CQVFEQWdXZ01CTUdBMVVkSlFRTQpNQW9HQ0NzR0FRVUZCd01DTUF3R0ExVWRFd0VCL3dRQ01BQXdIUVlEVlIwT0JCWUVGTDYySksrYnh1TTNlaVFHCnprZkljTkJVYzlkT01COEdBMVVkSXdRWU1CYUFGTXhMUlk5aWdSSEtlUEc1K2J4M1BLSUl4bVdnTUFvR0NDcUcKU000OUJBTUNBMGNBTUVRQ0lESFdwNXFtUVk1TDJwWXdkbWR2VG9JOW1hNjV1Mk1ESjdJRy9hbWVrRmhSQWlCegoyS2dLWWwrWjZUNWVML1AvdmkyT2xnTkJPSXhwdkpZdVppa0JUemlHVWc9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    # #     key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUowWGlqK2ZGOENidmNMYmhWdGJoK1VuUE1HZ0NJTkNJYVFOekMxMlEwZnBvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFL0pWUXlhMDJxa1pvTG8vQWQ5RldGZlBOTnNxVDNCUFRnRkpycll5OExPN1lMMFV2S3ZRMwpVQS9XQ0ZYMkdNS0Nva1QzVi9lQ3kwYjdPbzN5VEpRd2tRPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
+    # - name: kind-cluster3
+    #   port: 2379
+    #   ips:
+    #   - 172.16.0.157
+    #   # tls:
+    #   #   #kubectl get secret clustermesh-apiserver-remote-cert -n kube-system -o yaml
+    #   #   # tls.crt from clustermesh-apiserver-remote-cert secret in Cluster 1
+    #   #   # tls.key from clustermesh-apiserver-remote-cert secret in Cluster 1
+    #   #   cert: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNiVENDQVZXZ0F3SUJBZ0lVRUVURXo3Um5UQkNYQ0Zta3M5N1A3aEs5dnNZd0RRWUpLb1pJaHZjTkFRRUwKQlFBd1JURUxNQWtHQTFVRUJoTUNWVk14RXpBUkJnTlZCQWdNQ2xkaGMyaHBibWQwYjI0eEVEQU9CZ05WQkFjTQpCMU5sWVhSMGJHVXhEekFOQmdOVkJBTU1Ca05wYkdsMWJUQWVGdzB5TkRBNU1EY3hPRFEyTURCYUZ3MHlOekE1Ck1EY3hPRFEyTURCYU1CRXhEekFOQmdOVkJBTVRCbkpsYlc5MFpUQlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDkKQXdFSEEwSUFCRE9IWDV6QVFpZUtEeXAwVmszQTQzS0h4b3d2SzRsZWhzdFovS3c3aGVHOVNLdnBEZXFwaHdqRApuSXJ0cmt0czNnbGhTUGhTc09EV0Z4dlJkVDdITkFLalZEQlNNQTRHQTFVZER3RUIvd1FFQXdJRm9EQVRCZ05WCkhTVUVEREFLQmdnckJnRUZCUWNEQWpBTUJnTlZIUk1CQWY4RUFqQUFNQjBHQTFVZERnUVdCQlJwT29iWTJQbWUKYllJM1hDWTlQRC9aMXpHaE1UQU5CZ2txaGtpRzl3MEJBUXNGQUFPQ0FRRUFiLytpMFFHemlvSmRDVmF5dnRxMwpmNHIrR0pPaHVERDdHaFovd2hCWWdGdTlwRUdNUjFLdGI0QkEwYlh2cU1KRy9MbXJnUWQ4WjJHWFNwQU1HQ2pkCjF1UEtaZnIyNlJ6V1VOZTB6U3hDWm1JbG5WbFRMeGdqVEFsWkV4bGZxT05LWkFiSmMxWUZVb3AyMVdTQWhpdS8KVFV1Uk5xMlA4ajhhVnlCamhxbTVMUm1maWlYbmFsRGdIMnEzMnpnY0gwVGdsbGhZZnBIVnVzajVsaTVyN0FlZApxZ1RhdG5Wdytlb0IzM1BhWkZsTUk2M3dzcVFsNnQxYzc3YWYzQXk4cGtKUFJQQjdLNCtqdVVuSG04cG9EdG5LClg1Tzc0UUtOZ3dnWVltTHF2SWZDY0hGcGxpbHc1S2QxaTBCdW9lUmUvcXdYWmhEbHpKdlZEZDIrYjRBcGhXd0oKR3c9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    #   #   key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSU1IaTNUZWxPTXhScWhkaElwMXlDYXZnejhERk8zZDdVZnM2K2hNSk9LVktvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFTTRkZm5NQkNKNG9QS25SV1RjRGpjb2ZHakM4cmlWNkd5MW44ckR1RjRiMUlxK2tONnFtSApDTU9jaXUydVMyemVDV0ZJK0ZLdzROWVhHOUYxUHNjMEFnPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
+    # - name: kind-cluster4
+    #   port: 2379
+    #   ips:
+    #   - 172.16.0.234
+    #   # tls:
+    #   #   #kubectl get secret clustermesh-apiserver-remote-cert -n kube-system -o yaml
+    #   #   # tls.crt from clustermesh-apiserver-remote-cert secret in Cluster 1
+    #   #   # tls.key from clustermesh-apiserver-remote-cert secret in Cluster 1
+    #   #   cert: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNiVENDQVZXZ0F3SUJBZ0lVRUVURXo3Um5UQkNYQ0Zta3M5N1A3aEs5dnNZd0RRWUpLb1pJaHZjTkFRRUwKQlFBd1JURUxNQWtHQTFVRUJoTUNWVk14RXpBUkJnTlZCQWdNQ2xkaGMyaHBibWQwYjI0eEVEQU9CZ05WQkFjTQpCMU5sWVhSMGJHVXhEekFOQmdOVkJBTU1Ca05wYkdsMWJUQWVGdzB5TkRBNU1EY3hPRFEyTURCYUZ3MHlOekE1Ck1EY3hPRFEyTURCYU1CRXhEekFOQmdOVkJBTVRCbkpsYlc5MFpUQlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDkKQXdFSEEwSUFCRE9IWDV6QVFpZUtEeXAwVmszQTQzS0h4b3d2SzRsZWhzdFovS3c3aGVHOVNLdnBEZXFwaHdqRApuSXJ0cmt0czNnbGhTUGhTc09EV0Z4dlJkVDdITkFLalZEQlNNQTRHQTFVZER3RUIvd1FFQXdJRm9EQVRCZ05WCkhTVUVEREFLQmdnckJnRUZCUWNEQWpBTUJnTlZIUk1CQWY4RUFqQUFNQjBHQTFVZERnUVdCQlJwT29iWTJQbWUKYllJM1hDWTlQRC9aMXpHaE1UQU5CZ2txaGtpRzl3MEJBUXNGQUFPQ0FRRUFiLytpMFFHemlvSmRDVmF5dnRxMwpmNHIrR0pPaHVERDdHaFovd2hCWWdGdTlwRUdNUjFLdGI0QkEwYlh2cU1KRy9MbXJnUWQ4WjJHWFNwQU1HQ2pkCjF1UEtaZnIyNlJ6V1VOZTB6U3hDWm1JbG5WbFRMeGdqVEFsWkV4bGZxT05LWkFiSmMxWUZVb3AyMVdTQWhpdS8KVFV1Uk5xMlA4ajhhVnlCamhxbTVMUm1maWlYbmFsRGdIMnEzMnpnY0gwVGdsbGhZZnBIVnVzajVsaTVyN0FlZApxZ1RhdG5Wdytlb0IzM1BhWkZsTUk2M3dzcVFsNnQxYzc3YWYzQXk4cGtKUFJQQjdLNCtqdVVuSG04cG9EdG5LClg1Tzc0UUtOZ3dnWVltTHF2SWZDY0hGcGxpbHc1S2QxaTBCdW9lUmUvcXdYWmhEbHpKdlZEZDIrYjRBcGhXd0oKR3c9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    #   #   key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSU1IaTNUZWxPTXhScWhkaElwMXlDYXZnejhERk8zZDdVZnM2K2hNSk9LVktvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFTTRkZm5NQkNKNG9QS25SV1RjRGpjb2ZHakM4cmlWNkd5MW44ckR1RjRiMUlxK2tONnFtSApDTU9jaXUydVMyemVDV0ZJK0ZLdzROWVhHOUYxUHNjMEFnPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
+    # - name: kind-cluster5
+    #   port: 2379
+    #   ips:
+    #   - 172.16.0.66
+
+    apiserver:
+      service:
+        type: NodePort
+        nodePort: 2379
+      replicas: 3
+      # service:
+      #   type: LoadBalancer
+        # annotations:
+        #   cloud.google.com/load-balancer-type: Internal
+        #   external-dns.alpha.kubernetes.io/hostname: clustermesh-apiserver.${cluster_type}.stacksec.local
+      # -- TCP port for the clustermesh-apiserver health API.
+      healthPort: 9880
+      etcd:
+        # The etcd binary is included in the clustermesh API server image, so the same image from above is reused.
+        # Independent override isn't supported, because clustermesh-apiserver is tested against the etcd version it is
+        # built with.
+
+        # -- Specifies the resources for etcd container in the apiserver
+        resources: {}
+        requests:
+          cpu: 200m
+          memory: 256Mi
+        limits:
+          cpu: 1000m
+          memory: 256Mi
+
+        # -- Security context to be added to clustermesh-apiserver etcd containers
+        securityContext: {}
+        # -- lifecycle setting for the etcd container
+        lifecycle: {}
+        init:
+          # -- Specifies the resources for etcd init container in the apiserver
+          resources: {}
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+
+          # -- Additional arguments to `clustermesh-apiserver etcdinit`.
+          extraArgs: []
+          # -- Additional environment variables to `clustermesh-apiserver etcdinit`.
+          extraEnv: []
+      kvstoremesh:
+        # -- Enable KVStoreMesh. KVStoreMesh caches the information retrieved
+        # from the remote clusters in the local etcd instance.
+        enabled: true
+        # -- Additional KVStoreMesh arguments.
+        extraArgs: []
+        # -- Additional KVStoreMesh environment variables.
+        extraEnv: []
+        # -- Resource requests and limits for the KVStoreMesh container
+        resources: {}
+        requests:
+          cpu: 100m
+          memory: 64Mi
+        limits:
+          cpu: 1000m
+          memory: 1024M
+
+        # -- Additional KVStoreMesh volumeMounts.
+        extraVolumeMounts: []
+        # -- KVStoreMesh Security context
+        securityContext:
+          allowPrivilegeEscalation: true
+          capabilities:
+            drop:
+              - ALL
+        # -- lifecycle setting for the KVStoreMesh container
+        lifecycle: {}
+      tls:
+        auto:
+          enabled: true
+          method: certmanager
+          certManagerIssuerRef:
+            group: cert-manager.io
+            kind: ClusterIssuer
+            name: stacksec-ca
+        # server:
+          # extraIpAddresses: 
+          #   - 172.16.0.149
+          #   - 172.16.0.66
+          #   - 172.16.0.157
+          #   - 172.16.0.234
+          # extraDnsNames: 
+          #   - "clustermesh-apiserver.${cluster_type}.stacksec.local"
+          #   - "clustermesh-apiserver.kube-system.svc.cluster.local"
+          #   - "clustermesh-apiserver.kube-system"
+          #   - "clustermesh-apiserver"
+          #   - "kind-cluster1.mesh.cilium.io"
+          #   - "kind-cluster2.mesh.cilium.io"
+          #   - "kind-cluster3.mesh.cilium.io"
+          #   - "kind-cluster4.mesh.cilium.io"
+          #   - "kind-cluster5.mesh.cilium.io"
+
+# k8s:
+#   requireIPv4PodCIDR: true
+#   requireIPv6PodCIDR: false
+# tunnel: disabled
+# ipv4NativeRoutingCIDR: ${ipv4_native_routing_cidr}
+
+# endpointRoutes:
+#   enabled: true
+
+# cni:
+#   binPath: /home/kubernetes/bin
+
+# encryption:
+#   enabled: false
+#   type: wireguard
+#   nodeEncryption: false
+
+# l7Proxy: true
+# autoDirectNodeRoutes: false
+# enableIPv4Masquerade: true
+externalWorkloads:
+  enabled: true
+extraConfig: 
+  enable-envoy-config: "true"
+
+# bgp:
+#   enabled: true
+#   announce:
+#     loadbalancerIP: true
+#     podCIDR: false
+
+bgpControlPlane:
+  enabled: true
