@@ -31,7 +31,7 @@ sh gen.sh
 ```
 ### Step 3: Replace k8sServiceHost value,it`s your eks master dns
 ```
-k8sServiceHost: xxxxxx.us-west-2.eks.amazonaws.com
+k8sServiceHost: k8s-cluster-1.emso.vn
 ```
 
 ### Step 4: Install Cilium in all clusters

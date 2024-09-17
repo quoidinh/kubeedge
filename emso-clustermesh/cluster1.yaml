@@ -13,8 +13,8 @@ hubble:
   ui:
     enabled: true
 kubeProxyReplacement: strict
-k8sServiceHost: xxxxxx.us-west-2.eks.amazonaws.com
-k8sServicePort: 443
+# k8sServiceHost: k8s-cluster-1.emso.vn
+# k8sServicePort: 443
 hostRouting: false
 clustermesh:
   useAPIServer: true
