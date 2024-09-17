@@ -35,6 +35,17 @@ k8sServiceHost: k8s-cluster-1.emso.vn
 ```
 kind create cluster --config kind-1.yaml
 kind create cluster --config kind-2.yaml
+
+cilium install cilium cilium/cilium \
+    --set cluster.name=k8s-cluster-1 --set cluster.id=1 \
+    --namespace kube-system \
+    --values cluster1.yaml
+
+cilium install cilium cilium/cilium \
+    --set cluster.name=k8s-cluster-2 --set cluster.id=2 \
+    --namespace kube-system \
+    --values cluster2.yaml
+
 ### Step 4: Install Cilium in all clusters
 EKS Cluster 
 ```
