@@ -56,6 +56,8 @@ cilium clustermesh enable --service-type NodePort
 cilium hubble enable --ui
 cilium clustermesh status --wait
 
+cilium clustermesh connect --context kind-k8s-cluster-1 --destination-context kind-k8s-cluster-2
+
 ### Step 4: Install Cilium in all clusters
 EKS Cluster 
 ```

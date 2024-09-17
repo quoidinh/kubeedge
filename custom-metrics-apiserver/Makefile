@@ -101,7 +101,7 @@ verify-generated: update-generated
 
 
 # Test
-# ----
+# ----  $(REGISTRY)/$(IMAGE)-$(ARCH):$(VERSION)
 
 .PHONY: test
 test:
@@ -116,6 +116,6 @@ test-adapter-container: build-test-adapter
 
 .PHONY: test-kind
 test-kind:
-	kind load docker-image $(REGISTRY)/$(IMAGE)-$(ARCH):$(VERSION)
+	kind load docker-image  wowai/k8s-test-metrics-adapter-amd64:latest
 	sed 's|REGISTRY|'${REGISTRY}'|g' test-adapter-deploy/testing-adapter.yaml | kubectl apply -f -
 	kubectl rollout restart -n custom-metrics deployment/custom-metrics-apiserver
