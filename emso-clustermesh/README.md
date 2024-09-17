@@ -33,7 +33,8 @@ sh gen.sh
 ```
 k8sServiceHost: k8s-cluster-1.emso.vn
 ```
-
+kind create cluster --config kind-1.yaml
+kind create cluster --config kind-2.yaml
 ### Step 4: Install Cilium in all clusters
 EKS Cluster 
 ```
