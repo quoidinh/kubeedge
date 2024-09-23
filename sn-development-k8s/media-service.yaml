@@ -15,3 +15,43 @@ spec:
       protocol: TCP
       targetPort: 3000
   type: ClusterIP
+---
+#sn-media-hpa.yaml 
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: sn-media-deployment
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment     # Áp dụng HPA cho Deployment
+    name: sn-media
+  minReplicas: 1   # Số pod scale nhỏ nhất
+  maxReplicas: 10  # Số pod scale lớn nhất
+behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Pods
+        value: 4
+        periodSeconds: 60
+    scaleUp:
+      stabilizationWindowSeconds: 60
+      policies:
+      - type: Pods
+        value: 2
+        periodSeconds: 60
+metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 60
+  
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 60

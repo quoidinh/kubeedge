@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: bands-api-migrate
+  labels:
+    app.kubernetes.io/name: bands-api-migrate
+spec:
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: bands-api-migrate
+    spec:
+      containers:
+      - command:
+        - rails
+        - db:migrate
+        envFrom:
+        - configMapRef:
+            name: bands-api
+        image: docker.io/geshan/band-api:latest
+        imagePullPolicy: IfNotPresent
+        name: main
+      restartPolicy: Never

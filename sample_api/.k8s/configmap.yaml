@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bands-api
+data:
+  PORT: "3000"
+  RACK_ENV: production
+  RAILS_ENV: production
+  RAILS_LOG_TO_STDOUT: "true"
+  RAILS_SERVE_STATIC_FILES: "true"
+  SECRET_KEY_BASE: "Qy6VTnREtzwBbzgvxY2LJA5QQwFNex4wUtj2qNTTnSXtHykdZM"
+  DATABASE_NAME: "zrgyfclw"
+  DATABASE_USER: "zrgyfclw"
+  DATABASE_PASSWORD: "5br8zs-McuU5ISx_cp5il97O183_FgYh"
+  DATABASE_HOST: "topsy.db.elephantsql.com"
+  DATABASE_PORT: "5432"
