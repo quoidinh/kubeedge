@@ -3,14 +3,14 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: cilium-monitoring
+  name: cilium-monitoring-v2
 ---
 # Source: prometheus/templates/prometheus.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: prometheus-k8s
-  namespace: cilium-monitoring
+  namespace: cilium-monitoring-v2
 ---
 # Source: prometheus/templates/grafana.yaml
 apiVersion: v1
@@ -19,7 +19,7 @@ metadata:
   labels:
     app: grafana
   name: grafana-config
-  namespace: cilium-monitoring
+  namespace: cilium-monitoring-v2
 data:
   config.yaml: |
     apiVersion: 1
@@ -359,7 +359,7 @@ metadata:
   labels:
     app: grafana
   name: grafana-cilium-dashboard
-  namespace: cilium-monitoring
+  namespace: cilium-monitoring-v2
 data:
   cilium-dashboard.json: |
     {
@@ -8615,7 +8615,7 @@ metadata:
   labels:
     app: grafana
   name: grafana-cilium-operator-dashboard
-  namespace: cilium-monitoring
+  namespace: cilium-monitoring-v2
 data:
   cilium-operator-dashboard.json: |
     {
@@ -9624,7 +9624,7 @@ metadata:
   labels:
     app: grafana
   name: grafana-hubble-dashboard
-  namespace: cilium-monitoring
+  namespace: cilium-monitoring-v2
 data:
   hubble-dashboard.json: |
     {
@@ -12867,7 +12867,7 @@ metadata:
   labels:
     app: grafana
   name: grafana-hubble-l7-http-metrics-by-workload
-  namespace: cilium-monitoring
+  namespace: cilium-monitoring-v2
 data:
   hubble-l7-http-metrics-by-workload.json: |
     {
@@ -14045,7 +14045,7 @@ data:
 kind: ConfigMap
 metadata:
   name: prometheus
-  namespace: cilium-monitoring
+  namespace: cilium-monitoring-v2
 apiVersion: v1
 data:
   prometheus.yaml: |
@@ -14105,26 +14105,26 @@ data:
           - targets: ["192.168.1.24:11000", "192.168.1.24:11000", "192.168.1.24:11000"]
             labels:
               export_type: "redis_export"
-      # - job_name: 'prom_sample_api'
-      #   honor_timestamps: true
-      #   scrape_interval: 15s
-      #   scrape_timeout: 10s
-      #   metrics_path: /metrics
-      #   scheme: http
-      #   params:
-      #     module: [http_2xx]  # Look for a HTTP 200 response.
-      #   static_configs:
-      #     - targets:
-      #       - 192.168.1.24:3000
-      #   relabel_configs:
-      #     - source_labels: [__address__]
-      #       target_label: __param_target
-      #     - source_labels: [__param_target]
-      #       target_label: instance
-      #     - target_label: __address__
-      #       replacement: "blackboxexporter:9115"  # blackboxexporter exporter.
-      #     - target_label: region
-      #       replacement: "local"
+      - job_name: 'prom_sample_api'
+        honor_timestamps: true
+        scrape_interval: 15s
+        scrape_timeout: 10s
+        metrics_path: /metrics
+        scheme: http
+        params:
+          module: [http_2xx]  # Look for a HTTP 200 response.
+        static_configs:
+          - targets:
+            - 192.168.1.28:7070
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: "192.168.1.28:7070"  # blackboxexporter exporter.
+          - target_label: region
+            replacement: "local"
       # https://github.com/prometheus/prometheus/blob/master/documentation/examples/prometheus-kubernetes.yml#L79
       - job_name: 'kubernetes-endpoints'
         kubernetes_sd_configs:
@@ -14268,7 +14268,7 @@ rules:
 # subjects:
 # - kind: ServiceAccount
 #   name: prometheus-k8s
-#   namespace: cilium-monitoring
+#   namespace: cilium-monitoring-v2
 ---
 # Source: prometheus/templates/grafana.yaml
 apiVersion: v1
@@ -14277,7 +14277,7 @@ metadata:
   labels:
     app: grafana
   name: grafana
-  namespace: cilium-monitoring
+  namespace: cilium-monitoring-v2
 spec:
   ports:
     - port: 3000
@@ -14294,7 +14294,7 @@ metadata:
   labels:
     app: prometheus
   name: prometheus
-  namespace: cilium-monitoring
+  namespace: cilium-monitoring-v2
 spec:
   ports:
   - name: webui
@@ -14313,7 +14313,7 @@ metadata:
     app: grafana
     component: core
   name: grafana
-  namespace: cilium-monitoring
+  namespace: cilium-monitoring-v2
 spec:
   replicas: 1
   selector:
@@ -14393,7 +14393,7 @@ metadata:
   labels:
     app: prometheus
   name: prometheus
-  namespace: cilium-monitoring
+  namespace: cilium-monitoring-v2
 spec:
   replicas: 1
   selector:

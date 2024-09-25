@@ -1,0 +1,42 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata: #  <--- labels.deploymentName is not needed
+  name: Sample-Api-scaledobject
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: sample-api-web
+    envSourceContainerName: sample-api-web  
+ #  <--- Property name was changed
+  pollingInterval: 30
+  cooldownPeriod: 300
+  minReplicaCount: 0
+  maxReplicaCount: 100
+  triggers:
+  - type: sample-api-scaledobject
+    metadata:
+      # Required
+      serverAddress: http://192.168.1.28:9090
+      metricName: myapp_requests_per_second
+      threshold: '3'
+      query: sum(rate(myapp_requests_per_second[2m]))
+# apiVersion: keda.sh/v1
+# kind: ScaledObject
+# metadata:
+#   name: prometheus-scaledobject
+#   namespace: myapp_requests_per_second
+# spec:
+#   scaleTargetRef:
+#     apiVersion: argoproj.io/v1
+#     kind: Rollout
+#     name: myapp_requests_per_second
+#   triggers:
+#     - type: prometheus
+#       metadata:
+#       serverAddress:  http://192.168.1.28:9090
+#       metricName: myapp_requests_per_second
+#       query: envoy_cluster_upstream_rq{appId="300", cluster_name="300-0", container="envoy", namespace="demo3", response_code="200" }
+#       # threshold: "50"
+#   idleReplicaCount: 0                       
+#   minReplicaCount: 1
+#   maxReplicaCount: 10

@@ -4,7 +4,7 @@ metadata:
   name: sample-api
 spec:
   ports:
-  - port: 80
+  - port: 7070
     targetPort: 3000
   selector:
     app.kubernetes.io/name: sample-api

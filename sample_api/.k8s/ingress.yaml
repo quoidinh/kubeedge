@@ -4,9 +4,30 @@
 #   name: sample-api-ingress
 # spec:
 #   rules:
-#   - host: sample-api.geshan.com.np
+#   - host: sample-api.local
 #     http:
 #       paths:
 #       - backend:
 #           serviceName: sample-api
-#           servicePort: 80
+#           servicePort: 7070
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-fanout
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: sample-api.local
+      http:
+        paths:
+        - backend:
+            service:
+              name: sample-api
+              port:
+                number: 7070
+          path: /
+          pathType: ImplementationSpecific
+
+# kubectl -n default port-forward sample-api-web --address 0.0.0.0 7070:80
