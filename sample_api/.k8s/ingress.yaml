@@ -1,12 +1,12 @@
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  name: bands-api-ingress
-spec:
-  rules:
-  - host: bands-api.geshan.com.np
-    http:
-      paths:
-      - backend:
-          serviceName: bands-api
-          servicePort: 80
+# apiVersion: networking.k8s.io/v2
+# kind: Ingress
+# metadata:
+#   name: sample-api-ingress
+# spec:
+#   rules:
+#   - host: sample-api.geshan.com.np
+#     http:
+#       paths:
+#       - backend:
+#           serviceName: sample-api
+#           servicePort: 80

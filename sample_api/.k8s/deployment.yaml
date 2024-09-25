@@ -2,18 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/name: bands-api
+    app.kubernetes.io/name: sample-api
     process: web
-  name: bands-api-web
+  name: sample-api-web
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: bands-api
+      app.kubernetes.io/name: sample-api
       process: web
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: bands-api
+        app.kubernetes.io/name: sample-api
         process: web
     spec:
       containers:
@@ -22,10 +22,10 @@ spec:
           value: "3000"
         envFrom:
         - configMapRef:
-            name: bands-api
-        image: docker.io/geshan/band-api:latest
+            name: sample-api
+        image: wowai/samle-api:latest
         imagePullPolicy: IfNotPresent
-        name: bands-api-web
+        name: sample-api-web
         ports:
         - containerPort: 3000
           name: http

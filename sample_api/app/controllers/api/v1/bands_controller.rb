@@ -11,7 +11,6 @@ class Api::V1::BandsController < ApplicationController
     push = Prometheus::Client::Push.new(job: "my-job", gateway: "http://127.0.0.1:7091") #.replace(prometheus)
     push.basic_auth("admin", "admin") 
     
-
       # Counter
       http_requests_total = Prometheus::Client::Counter.new(:http_requests_total,docstring:'...' )
 
@@ -23,23 +22,17 @@ class Api::V1::BandsController < ApplicationController
       # # some HTTP request code here
       elapsed_time = Process.clock_gettime(Process::CLOCK_MONOTONIC) - start_time
       read_latency.observe(elapsed_time)
-      Prometheus::Client::Push.new(docstring: '...',
-      labels: [:service, :component],
-      preset_labels: { service: "my_service" },job: "http_requests_total", gateway: "http://127.0.0.1:7091").basic_auth("admin", "admin") 
-      Prometheus::Client::Push.new(  docstring: '...',
-      labels: [:service, :component],
-      preset_labels: { service: "my_service" },job: "ruby_http_request_duration_seconds", gateway: "http://127.0.0.1:7091").basic_auth("admin", "admin") 
+      Prometheus::Client::Push.new(docstring: '...',labels: [:service, :component],preset_labels: { service: "my_service" },job: "http_requests_total", gateway: "http://127.0.0.1:7091").basic_auth("admin", "admin") 
+      Prometheus::Client::Push.new(  docstring: '...',labels: [:service, :component],preset_labels: { service: "my_service" },job: "ruby_http_request_duration_seconds", gateway: "http://127.0.0.1:7091").basic_auth("admin", "admin") 
       # prometheus.register(http_requests_total)
       # prometheus.register(read_latency)
-      # # Create a simple gauge metric.
-      gauge_example = Prometheus::Client::Gauge.new(:gauge_example,docstring: '...')
-  
-      # Register GAUGE_EXAMPLE with the registry we previously created.
-      prometheus.register(gauge_example)
-      gauge_example.increment
-      Prometheus::Client::Push.new(docstring: '...',
-      labels: [:service, :component],
-      preset_labels: { service: "my_service" },job: "my-job", gateway: "http://127.0.0.1:7091").basic_auth("admin", "admin") 
+
+      # # Create a simple myapp_requests_per_second metric.
+      myapp_requests_per_second = Prometheus::Client::Gauge.new(:myapp_requests_per_second,docstring: '...')
+      # Register myapp_requests_per_second with the registry we previously created.
+      prometheus.register(myapp_requests_per_second)
+      myapp_requests_per_second.increment
+      Prometheus::Client::Push.new(docstring: '...',labels: [:service, :component],preset_labels: { service: "my_service" },job: "my-job", gateway: "http://127.0.0.1:7091").basic_auth("admin", "admin") 
       # https://github.com/prometheus/client_ruby
     @bands = Band.all
 

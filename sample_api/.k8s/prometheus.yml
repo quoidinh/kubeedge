@@ -1,16 +1,40 @@
-global:
-  scrape_interval: 5s
-  evaluation_interval: 5s
+# global:
+#   scrape_interval: 5s
+#   evaluation_interval: 5s
 
-scrape_configs:
-  - job_name: 'prometheus'
-    static_configs:
-      - targets: ['localhost:9090']
+# scrape_configs:
+#   # - job_name: 'prometheus'
+#   #   static_configs:
+#   #     - targets: ['localhost:9090']
 
-  - job_name: 'sample_api'
-    kubernetes_sd_configs:
-      - role: pod
-    relabel_configs:
-      - source_labels: [__meta_kubernetes_pod_label_app]
-        regex: bands-api
-        action: keep
+#   # - job_name: 'sample_api'
+#   #   kubernetes_sd_configs:
+#   #     - role: pod
+#   #   relabel_configs:
+#   #     - source_labels: [__meta_kubernetes_pod_label_app]
+#   #       regex: sample-api
+#   #       action: keep
+  
+#   - job_name: 'prom_sample_api'
+#     honor_timestamps: true
+#     scrape_interval: 15s
+#     scrape_timeout: 10s
+#     metrics_path: /metrics
+#     scheme: http
+#     params:
+#       module: [http_2xx]  # Look for a HTTP 200 response.
+#     static_configs:
+#       - targets:
+#         - 192.168.1.24:3000
+#     relabel_configs:
+#       - source_labels: [__address__]
+#         target_label: __param_target
+#       - source_labels: [__param_target]
+#         target_label: instance
+#       - target_label: __address__
+#         replacement: "blackboxexporter:9115"  # blackboxexporter exporter.
+#       - target_label: region
+#         replacement: "local"
+# remote_write:
+#     - url: http://192.168.1.24:9090/api/v1/write
+# https://learnk8s.io/kubernetes-node-size

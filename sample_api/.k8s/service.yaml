@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: bands-api
+  name: sample-api
 spec:
   ports:
   - port: 80
     targetPort: 3000
   selector:
-    app.kubernetes.io/name: bands-api
+    app.kubernetes.io/name: sample-api
     process: web

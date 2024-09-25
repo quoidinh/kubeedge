@@ -74,13 +74,13 @@ metrics:
     #     target:
     #       type: Value
     #       value: 0.03
-# triggers:
-#     - type: prometheus
-#       metadata:
-#         serverAddress: http://172.16.0.66:9090/
-#         metricName: sn_web_users_total
-#         threshold: '60'
-#         query: sum(irate(sn_web_users_total{}[60s]))
+triggers:
+    - type: prometheus
+      metadata:
+        serverAddress: http://<prometheus-host>:9090
+        metricName: http_requests_total
+        threshold: '100'
+        query: sum(rate(http_requests_total{deployment="my-deployment"}[2m]))
 
 # https://hackernoon.com/how-to-use-prometheus-adapter-to-autoscale-custom-metrics-deployments-p1p3tl0
 # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/#autoscaling-on-multiple-metrics-and-custom-metrics

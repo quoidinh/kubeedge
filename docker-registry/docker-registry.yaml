@@ -1,0 +1,61 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: registry
+  namespace: docker-registry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: registry
+  template:
+    metadata:
+      labels:
+        app: registry
+        name: registry
+    spec:
+      nodeSelector:
+        node-type: worker
+      containers:
+      - name: registry
+        image: registry:2
+        ports:
+        - containerPort: 5000
+        volumeMounts:
+        - name: volv
+          mountPath: /var/lib/registry
+          subPath: registry
+      volumes:
+        - name: volv
+          persistentVolumeClaim:
+            claimName: longhorn-docker-registry-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: longhorn-docker-registry-pvc
+  namespace: docker-registry
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: registry-service
+  namespace: docker-registry
+spec:
+  selector:
+    app: registry
+  type: LoadBalancer
+  ports:
+    - name: docker-port
+      protocol: TCP
+      port: 5000
+      targetPort: 5000
+  loadBalancerIP: 192.168.0.202

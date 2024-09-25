@@ -14056,6 +14056,75 @@ data:
     rule_files:
       - "/etc/prometheus-rules/*.rules"
     scrape_configs:
+      - job_name: "yugabytedb"
+        metrics_path: /prometheus-metrics
+        relabel_configs:
+          - target_label: "node_prefix"
+            replacement: "cluster-1"
+        metric_relabel_configs:
+          # Save the name of the metric so we can group_by since we cannot by __name__ directly...
+          - source_labels: ["__name__"]
+            regex: "(.*)"
+            target_label: "saved_name"
+            replacement: "$1"
+          # The following basically retrofit the handler_latency_* metrics to label format.
+          - source_labels: ["__name__"]
+            regex: "handler_latency_(yb_[^_]*)_([^_]*)_([^_]*)(.*)"
+            target_label: "server_type"
+            replacement: "$1"
+          - source_labels: ["__name__"]
+            regex: "handler_latency_(yb_[^_]*)_([^_]*)_([^_]*)(.*)"
+            target_label: "service_type"
+            replacement: "$2"
+          - source_labels: ["__name__"]
+            regex: "handler_latency_(yb_[^_]*)_([^_]*)_([^_]*)(_sum|_count)?"
+            target_label: "service_method"
+            replacement: "$3"
+          - source_labels: ["__name__"]
+            regex: "handler_latency_(yb_[^_]*)_([^_]*)_([^_]*)(_sum|_count)?"
+            target_label: "__name__"
+            replacement: "rpc_latency$4"
+
+        static_configs:
+          - targets: ["192.168.1.24:7000", "192.168.1.24:7000", "192.168.1.24:7000"]
+            labels:
+              export_type: "master_export"
+
+          - targets: [192.168.1.24:9000", "192.168.1.24:9000", "192.168.1.24:9000"]
+            labels:
+              export_type: "tserver_export"
+
+          - targets: ["192.168.1.24:12000", "192.168.1.24:12000", "192.168.1.24:12000"]
+            labels:
+              export_type: "cql_export"
+
+          - targets: ["192.168.1.24:13000", "192.168.1.24:13000", "192.168.1.24:13000"]
+            labels:
+              export_type: "ysql_export"
+
+          - targets: ["192.168.1.24:11000", "192.168.1.24:11000", "192.168.1.24:11000"]
+            labels:
+              export_type: "redis_export"
+      # - job_name: 'prom_sample_api'
+      #   honor_timestamps: true
+      #   scrape_interval: 15s
+      #   scrape_timeout: 10s
+      #   metrics_path: /metrics
+      #   scheme: http
+      #   params:
+      #     module: [http_2xx]  # Look for a HTTP 200 response.
+      #   static_configs:
+      #     - targets:
+      #       - 192.168.1.24:3000
+      #   relabel_configs:
+      #     - source_labels: [__address__]
+      #       target_label: __param_target
+      #     - source_labels: [__param_target]
+      #       target_label: instance
+      #     - target_label: __address__
+      #       replacement: "blackboxexporter:9115"  # blackboxexporter exporter.
+      #     - target_label: region
+      #       replacement: "local"
       # https://github.com/prometheus/prometheus/blob/master/documentation/examples/prometheus-kubernetes.yml#L79
       - job_name: 'kubernetes-endpoints'
         kubernetes_sd_configs:
@@ -14157,75 +14226,6 @@ data:
             regex: (.+)
             target_label: __metrics_path__
             replacement: /api/v1/nodes/${1}/proxy/metrics/cadvisor
-      - job_name: "yugabytedb"
-        metrics_path: /prometheus-metrics
-        relabel_configs:
-          - target_label: "node_prefix"
-            replacement: "cluster-1"
-        metric_relabel_configs:
-          # Save the name of the metric so we can group_by since we cannot by __name__ directly...
-          - source_labels: ["__name__"]
-            regex: "(.*)"
-            target_label: "saved_name"
-            replacement: "$1"
-          # The following basically retrofit the handler_latency_* metrics to label format.
-          - source_labels: ["__name__"]
-            regex: "handler_latency_(yb_[^_]*)_([^_]*)_([^_]*)(.*)"
-            target_label: "server_type"
-            replacement: "$1"
-          - source_labels: ["__name__"]
-            regex: "handler_latency_(yb_[^_]*)_([^_]*)_([^_]*)(.*)"
-            target_label: "service_type"
-            replacement: "$2"
-          - source_labels: ["__name__"]
-            regex: "handler_latency_(yb_[^_]*)_([^_]*)_([^_]*)(_sum|_count)?"
-            target_label: "service_method"
-            replacement: "$3"
-          - source_labels: ["__name__"]
-            regex: "handler_latency_(yb_[^_]*)_([^_]*)_([^_]*)(_sum|_count)?"
-            target_label: "__name__"
-            replacement: "rpc_latency$4"
-
-        static_configs:
-          - targets: ["192.168.1.24:7000", "192.168.1.24:7000", "192.168.1.24:7000"]
-            labels:
-              export_type: "master_export"
-
-          - targets: [192.168.1.24:9000", "192.168.1.24:9000", "192.168.1.24:9000"]
-            labels:
-              export_type: "tserver_export"
-
-          - targets: ["192.168.1.24:12000", "192.168.1.24:12000", "192.168.1.24:12000"]
-            labels:
-              export_type: "cql_export"
-
-          - targets: ["192.168.1.24:13000", "192.168.1.24:13000", "192.168.1.24:13000"]
-            labels:
-              export_type: "ysql_export"
-
-          - targets: ["192.168.1.24:11000", "192.168.1.24:11000", "192.168.1.24:11000"]
-            labels:
-              export_type: "redis_export"
-      - job_name: 'prom_sample_api'
-        honor_timestamps: true
-        scrape_interval: 15s
-        scrape_timeout: 10s
-        metrics_path: /metrics
-        scheme: http
-        params:
-          module: [http_2xx]  # Look for a HTTP 200 response.
-        static_configs:
-          - targets:
-            - 192.168.1.24:3000
-        relabel_configs:
-          - source_labels: [__address__]
-            target_label: __param_target
-          - source_labels: [__param_target]
-            target_label: instance
-          - target_label: __address__
-            replacement: "blackboxexporter:9115"  # blackboxexporter exporter.
-          - target_label: region
-            replacement: "local"
 ---
 # Source: prometheus/templates/prometheus.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -14257,18 +14257,18 @@ rules:
   - get
 ---
 # Source: prometheus/templates/prometheus.yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: prometheus
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: prometheus
-subjects:
-- kind: ServiceAccount
-  name: prometheus-k8s
-  namespace: cilium-monitoring
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: ClusterRoleBinding
+# metadata:
+#   name: prometheus
+# roleRef:
+#   apiGroup: rbac.authorization.k8s.io
+#   kind: ClusterRole
+#   name: prometheus
+# subjects:
+# - kind: ServiceAccount
+#   name: prometheus-k8s
+#   namespace: cilium-monitoring
 ---
 # Source: prometheus/templates/grafana.yaml
 apiVersion: v1

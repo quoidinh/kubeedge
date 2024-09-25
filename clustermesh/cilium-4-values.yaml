@@ -109,8 +109,8 @@ l2podAnnouncements:
 # #   # -- Enable use of TLS/SSL for connectivity to etcd.
 #   ssl: true
 cluster:
-  id: 4
-  name: cluster4
+  id: 1
+  name: cluster1
 clustermesh:
   useAPIServer: true
   # config:

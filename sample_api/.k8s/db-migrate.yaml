@@ -1,14 +1,14 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: bands-api-migrate
+  name: sample-api-migrate
   labels:
-    app.kubernetes.io/name: bands-api-migrate
+    app.kubernetes.io/name: sample-api-migrate
 spec:
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: bands-api-migrate
+        app.kubernetes.io/name: sample-api-migrate
     spec:
       containers:
       - command:
@@ -16,7 +16,7 @@ spec:
         - db:migrate
         envFrom:
         - configMapRef:
-            name: bands-api
+            name: sample-api
         image: docker.io/geshan/band-api:latest
         imagePullPolicy: IfNotPresent
         name: main
