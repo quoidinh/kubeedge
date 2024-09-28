@@ -120,7 +120,7 @@ spec:
     namespace: custom-metrics
   group: custom.metrics.k8s.io
   version: v1beta1
-  insecureSkipTLSVerify: true
+  # insecureSkipTLSVerify: true
   groupPriorityMinimum: 100
   versionPriority: 100
 ---
@@ -134,7 +134,7 @@ spec:
     namespace: custom-metrics
   group: custom.metrics.k8s.io
   version: v1beta2
-  insecureSkipTLSVerify: true
+  # insecureSkipTLSVerify: true
   groupPriorityMinimum: 100
   versionPriority: 200
 ---
@@ -148,7 +148,7 @@ spec:
     namespace: custom-metrics
   group: external.metrics.k8s.io
   version: v1beta1
-  insecureSkipTLSVerify: true
+  # insecureSkipTLSVerify: true
   groupPriorityMinimum: 100
   versionPriority: 100
 ---

@@ -41,4 +41,4 @@
 #           name: myapp_requests_per_second
 #         target:
 #           type: AverageValue
-#           averageValue: 2
+#           averageValue: 1m

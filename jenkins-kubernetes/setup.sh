@@ -9,5 +9,6 @@ kubectl create secret generic jenkins-ssh --from-file=jenkins-ssh --from-file=je
 rm jenkins-ssh*
 rm known-hosts
 
+# kubectl create -f jenkins-deployment.yaml
+# kubectl create -f jenkins-service.yaml
 kubectl create -f jenkins-deployment.yaml
-kubectl create -f jenkins-service.yaml

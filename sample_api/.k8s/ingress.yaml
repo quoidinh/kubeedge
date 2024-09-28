@@ -30,4 +30,4 @@ spec:
           path: /
           pathType: ImplementationSpecific
 
-# kubectl -n default port-forward sample-api-web --address 0.0.0.0 7070:80
+# kkubectl -n default port-forward svc/sample-api  --address 0.0.0.0 7070:7070

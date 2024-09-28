@@ -1,0 +1,124 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: vcs
+  labels:
+    app: postgres
+    service: database
+  annotations:
+    'prometheus.io/scrape': 'true'
+spec:
+  ports:
+  - name: http
+    protocol: TCP
+    port: 5432
+    targetPort: 5432
+  selector:
+    app: postgres
+    service: database
+  type: ClusterIP
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: postgres
+  namespace: vcs
+  labels:
+    app: postgres
+    service: database
+spec:
+  serviceName: postgres
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: postgres
+        service: database
+    spec:
+      terminationGracePeriodSeconds: 10
+      initContainers:
+      - name: download-pgfutter
+        image: sherylynn/wget:latest
+        command:
+        - sh
+        args:
+        - -c
+        - "wget -O /pgfutter-dir/pgfutter https://github.com/lukasmartinelli/pgfutter/releases/download/v1.1/pgfutter_linux_amd64 --no-check-certificate"
+        volumeMounts:
+        - name: pgfutter-dir
+          mountPath: /pgfutter-dir
+      containers:
+      - name: postgres
+        image: postgres
+        ports:
+        - name: http
+          containerPort: 5432
+        env:
+        - name: PGDATA
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: data_dir
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: db_name
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: db_user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: db_pass
+        # - name: POSTGRES_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: postgres-secret
+        #       key: db_pass
+        livenessProbe:
+          exec:
+            command:
+              - pg_isready
+          initialDelaySeconds: 1
+          timeoutSeconds: 5
+        # readinessProbe:
+        #   exec:
+        #     command:
+        #       - '[ "$(pg_isready --username=gogs)" == "/var/run/postgresql:5432 - accepting connections" ] || exit 1'
+        #   initialDelaySeconds: 1
+        #   timeoutSeconds: 5
+        resources:
+          requests:
+            cpu: "0.01"
+        volumeMounts:
+        - name: postgres-data
+          mountPath: /var/lib/postgresql/data
+        - name: pgfutter-dir
+          mountPath: /pgfutter-dir
+        - name: sql-files
+          mountPath: /sql
+        - name: psql-seed-script
+          mountPath: /seed-script
+      restartPolicy: Always
+      volumes:
+      - name: sql-files
+        configMap:
+          name: sql-files
+      - name: psql-seed-script
+        configMap:
+          name: psql-seed-script
+      - name: pgfutter-dir
+        emptyDir: {}
+  volumeClaimTemplates:
+  - metadata:
+      name: postgres-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi

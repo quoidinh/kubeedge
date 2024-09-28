@@ -22,17 +22,21 @@ class Api::V1::BandsController < ApplicationController
       # # some HTTP request code here
       elapsed_time = Process.clock_gettime(Process::CLOCK_MONOTONIC) - start_time
       read_latency.observe(elapsed_time)
-      Prometheus::Client::Push.new(docstring: '...',labels: [:service, :component],preset_labels: { service: "my_service" },job: "http_requests_total", gateway: "http://127.0.0.1:7091").basic_auth("admin", "admin") 
-      Prometheus::Client::Push.new(  docstring: '...',labels: [:service, :component],preset_labels: { service: "my_service" },job: "ruby_http_request_duration_seconds", gateway: "http://127.0.0.1:7091").basic_auth("admin", "admin") 
+      Prometheus::Client::Push.new(docstring: '...',labels: [:service, :component],preset_labels: { service: "my_service" },job: "http_requests_total", gateway: "http://192.168.1.28:9090").basic_auth("admin", "admin") 
+      Prometheus::Client::Push.new(  docstring: '...',labels: [:service, :component],preset_labels: { service: "my_service" },job: "ruby_http_request_duration_seconds", gateway: "http://192.168.1.28:9090").basic_auth("admin", "admin") 
       # prometheus.register(http_requests_total)
       # prometheus.register(read_latency)
 
-      # # Create a simple myapp_requests_per_second metric.
-      myapp_requests_per_second = Prometheus::Client::Gauge.new(:myapp_requests_per_second,docstring: '...')
-      # Register myapp_requests_per_second with the registry we previously created.
-      prometheus.register(myapp_requests_per_second)
-      myapp_requests_per_second.increment
-      Prometheus::Client::Push.new(docstring: '...',labels: [:service, :component],preset_labels: { service: "my_service" },job: "my-job", gateway: "http://127.0.0.1:7091").basic_auth("admin", "admin") 
+      # # Create a simple my-external-metric metric.
+      my-external-metric = Prometheus::Client::Gauge.new(:my-external-metric,docstring: '...')
+      # Register my-external-metric with the registry we previously created.
+      begin
+        prometheus.register(my-external-metric)
+     rescue
+       puts "registered my-external-metric"
+     end
+     my-external-metric.increment
+      Prometheus::Client::Push.new(docstring: '...',labels: [:service, :component],preset_labels: { service: "my_service" },job: "my-job", gateway: "http://192.168.1.28:9090").basic_auth("admin", "admin") 
       # https://github.com/prometheus/client_ruby
     @bands = Band.all
 
