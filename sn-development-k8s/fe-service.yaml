@@ -15,46 +15,46 @@ spec:
       protocol: TCP
       targetPort: 80
   type: ClusterIP
----
+# ---
 #sn-fe-hpa.yaml 
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: sn-fe-deployment
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment     # Áp dụng HPA cho Deployment
-    name: sn-fe
-  minReplicas: 1   # Số pod scale nhỏ nhất
-  maxReplicas: 10  # Số pod scale lớn nhất
-behavior:
-    scaleDown:
-      stabilizationWindowSeconds: 300
-      policies:
-      - type: Pods
-        value: 4
-        periodSeconds: 60
-    scaleUp:
-      stabilizationWindowSeconds: 60
-      policies:
-      - type: Pods
-        value: 2
-        periodSeconds: 60
-metrics:
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: 60
+# apiVersion: autoscaling/v2
+# kind: HorizontalPodAutoscaler
+# metadata:
+#   name: sn-fe-deployment
+# spec:
+#   scaleTargetRef:
+#     apiVersion: apps/v1
+#     kind: Deployment     # Áp dụng HPA cho Deployment
+#     name: sn-fe
+#   minReplicas: 1   # Số pod scale nhỏ nhất
+#   maxReplicas: 10  # Số pod scale lớn nhất
+# behavior:
+#     scaleDown:
+#       stabilizationWindowSeconds: 300
+#       policies:
+#       - type: Pods
+#         value: 4
+#         periodSeconds: 60
+#     scaleUp:
+#       stabilizationWindowSeconds: 60
+#       policies:
+#       - type: Pods
+#         value: 2
+#         periodSeconds: 60
+# metrics:
+#     - type: Resource
+#       resource:
+#         name: cpu
+#         target:
+#           type: Utilization
+#           averageUtilization: 60
   
-    - type: Resource
-      resource:
-        name: memory
-        target:
-          type: Utilization
-          averageUtilization: 60
+#     - type: Resource
+#       resource:
+#         name: memory
+#         target:
+#           type: Utilization
+#           averageUtilization: 60
     # - type: Pods
     #   pods:
     #     metric:
@@ -74,13 +74,13 @@ metrics:
     #     target:
     #       type: Value
     #       value: 0.03
-triggers:
-    - type: prometheus
-      metadata:
-        serverAddress: http://<prometheus-host>:9090
-        metricName: http_requests_total
-        threshold: '100'
-        query: sum(rate(http_requests_total{deployment="my-deployment"}[2m]))
+# triggers:
+#     - type: prometheus
+#       metadata:
+#         serverAddress: http://<prometheus-host>:9090
+#         metricName: http_requests_total
+#         threshold: '100'
+#         query: sum(rate(http_requests_total{deployment="my-deployment"}[2m]))
 
 # https://hackernoon.com/how-to-use-prometheus-adapter-to-autoscale-custom-metrics-deployments-p1p3tl0
 # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/#autoscaling-on-multiple-metrics-and-custom-metrics
