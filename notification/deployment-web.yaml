@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification-web
+  template:
+    metadata:
+      labels:
+        app: notification-web
+    spec:
+      containers:
+        - name: notification-web
+          image: ghcr.io/novuhq/novu/web:0.8.0
+          envFrom:
+            - configMapRef:
+                name: notification-config
+          ports:
+            - name: web
+              containerPort: 4200
+      imagePullSecrets:
+        - name: notification-secret
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: magnum.openstack.org/nodegroup
+                    operator: In
+                    values:
+                      - ng-chat

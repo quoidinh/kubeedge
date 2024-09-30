@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notification-config
+data:
+# YOU MUST CHANGE THESE BEFORE GOING INTO PRODUCTION
+  JWT_SECRET: 'chiakhoathanhcong'
+  STORE_ENCRYPTION_KEY: 46b9699de9df1bf170f56a46ab3aabd6
+
+  NODE_ENV: local
+  MONGO_URL: mongodb://emso:chiakhoathanhcong@172.16.0.29:27017/database?authSource=admin
+  REDIS_HOST: 172.16.0.29
+  REDIS_PASSWORD: chiakhoathanhcong
+
+  # AWS
+  S3_LOCAL_STACK: http://localhost:4566
+  S3_BUCKET_NAME: novu-local
+  S3_REGION: us-east-1
+  AWS_ACCESS_KEY_ID: test
+  AWS_SECRET_ACCESS_KEY: test
+
+  # Ports
+  API_PORT: '3000'
+  REDIS_PORT: '6379'
+  WS_PORT: '3002'
+  SENTRY_DSN: ''
+
+  # Root URL
+  REACT_APP_WS_URL: https://cmc-notification-ws.emso.vn
+  API_ROOT_URL: https://cmc-notification-api.emso.vn
+  DISABLE_USER_REGISTRATION: 'false'
+  FRONT_BASE_URL: https://cmc-notification.emso.vn
+  WIDGET_EMBED_PATH: http://localhost:4701/embed.umd.min.js
+  WIDGET_URL: http://localhost:4500
+
+  REACT_APP_API_URL: https://cmc-notification-api.emso.vn
+  REACT_APP_ENVIRONMENT: local
+  REACT_APP_WIDGET_EMBED_PATH: http://localhost:4701/embed.umd.min.js
+  REACT_APP_DOCKER_HOSTED_ENV: 'true'
+  # Context Paths
+  # Only needed for setups with reverse-proxies
+  # GLOBAL_CONTEXT_PATH=
+  # WEB_CONTEXT_PATH=
+  # API_CONTEXT_PATH=
+  # WS_CONTEXT_PATH=
+  # WIDGET_CONTEXT_PATH=

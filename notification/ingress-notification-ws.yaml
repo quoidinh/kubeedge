@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: notification-ws-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "1G"
+    cert-manager.io/cluster-issuer: letsencrypt-sn-prod
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - cmc-notification-ws.emso.vn
+    secretName: noti-ws-tls-secret
+  rules:
+  - host: cmc-notification-ws.emso.vn
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: notification-ws
+            port:
+              name: https
+
+
+              
