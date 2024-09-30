@@ -17,8 +17,8 @@ spec:
           image: registry.emso.vn/sn-web:0.2.41
           resources:
             requests:
-              cpu: "3.5"     
-              memory: "3Gi"
+              cpu: "1.5"     
+              memory: "1Gi"
           command: ["bundle", "exec"]
           args: ["sidekiq", "-c", "25", "-q", "suggestion"]
           envFrom:

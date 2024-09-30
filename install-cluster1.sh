@@ -576,6 +576,7 @@ sudo ufw allow 4245/tcp comment "Hubble Observability"
 # # kubectl delete -f monitor-grafana-promethus-yugabyte.yaml
 # nohup kubectl -n cilium-monitoring port-forward service/prometheus --address 0.0.0.0 9090:9090 &
 # nohup kubectl -n cilium-monitoring port-forward service/grafana --address 0.0.0.0 3000:3000 &
+kubectl -n default port-forward service/sn-web --address 0.0.0.0 8888:80
 
 
 # echo "install yugabytedb"
@@ -602,6 +603,7 @@ sudo ufw allow 4245/tcp comment "Hubble Observability"
 # kubectl apply -f app-nginx1.yaml
 # kubectl describe deploy test-app
 # kubectl autoscale deployment test-app --cpu-percent=15 --min=1 --max=20
+# kubectl autoscale deployment sn-web --cpu-percent=15 --min=2 --max=5
 # # kubectl scale statefulset global-service-base --replicas=1
 # nohup kubectl port-forward service/test-app --namespace=default --address 0.0.0.0 9999:8080 &
 
