@@ -1,0 +1,11 @@
+# apiVersion: cert-manager.io/v1
+# kind: certificate
+# metadata:
+#   name: sn-chat-tls
+# spec:
+#   secretName: chat-tls-secret
+#   dnsNames:
+#   - cmc-chat2.emso.vn
+#   issuerRef:
+#     name: letsencrypt-prod
+#     kind: ClusterIssuer

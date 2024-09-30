@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sn-chat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sn-chat
+  template:
+    metadata:
+      labels:
+        app: sn-chat
+    spec:
+      containers:
+        - name: sn-chat
+          image: registry.emso.vn/sn-chat:0.4.11
+          resources:
+            limits:
+              cpu: "2"      # Giới hạn tối đa 2 cores
+              memory: "1.5Gi" # Giới hạn tối đa 4GB RAM
+            requests:
+              cpu: "1"      # Yêu cầu 1 core
+              memory: "1.5Gi"
+          envFrom:
+            - configMapRef:
+                name: sn-config
+          ports:
+            - name: chat
+              containerPort: 3000
+      imagePullSecrets:
+        - name: registry # Tên secret đã tạo        
+      nodeSelector:
+        magnum.openstack.org/nodegroup: ng-chat

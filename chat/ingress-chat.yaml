@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: chat-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "1G"
+    cert-manager.io/cluster-issuer: letsencrypt-sn-prod
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - cmc-chat2.emso.vn
+    secretName: sn-chat-tls-secret
+  rules:
+  - host: cmc-chat2.emso.vn
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sn-chat
+            port:
+              name: https
+              
