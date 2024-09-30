@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: sn-worker-default
-          image: registry.emso.vn/sn-web:0.2.9
+          image: registry.emso.vn/sn-web:0.2.41
           # resources:
           #   requests:
           #     cpu: "3.5"     

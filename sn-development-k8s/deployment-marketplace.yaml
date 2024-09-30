@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: sn-marketplace
-          image: registry.emso.vn/sn-marketplace:0.3.16
+          image: registry.emso.vn/sn-marketplace:0.4.2
        
           # resources:
             # requests:
