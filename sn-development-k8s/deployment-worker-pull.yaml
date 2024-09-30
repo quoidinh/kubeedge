@@ -14,11 +14,11 @@ spec:
     spec:
       containers:
         - name: sn-worker-pull
-          image: registry.emso.vn/sn-web:0.2.9
-          # resources:
-          #   requests:
-          #     cpu: "3.5"     
-          #     memory: "3Gi"
+          image: registry.emso.vn/sn-web:0.2.41
+          resources:
+            requests:
+              cpu: "3.5"     
+              memory: "3Gi"
           command: ["bundle", "exec"]
           args: ["sidekiq", "-c", "25", "-q", "pull"]
           envFrom:
