@@ -14,11 +14,11 @@ spec:
     spec:
       containers:
         - name: sn-media
-          image: registry.emso.vn/sn-web:0.2.9
-          # resources:
-          #   requests:
-          #     cpu: "7.5"     
-          #     memory: "7.5Gi"
+          image: registry.emso.vn/sn-web:0.2.41
+          resources:
+            requests:
+              cpu: "1.5"     
+              memory: "2.5Gi"
           envFrom:
             - configMapRef:
                 name: sn-config
