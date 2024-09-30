@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pt-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "8G"
+    nginx.ingress.kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/enable-admission-plugins: "true"
+    nginx.ingress.kubernetes.io/admission-webhooks: "sn-ingress-ingress-nginx-controller-admission"
+    cert-manager.io/cluster-issuer: letsencrypt-sn-prod
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/affinity-mode: "balanced"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - pt.emso.vn
+    secretName: pt-tls-secret
+  rules:
+  - host: pt.emso.vn
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sn-pt
+            port:
+              name: https
+    
+      
+              

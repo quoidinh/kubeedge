@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sn-pt
+spec:
+  selector:
+    app: sn-pt
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 9000
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 9000
+    - name: rtmp
+      protocol: TCP
+      port: 1935
+      targetPort: 1935
+  type: ClusterIP

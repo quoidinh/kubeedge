@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sn-pt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sn-pt
+  template:
+    metadata:
+      labels:
+        app: sn-pt
+    spec:
+      containers:
+        - name: sn-pt
+          image: registry.emso.vn/sn-pt:0.2.34
+          resources:
+            requests:
+              cpu: "7.5"     
+              memory: "7.5Gi"
+          env:
+            - name: POD_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          ports:
+            - name: pt
+              containerPort: 9000
+            - name: rtmp
+              containerPort: 1935
+      imagePullSecrets:
+        - name: registry # Tên secret đã tạo
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: magnum.openstack.org/nodegroup
+                    operator: In
+                    values:
+                      - ng-media
