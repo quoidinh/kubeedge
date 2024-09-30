@@ -16,10 +16,10 @@ spec:
         - name: sn-marketplace
           image: registry.emso.vn/sn-marketplace:0.4.2
        
-          # resources:
-            # requests:
-            #   cpu: "2"     
-            #   memory: "1.5Gi"
+          resources:
+            requests:
+              cpu: "2"     
+              memory: "1.5Gi"
           envFrom:
             - configMapRef:
                 name: marketplace-config
