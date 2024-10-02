@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: sn-pt
-          image: registry.emso.vn/sn-pt:0.2.34
+          image: registry.emso.vn/sn-pt:0.2.35
           resources:
             requests:
               cpu: "0.5"     
