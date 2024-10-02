@@ -41,3 +41,5 @@ k3sup install --user root --ssh-key /Users/macbookpro16/sources/quoi_wow_ai --sk
 https://github.com/zalando-incubator/kube-metrics-adapter
 https://www.sandeepseeram.com/post/ci-cd-pipeline-with-gogs-drone-and-kubernetes
 https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-ansible-on-ubuntu-22-04
+
+https://stackoverflow.com/questions/44110876/kubernetes-service-external-ip-pending

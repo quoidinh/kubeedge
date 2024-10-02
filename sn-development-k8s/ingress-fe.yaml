@@ -8,10 +8,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - staging-fe.emso.vn
+    - stagv1.emso.vn
     secretName: sn-fe-tls-secret
   rules:
-  - host: staging-fe.emso.vn
+  - host: stagv1.emso.vn
     http:
       paths:
       - path: /

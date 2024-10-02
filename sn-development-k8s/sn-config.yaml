@@ -4,7 +4,7 @@ metadata:
   name: sn-config
 data:
   LOCAL_DOMAIN: cmc-sn.emso.vn
-  WEB_DOMAIN: staging-fe.emso.vn
+  WEB_DOMAIN: stagv1.emso.vn
   MEDIA_DOMAIN: cmc-media.emso.vn
   SINGLE_USER_MODE: 'false'
   SECRET_KEY_BASE: 938939b1ae243dbca8364b42bbbfb2c21a1b9ced874cc060dd673d69da7cba58e53d3cffdd5eaecd77e3c23a4fdaa7fed9fdf17ac9838089809ae4ba5bdaffdd
