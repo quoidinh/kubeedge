@@ -3,8 +3,7 @@
 ## Install Cilium
 ### Prerequisites:
 1. Cilium Version:1.10
-2. EKS version:1.18 +
-3. Nodes in all clusters must have IP connectivity between each other
+2. Nodes in all clusters must have IP connectivity between each other
 ### Step 1: helm add cilium repo
 ```
 helm repo add cilium https://helm.cilium.io/
@@ -141,3 +140,16 @@ kubectl apply -f https://github.com/kedacore/keda/releases/latest/download/keda-
 kubectl create secret docker-registry registry --docker-server=registry.emso.vn --docker-username=admin --docker-password=hoathang9695
 
 
+### Step 9: install Ansible for devops
+
+```
+sudo apt-add-repository ppa:ansible/ansible
+sudo apt update
+sudo apt install ansible
+```
+
+### Step 9: install lens for monitor
+
+```
+https://docs.k8slens.dev/getting-started/install-lens/#install-lens-desktop-on-windows
+```
