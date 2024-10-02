@@ -30,7 +30,7 @@ sh gen.sh
 ```
 ### Step 3: Replace k8sServiceHost value,it`s your master dns
 ```
-k8sServiceHost: k8s-cluster-1.emso.vn
+k8sServiceHost: k8s-cluster-1.local
 ```
 kind create cluster --config kind-1.yaml
 kind create cluster --config kind-2.yaml
