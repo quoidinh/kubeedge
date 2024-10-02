@@ -1,0 +1,22 @@
+generatorOptions:
+    disableNameSuffixHash: true
+secretGenerator:
+    - name: peertube-secret
+      literals:
+          - PEERTUBE_DB_PASSWORD=CHANGEME
+          - POSTGRES_PASSWORD=CHANGEME
+          - PEERTUBE_DB_HOSTNAME="postgres.example.org"
+          - PEERTUBE_DB_PORT="5432"
+          - PEERTUBE_WEBSERVER_HOSTNAME="peertube.example.org"
+          - PEERTUBE_SMTP_FROM="noreply@example.org"
+          - PEERTUBE_ADMIN_EMAIL="peertube@example.org"
+          - POSTFIX_myhostname="peertube.example.org"
+    - name: peertube-s3-secret
+      literals:
+          - AWS_S3_ACCESS_KEY_ID="CHANGEME"
+          - AWS_S3_SECRET_ACCESS_KEY="CHANGEME"
+          - AWS_S3_BUCKET=CHANGEME
+          - AWS_S3_URL="CHANGEME"
+    - name: peertube-postfix-secret
+      literals:
+          - POSTFIX_myhostname="peertube.example.org"

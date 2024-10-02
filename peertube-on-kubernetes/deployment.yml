@@ -1,0 +1,117 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: peertube
+  labels:
+    app: peertube
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: peertube
+  template:
+    metadata:
+      labels:
+        app: peertube
+    spec:
+      containers:
+        - name: s3fs
+          image: efrecon/s3fs:1.89
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            privileged: true
+          envFrom:
+            - secretRef:
+                name: peertube-s3-secret
+          env:
+            - name: AWS_S3_MOUNT
+              value: "/opt/s3fs/bucket" #default
+            # - name: UID
+            #   value: "999"
+            # - name: GID
+            #   value: "999"
+            # If using Minio, this is required for using /bucketname instead of bucketname.s3endpoint.com
+            #- name: S3FS_ARGS
+            #  value: ",use_path_request_style"
+          volumeMounts:
+            - name: s3-shared
+              mountPath: /opt/s3fs/bucket
+              mountPropagation: Bidirectional
+        - name: peertube
+          image: chocobozzz/peertube:production-buster
+          # TODO fixme, running as root (bypass gosu)
+          command: ["/bin/sh","-c"]
+          args: ["/usr/local/bin/entrypoint.sh npm start ; sed -i 's,../data/logs,/tmp/logs,' /config/production.yaml ; sed -i 's,../data/cache,/tmp/cache,' /config/production.yaml ; sed -i 's,../data/tmp,/tmp/tmp,' /config/production.yaml ; npm start"]
+          # debug
+          # command: ["sleep"]
+          #args: ["9999"]
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              name: http
+            - containerPort: 443
+              name: https
+            - containerPort: 9000
+              name: peertube
+            - containerPort: 1935
+              name: rtmp
+          envFrom:
+            - secretRef:
+                name: peertube-secret
+          env:
+            - name: POSTGRES_USER
+              value: "peertube"
+            - name: POSTGRES_DB
+              value: "peertube"
+            - name: PEERTUBE_DB_USERNAME
+              value: "peertube"
+            # - name: PEERTUBE_WEBSERVER_PORT
+            #   value: "80"
+            - name: PEERTUBE_WEBSERVER_HTTPS
+              value: "true"
+            - name: PEERTUBE_TRUST_PROXY
+              value: '["10.0.0.0/8"]'
+            - name: PEERTUBE_SMTP_HOSTNAME
+              value: "localhost"
+            - name: PEERTUBE_SMTP_PORT
+              value: "25"
+            - name: PEERTUBE_SMTP_TLS
+              value: "false"
+            - name: PEERTUBE_SMTP_DISABLE_STARTTLS
+              value: "false"
+            - name: PEERTUBE_REDIS_HOSTNAME
+              value: "localhost"
+            - name: PEERTUBE_REDIS_AUTH
+              value: ""
+          volumeMounts:
+            - name: s3-shared
+              mountPath: /data
+              mountPropagation: HostToContainer
+            # - name: logs
+            #   mountPath: /data/logs
+            # - name: peertube-data
+            #   mountPath: /data
+          #   - name: peertube-config
+          #     mountPath: /config
+        - name: postfix
+          image: mwader/postfix-relay
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 25
+              name: smtp
+          envFrom:
+            - secretRef:
+                name: peertube-postfix-secret
+        - name: redis
+          image: redis:6-alpine
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 6379
+              name: redis
+      volumes:
+        - name: s3-shared
+          emptyDir: {}
+        # - name: logs
+        #   emptyDir: {}
+        # - name: peertube-data
+        #   emptyDir: {}
