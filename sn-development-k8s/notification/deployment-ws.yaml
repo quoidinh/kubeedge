@@ -23,12 +23,12 @@ spec:
               containerPort: 3002
       imagePullSecrets:
         - name: notification-secret
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: magnum.openstack.org/nodegroup
-                    operator: In
-                    values:
-                      - ng-chat
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #         - matchExpressions:
+      #             - key: magnum.openstack.org/nodegroup
+      #               operator: In
+      #               values:
+      #                 - ng-chat

@@ -1,6 +1,6 @@
-# eks-cilium
+# cilium
 
-## Install Cilium in EKS
+## Install Cilium
 ### Prerequisites:
 1. Cilium Version:1.10
 2. EKS version:1.18 +
@@ -29,7 +29,7 @@ sh gen.sh
         key:
 
 ```
-### Step 3: Replace k8sServiceHost value,it`s your eks master dns
+### Step 3: Replace k8sServiceHost value,it`s your master dns
 ```
 k8sServiceHost: k8s-cluster-1.emso.vn
 ```
@@ -58,32 +58,40 @@ cilium clustermesh status --wait
 
 cilium clustermesh connect --context kind-k8s-cluster-1 --destination-context kind-k8s-cluster-2
 
-### Step 4: Install Cilium in all clusters
-EKS Cluster 
+### Step 4: Install metallb in all clusters
+
 ```
-kubectl patch daemonset aws-node -n kube-system -p '{"spec":{"template":{"spec":{"nodeSelector":{"no-such-node": "true"}}}}}'
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.5/config/manifests/metallb-native.yaml --context=kind-k8s-cluster-1
+kubectl wait deployment -n metallb-system controller --for condition=Available=True --timeout=90s --context kind-k8s-cluster-1
+kubectl apply -f metallb-1.yaml --context=kind-cluster1
 
-kubectl patch daemonset kube-proxy -n kube-system -p '{"spec":{"template":{"spec":{"nodeSelector":{"no-such-node": "true"}}}}}'
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.5/config/manifests/metallb-native.yaml --context=kind-k8s-cluster-2
+kubectl wait deployment -n metallb-system controller --for condition=Available=True --timeout=90s --context kind-k8s-cluster-2
+kubectl apply -f metallb-1.yaml --context=kind-k8s-cluster-2
 
-helm install cilium --namespace=cilium cilium/cilium -f cluster{{clusterNumber}}.yaml
+### Step 4: Install Cilium in all clusters
+
+```
+helm install cilium --namespace=cilium cilium/cilium -f cilium-1-values.yaml
+helm install cilium --namespace=cilium cilium/cilium -f cilium-2-values.yaml
 ```
 
 ### Step 5: extract cluster mesh secret and import to other clusters
-EkS Cluster 1
+ Cluster 1
 ```
 ./k8s-extract-clustermesh-service-secret.sh > cluster1-secret.json
 
 ```
-Switch to EKS Cluster 2
+Switch to Cluster 2
 ```
 ./k8s-import-clustermesh-secrets.sh cluster1-secret.json
 ```
-EkS Cluster 2
+ Cluster 2
 ```
 ./k8s-extract-clustermesh-service-secret.sh > cluster2-secret.json
 
 ```
-Switch to EKS Cluster 1
+Switch to  Cluster 1
 ```
 ./k8s-import-clustermesh-secrets.sh cluster2-secret.json
 ```
@@ -91,3 +99,4 @@ Switch to EKS Cluster 1
 ```
 kubectl rollout restart ds cilium -n cilium
 ```
+
