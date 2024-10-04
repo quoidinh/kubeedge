@@ -1,4 +1,4 @@
-#gcloud compute disks create --size 20GB kubernetes-jenkins
+gcloud compute disks create --size 20GB kubernetes-jenkins
 
 ssh-keygen -t rsa -b 4096 -C "jenkins" -f jenkins-ssh -q -N ""
 GITHUB_IP=$(getent hosts github.com | awk '{ print $1 }')
@@ -9,6 +9,5 @@ kubectl create secret generic jenkins-ssh --from-file=jenkins-ssh --from-file=je
 rm jenkins-ssh*
 rm known-hosts
 
-# kubectl create -f jenkins-deployment.yaml
-# kubectl create -f jenkins-service.yaml
 kubectl create -f jenkins-deployment.yaml
+kubectl create -f jenkins-service.yaml
