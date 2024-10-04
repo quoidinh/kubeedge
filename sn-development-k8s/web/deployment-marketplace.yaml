@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sn-marketplace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sn-marketplace
+  template:
+    metadata:
+      labels:
+        app: sn-marketplace
+    spec:
+      containers:
+        - name: sn-marketplace
+          image: registry.emso.vn/sn-marketplace:0.4.2
+       
+          # resources:
+          #   requests:
+          #     cpu: "2"     
+          #     memory: "1.5Gi"
+          envFrom:
+            - configMapRef:
+                name: marketplace-config
+          ports:
+            - name: marketplace
+              containerPort: 3000
+      imagePullSecrets:
+        - name: registry # Tên secret đã tạo
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #         - matchExpressions:
+      #             - key: magnum.openstack.org/nodegroup
+      #               operator: In
+      #               values:
+      #                 - ng-chat
+

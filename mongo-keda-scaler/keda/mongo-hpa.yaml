@@ -1,0 +1,47 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: mongo-scaledobject
+  namespace: default
+  labels:
+    deploymentName: dummy-mongo
+spec:
+  maxReplicaCount: 5
+  pollingInterval: 5  # Optional. Default: 30 seconds
+  cooldownPeriod:  5 # Optional. Default: 300 seconds
+  scaleTargetRef:
+    name: dummy-mongo
+  triggers:
+    - type: mongodb
+      metadata:
+        host: "10.105.125.189" #expects some number needs to be fixed..
+        port: "27017"
+        dbName: "admin"
+        collection: "scalecollection"
+        query: '{"name":"test"}'
+        queryValue: "1"
+        activationQueryValue: "0"
+      authenticationRef:
+        name: mongodb-local-trigger
+
+---
+
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: mongodb-local-trigger
+spec:
+  secretTargetRef:
+    - parameter: connectionString
+      name: mongodb-local-secret
+      key: connect
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mongodb-local-secret
+type: Opaque
+data:
+  connect: bW9uZ29kYjovL2FkbWluOmFkbWluMTIzQG1vbmdvLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWw6MjcwMTcvYWRtaW4=

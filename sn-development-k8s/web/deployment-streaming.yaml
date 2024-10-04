@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sn-streaming
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sn-streaming
+  template:
+    metadata:
+      labels:
+        app: sn-streaming
+    spec:
+      containers:
+        - name: sn-streaming
+          image:  registry.emso.vn/sn-web:0.2.41
+          command: ["node", "./streaming"]
+          # resources:
+          #   requests:
+          #     cpu: "1.5"     
+          #     memory: "2.5Gi"
+          envFrom:
+            - configMapRef:
+                name: sn-config
+          ports:
+            - name: streaming
+              containerPort: 4000
+      imagePullSecrets:
+        - name: registry # Tên secret đã tạo
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #         - matchExpressions:
+      #             - key: magnum.openstack.org/nodegroup
+      #               operator: In
+      #               values:
+      #                 - ng-chat
+      

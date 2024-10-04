@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "1G"
+    cert-manager.io/cluster-issuer: letsencrypt-sn-prod
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - cmc-sn.emso.vn
+    secretName: sn-web-tls-secret
+  rules:
+  - host: cmc-sn.emso.vn
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sn-web
+            port:
+              name: https
+      - path: /api/v1/streaming
+        pathType: Prefix
+        backend:
+          service:
+            name: sn-streaming
+            port:
+              name: https
+      - path: /api/v1/media
+        pathType: Prefix
+        backend:
+          service:
+            name: sn-media
+            port:
+              name: https

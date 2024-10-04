@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sn-streaming
+spec:
+  selector:
+    app: sn-streaming
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 4000
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 4000
+  type: ClusterIP
+# ---
+# #sn-streaming-hpa.yaml 
+# apiVersion: autoscaling/v2
+# kind: HorizontalPodAutoscaler
+# metadata:
+#   name: sn-streaming-deployment
+# spec:
+#   scaleTargetRef:
+#     apiVersion: apps/v1
+#     kind: Deployment     # Áp dụng HPA cho Deployment
+#     name: sn-streaming
+#   minReplicas: 1   # Số pod scale nhỏ nhất
+#   maxReplicas: 10  # Số pod scale lớn nhất
+# behavior:
+#     scaleDown:
+#       stabilizationWindowSeconds: 300
+#       policies:
+#       - type: Pods
+#         value: 4
+#         periodSeconds: 60
+#     scaleUp:
+#       stabilizationWindowSeconds: 60
+#       policies:
+#       - type: Pods
+#         value: 2
+#         periodSeconds: 60
+# metrics:
+#     - type: Resource
+#       resource:
+#         name: cpu
+#         target:
+#           type: Utilization
+#           averageUtilization: 60
+  
+#     - type: Resource
+#       resource:
+#         name: memory
+#         target:
+#           type: Utilization
+#           averageUtilization: 60

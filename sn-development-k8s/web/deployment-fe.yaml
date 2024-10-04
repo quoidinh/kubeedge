@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sn-fe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sn-fe
+  template:
+    metadata:
+      labels:
+        app: sn-fe
+    spec:
+      containers:
+        - name: sn-fe
+          image: registry.emso.vn/sn-fe:0.3.9
+          # resources:
+          #   requests:
+          #     cpu: "2"     
+          #     memory: "1.5Gi"
+          ports:
+            - name: fe
+              containerPort: 3000
+      imagePullSecrets:
+        - name: registry # Tên secret đã tạo
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #         - matchExpressions:
+      #             - key: magnum.openstack.org/nodegroup
+      #               operator: In
+      #               values:
+      #                 - ng-chat
