@@ -35,12 +35,13 @@ k8sServiceHost: k8s-cluster-1.local
 kind create cluster --config kind-1.yaml
 kind create cluster --config kind-2.yaml
 
-cilium install cilium cilium/cilium \
+kubectl config use kind-k8s-cluster-1
+cilium install cilium cilium/cilium  --version 1.16.2 \
     --set cluster.name=k8s-cluster-1 --set cluster.id=1 \
     --namespace kube-system \
     --values cilium-1-values.yaml
-
-cilium install cilium cilium/cilium \
+kubectl config use kind-k8s-cluster-2
+cilium install cilium cilium/cilium --version 1.16.2 \
     --set cluster.name=k8s-cluster-2 --set cluster.id=2 \
     --namespace kube-system \
     --values cilium-2-values.yaml
