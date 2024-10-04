@@ -63,18 +63,11 @@ cilium clustermesh connect --context kind-k8s-cluster-1 --destination-context ki
 ```
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.5/config/manifests/metallb-native.yaml --context=kind-k8s-cluster-1
 kubectl wait deployment -n metallb-system controller --for condition=Available=True --timeout=90s --context kind-k8s-cluster-1
-kubectl apply -f metallb-1.yaml --context=kind-cluster1
+kubectl apply -f metallb-1.yaml --context=kind-k8s-cluster-1
 
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.5/config/manifests/metallb-native.yaml --context=kind-k8s-cluster-2
 kubectl wait deployment -n metallb-system controller --for condition=Available=True --timeout=90s --context kind-k8s-cluster-2
 kubectl apply -f metallb-1.yaml --context=kind-k8s-cluster-2
-
-### Step 4: Install Cilium in all clusters
-
-```
-helm install cilium --namespace=cilium cilium/cilium -f cilium-1-values.yaml
-helm install cilium --namespace=cilium cilium/cilium -f cilium-2-values.yaml
-```
 
 ### Step 5: extract cluster mesh secret and import to other clusters
  Cluster 1
@@ -102,6 +95,7 @@ kubectl rollout restart ds cilium -n cilium
 
 ### Step 7: install metrics server
 ```
+kubectl config use kind-k8s-cluster-1
 kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 kubectl patch deployment metrics-server -n kube-system --type='json' -p='[
 {
@@ -128,6 +122,32 @@ kubectl patch deployment metrics-server -n kube-system --type='json' -p='[
 }
 ]'
 
+kubectl config use kind-k8s-cluster-2
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+kubectl patch deployment metrics-server -n kube-system --type='json' -p='[
+{
+"op": "add",
+"path": "/spec/template/spec/hostNetwork",
+"value": true
+},
+{
+"op": "replace",
+"path": "/spec/template/spec/containers/0/args",
+"value": [
+"--cert-dir=/tmp",
+"--secure-port=4443",
+"--kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname",
+"--kubelet-use-node-status-port",
+"--metric-resolution=15s",
+"--kubelet-insecure-tls"
+]
+},
+{
+"op": "replace",
+"path": "/spec/template/spec/containers/0/ports/0/containerPort",
+"value": 4443
+}
+]'
 ```
 
 ### Step 8: install keda
