@@ -19,6 +19,13 @@ spec:
           #   requests:
           #     cpu: "2"     
           #     memory: "1.5Gi"
+          resources:
+            requests:
+              cpu: "0.5"
+              memory: 700Mi
+            limits:
+              cpu: "2.5"
+              memory: 2Gi
           ports:
             - name: fe
               containerPort: 3000
