@@ -176,3 +176,38 @@ https://docs.k8slens.dev/getting-started/install-lens/#install-lens-desktop-on-w
 ```
 
 kubectl port-forward service/sn-web --namespace=default --address 0.0.0.0 8888:80
+server {
+        listen 80;
+        server_name stagv1.emso.vn; #change to your domain name
+
+        location / {
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header Host $http_host;
+                proxy_pass http://172.16.0.66:8888/;  #change to your internal server IP
+                proxy_redirect off;
+        }
+}
+server {
+        server_name stagv1.emso.vn;
+        gzip on;
+        client_max_body_size 2G;
+        gzip_types * ;
+        gzip_proxied no-cache no-store private expired auth;
+        gzip_min_length 1k;
+        gzip_buffers    4 16k;
+        gzip_comp_level 9;
+        gzip_disable "MSIE [1-6]\.";
+        gzip_vary on;
+
+        location / {
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header Host $http_host;
+                proxy_pass http://172.16.0.66:8888;
+                proxy_redirect off;
+        }
+
+}
+
+sudo ln -s /etc/nginx/sites-available/stagv1.emso.vn /etc/nginx/sites-enabled/
