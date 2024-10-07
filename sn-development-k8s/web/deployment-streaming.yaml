@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: sn-streaming
-          image:  registry.emso.vn/sn-web:0.2.41
+          image:  registry.emso.vn/sn-web:0.2.46
           command: ["node", "./streaming"]
           # resources:
           #   requests:
