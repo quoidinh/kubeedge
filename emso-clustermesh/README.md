@@ -174,3 +174,5 @@ sudo apt install ansible
 ```
 https://docs.k8slens.dev/getting-started/install-lens/#install-lens-desktop-on-windows
 ```
+
+kubectl port-forward service/sn-web --namespace=default --address 0.0.0.0 8888:80
