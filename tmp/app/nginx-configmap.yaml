@@ -4,7 +4,7 @@ metadata:
   name: nginx-config
 data:
   LOCAL_DOMAIN: cmc-sn.emso.vn
-  WEB_DOMAIN: staging-fe.emso.vn
+  WEB_DOMAIN: stagv1.emso.vn
   MEDIA_DOMAIN: cmc-media.emso.vn
   SINGLE_USER_MODE: 'false'
   SECRET_KEY_BASE: 938939b1ae243dbca8364b42bbbfb2c21a1b9ced874cc060dd673d69da7cba58e53d3cffdd5eaecd77e3c23a4fdaa7fed9fdf17ac9838089809ae4ba5bdaffdd
@@ -85,7 +85,7 @@ data:
   VNP_TMN_CODE: VDXBB10P
   VNP_HASH_SECRET: "TGCYOWXENGUCTYTRSOBMESNNLSARVRKI"
   VNP_RETURN_URL: https://cmc-sn.emso.vn/api/v1/vnpay_return
-  END_POINT_WEB: https://staging-fe.emso.vn
+  END_POINT_WEB: https://stagv1.emso.vn
 
   VTCPAY_URL: http://alpha1.vtcpay.vn/portalgateway/checkout.html
   VTCPAY_WEBID: "199668"

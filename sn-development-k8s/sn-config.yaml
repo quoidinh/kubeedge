@@ -85,7 +85,7 @@ data:
   VNP_TMN_CODE: VDXBB10P
   VNP_HASH_SECRET: "TGCYOWXENGUCTYTRSOBMESNNLSARVRKI"
   VNP_RETURN_URL: https://cmc-sn.emso.vn/api/v1/vnpay_return
-  END_POINT_WEB: https://staging-fe.emso.vn
+  END_POINT_WEB: https://stagv1.emso.vn
 
   VTCPAY_URL: http://alpha1.vtcpay.vn/portalgateway/checkout.html
   VTCPAY_WEBID: "199668"
