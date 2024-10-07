@@ -22,6 +22,10 @@ ipam:
 bpf:
   masquerade: false
 hubble:
+  metrics:
+    enableOpenMetrics: true
+    enabled:
+      - "dns,drop,tcp,flow,icmp,http,httpV2:exemplars=true;labelsContext=source_ip,source_namespace,source_workload,destination_ip,destination_namespace,destination_workload,traffic_direction;sourceContext=workload-name|reserved-identity;destinationContext=workload-name|reserved-identity"
   enabled: true
   ui:
     enabled: true

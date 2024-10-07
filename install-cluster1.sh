@@ -574,8 +574,8 @@ sudo ufw allow 4245/tcp comment "Hubble Observability"
 # kubectl delete -f https://raw.githubusercontent.com/cilium/cilium/1.16.1/examples/kubernetes/addons/prometheus/monitoring-example.yaml
 # kubectl apply -f monitor-grafana-promethus-yugabyte.yaml
 # # kubectl delete -f monitor-grafana-promethus-yugabyte.yaml
-# nohup kubectl -n cilium-monitoring port-forward service/prometheus --address 0.0.0.0 9090:9090 &
-# nohup kubectl -n cilium-monitoring port-forward service/grafana --address 0.0.0.0 3000:3000 &
+# nohup kubectl -n cilium-monitoring-v2 port-forward service/prometheus --address 0.0.0.0 9090:9090 &
+# nohup kubectl -n cilium-monitoring-v2 port-forward service/grafana --address 0.0.0.0 3000:3000 &
 kubectl -n default port-forward service/sn-web --address 0.0.0.0 8888:80
 
 

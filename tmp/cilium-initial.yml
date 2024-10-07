@@ -168,12 +168,7 @@ data:
   #
   # https://github.com/cilium/hubble/blob/master/Documentation/metrics.md
   hubble-metrics:
-    dns
-    drop
-    tcp
-    flow
-    icmp
-    http
+    # dns,drop,tcp,flow,icmp,http
     # dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction
   # An additional address for Hubble server to listen to (e.g. ":4244").
   hubble-listen-address: ":4244"
