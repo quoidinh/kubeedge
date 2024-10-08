@@ -9,10 +9,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - cmc-sn.emso.vn
+    - emso-sn.emso.vn
     secretName: sn-web-tls-secret
   rules:
-  - host: cmc-sn.emso.vn
+  - host: emso-sn.emso.vn
     http:
       paths:
       - path: /

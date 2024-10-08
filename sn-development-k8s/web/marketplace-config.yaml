@@ -5,7 +5,7 @@ metadata:
 data:
   LOCAL_DOMAIN: cmc-marketplace.emso.vn
   WEB_DOMAIN: stagv1.emso.vn
-  MEDIA_DOMAIN: cmc-media.emso.vn
+  MEDIA_DOMAIN: emso-media.emso.vn
   SINGLE_USER_MODE: 'false'
   SECRET_KEY_BASE: 938939b1ae243dbca8364b42bbbfb2c21a1b9ced874cc060dd673d69da7cba58e53d3cffdd5eaecd77e3c23a4fdaa7fed9fdf17ac9838089809ae4ba5bdaffdd
   OTP_SECRET: d30ffd303ef078666db31e7555757c22c01664d214d439dd153c24fcc609c31ff1ad3bc3ee6eff123e7c16c99bae59aaaf15a7ca9f6729e9bf2ebeefa37595da

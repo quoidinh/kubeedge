@@ -3,9 +3,9 @@ kind: ConfigMap
 metadata:
   name: sn-config
 data:
-  LOCAL_DOMAIN: cmc-sn.emso.vn
+  LOCAL_DOMAIN: emso-sn.emso.vn
   WEB_DOMAIN: stagv1.emso.vn
-  MEDIA_DOMAIN: cmc-media.emso.vn
+  MEDIA_DOMAIN: emso-media.emso.vn
   SINGLE_USER_MODE: 'false'
   SECRET_KEY_BASE: 938939b1ae243dbca8364b42bbbfb2c21a1b9ced874cc060dd673d69da7cba58e53d3cffdd5eaecd77e3c23a4fdaa7fed9fdf17ac9838089809ae4ba5bdaffdd
   OTP_SECRET: d30ffd303ef078666db31e7555757c22c01664d214d439dd153c24fcc609c31ff1ad3bc3ee6eff123e7c16c99bae59aaaf15a7ca9f6729e9bf2ebeefa37595da
@@ -84,12 +84,12 @@ data:
   VNP_URL: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
   VNP_TMN_CODE: VDXBB10P
   VNP_HASH_SECRET: "TGCYOWXENGUCTYTRSOBMESNNLSARVRKI"
-  VNP_RETURN_URL: https://cmc-sn.emso.vn/api/v1/vnpay_return
+  VNP_RETURN_URL: https://emso-sn.emso.vn/api/v1/vnpay_return
   END_POINT_WEB: https://stagv1.emso.vn
 
   VTCPAY_URL: http://alpha1.vtcpay.vn/portalgateway/checkout.html
   VTCPAY_WEBID: "199668"
   VTCPAY_SECURITY_CODE: pq2raF_GGk9njtri
-  VTCPAY_URL_RETURN: https://cmc-sn.emso.vn/api/v1/vtcpay_return
+  VTCPAY_URL_RETURN: https://emso-sn.emso.vn/api/v1/vtcpay_return
 
 
