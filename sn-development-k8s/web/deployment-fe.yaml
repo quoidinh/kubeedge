@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: sn-fe
-          image: registry.emso.vn/sn-fe:0.3.17
+          image: registry.emso.vn/sn-fe:0.3.23
           # resources:
           #   requests:
           #     cpu: "2"     

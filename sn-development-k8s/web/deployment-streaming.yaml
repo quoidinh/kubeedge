@@ -14,12 +14,19 @@ spec:
     spec:
       containers:
         - name: sn-streaming
-          image:  registry.emso.vn/sn-web:0.2.46
+          image:  registry.emso.vn/sn-web:0.2.55
           command: ["node", "./streaming"]
           # resources:
           #   requests:
           #     cpu: "1.5"     
           #     memory: "2.5Gi"
+          resources:
+            requests:
+              cpu: "0.5"
+              memory: 700Mi
+            limits:
+              cpu: "2.5"
+              memory: 2Gi
           envFrom:
             - configMapRef:
                 name: sn-config
