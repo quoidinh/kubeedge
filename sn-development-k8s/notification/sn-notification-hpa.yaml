@@ -1,12 +1,12 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: sn-web-hpa
+  name: sn-notification-hpa
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: sn-web
+    name: sn-notification
   minReplicas: 2
   maxReplicas: 10
   behavior:
@@ -28,10 +28,10 @@ spec:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: 85
+          averageUtilization: 70
     - type: Resource
       resource:
         name: memory
         target:
           type: Utilization
-          averageUtilization: 85
+          averageUtilization: 80

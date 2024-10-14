@@ -1,12 +1,12 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: sn-web-hpa
+  name: sn-media-hpa
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: sn-web
+    name: sn-media
   minReplicas: 2
   maxReplicas: 10
   behavior:
