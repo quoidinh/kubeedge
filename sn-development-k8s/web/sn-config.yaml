@@ -73,7 +73,7 @@ data:
   GHN_TOKEN: 00b52e55-fa23-11ed-92f3-0e596e5953f
 
   TOKEN_MARKETPLACE: 'WUQsogCw_1FLmDv3id5uBbbUpGP5SX2m1xZnwWvVwMw'
-  END_POINT_MARKETPLACE: 'https://cmc-marketplace.emso.vn'
+  END_POINT_MARKETPLACE: 'https://emso-marketplace.emso.vn'
 
   END_POINT_PT: 'https://pt.emso.vn'
   USERNAME_PT: 'root'

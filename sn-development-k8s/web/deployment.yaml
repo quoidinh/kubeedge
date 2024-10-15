@@ -22,10 +22,10 @@ spec:
           resources:
             requests:
               cpu: "0.5"
-              memory: 700Mi
+              memory: 1.0Gi
             limits:
               cpu: "2.5"
-              memory: 2Gi
+              memory: 2.5Gi
           envFrom:
             - configMapRef:
                 name: sn-config
