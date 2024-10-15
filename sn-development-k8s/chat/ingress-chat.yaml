@@ -9,10 +9,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - cmc-chat2.emso.vn
+    - emso-chat.emso.vn
     secretName: sn-chat-tls-secret
   rules:
-  - host: cmc-chat2.emso.vn
+  - host:  emso-chat.emso.vn
     http:
       paths:
       - path: /
