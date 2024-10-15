@@ -159,7 +159,7 @@ or
 kubectl apply -f https://github.com/kedacore/keda/releases/latest/download/keda-full.yaml
 ```
 kubectl create secret docker-registry registry --docker-server=registry.emso.vn --docker-username=admin --docker-password=hoathang9695
-
+docker login --username admin --password hoathang9695 registry.emso.vn
 
 ### Step 9: install Ansible for devops
 

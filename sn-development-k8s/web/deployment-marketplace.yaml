@@ -14,11 +14,18 @@ spec:
     spec:
       containers:
         - name: sn-marketplace
-          image: registry.emso.vn/sn-marketplace:0.4.11
+          image: registry.emso.vn/sn-marketplace:0.4.12
           # resources:
           #   requests:
           #     cpu: "2"     
           #     memory: "1.5Gi"
+          resources:
+            requests:
+              cpu: "0.5"
+              memory: 700Mi
+            limits:
+              cpu: "2.5"
+              memory: 2Gi
           envFrom:
             - configMapRef:
                 name: marketplace-config
