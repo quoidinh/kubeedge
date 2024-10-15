@@ -38,7 +38,7 @@ data:
   NOTIFICATION_API: http://notification-api
   NOTIFICATION_APIKEY: f4fef23db9ab856f858619bf79b80fc0
   PEERTUBE_LOCAL: https://s3-hn-2.cloud.cmctelecom.vn
-  PEERTUBE_PUBLIC: https://cdn.emso.vn
+  PEERTUBE_PUBLIC: https://s3-hn-2.cloud.cmctelecom.vn
   PEERTUBE_FOLDER_PREVIEW: /sn-pt/previews/
   PEERTUBE_FOLDER_VIDEO: /sn-pt/streaming-playlists/hls/
 
