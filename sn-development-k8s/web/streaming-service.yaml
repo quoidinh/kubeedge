@@ -14,7 +14,7 @@ spec:
       port: 443
       protocol: TCP
       targetPort: 4000
-  type: ClusterIP
+  type: LoadBalancer
 # ---
 # #sn-streaming-hpa.yaml 
 # apiVersion: autoscaling/v2
