@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: sn-chat
-          image: registry.emso.vn/sn-chat:0.4.11
+          image: quoiwowai/sn-chat
           resources:
             limits:
               cpu: "2"      # Giới hạn tối đa 2 cores
