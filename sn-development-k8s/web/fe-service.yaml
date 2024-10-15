@@ -14,7 +14,7 @@ spec:
       port: 443
       protocol: TCP
       targetPort: 80
-  type: ClusterIP
+  type: LoadBalancer
 # ---
 #sn-fe-hpa.yaml 
 # apiVersion: autoscaling/v2
