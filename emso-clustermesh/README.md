@@ -161,6 +161,15 @@ kubectl apply -f https://github.com/kedacore/keda/releases/latest/download/keda-
 kubectl create secret docker-registry registry --docker-server=registry.emso.vn --docker-username=admin --docker-password=hoathang9695
 docker login --username admin --password hoathang9695 registry.emso.vn
 kubectl -n default port-forward services/sn-fe --address 0.0.0.0 8888:80 &
+
+
+kubectl -n default port-forward services/sn-pt --address 0.0.0.0 8887:80 &
+kubectl -n default port-forward services/sn-streaming --address 0.0.0.0 8886:80 &
+kubectl -n default port-forward services/sn-media --address 0.0.0.0 8885:80 &
+kubectl -n default port-forward services/sn-marketplace --address 0.0.0.0 8884:80 &
+kubectl -n default port-forward services/sn-web --address 0.0.0.0 8883:80 &
+
+
 kubectl get pod,hpa,svc,deploy
 
 ### Step 9: install Ansible for devops
