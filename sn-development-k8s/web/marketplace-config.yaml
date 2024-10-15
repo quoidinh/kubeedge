@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: marketplace-config
 data:
-  LOCAL_DOMAIN: cmc-marketplace.emso.vn
+  LOCAL_DOMAIN: emso-marketplace.emso.vn
   WEB_DOMAIN: stagv1.emso.vn
   MEDIA_DOMAIN: emso-media.emso.vn
   SINGLE_USER_MODE: 'false'
