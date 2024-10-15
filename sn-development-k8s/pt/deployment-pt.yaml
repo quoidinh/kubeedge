@@ -14,10 +14,17 @@ spec:
     spec:
       containers:
         - name: sn-pt
-          image: registry.emso.vn/sn-pt:0.2.35
+          image: quoiwowai/sn-pt
+          # resources:
+          #   requests:
+          #     cpu: "0.5"     
+          #     memory: "1.5Gi"
           resources:
+            limits:
+              cpu: "2"      # Giới hạn tối đa 2 cores
+              memory: "1.5Gi" # Giới hạn tối đa 4GB RAM
             requests:
-              cpu: "0.5"     
+              cpu: "1"      # Yêu cầu 1 core
               memory: "1.5Gi"
           env:
             - name: POD_ID
