@@ -9,10 +9,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - cmc-marketplace.emso.vn
+    - emso-marketplace.emso.vn
     secretName: sn-marketplace-tls-secret
   rules:
-  - host: cmc-marketplace.emso.vn
+  - host: emso-marketplace.emso.vn
     http:
       paths:
       - path: /
