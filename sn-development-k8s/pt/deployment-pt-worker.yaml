@@ -1,28 +1,28 @@
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: runner
-# spec:
-#   replicas: 1  # Số lượng replicas tùy ý để scale
-#   selector:
-#     matchLabels:
-#       app: runner
-#   template:
-#     metadata:
-#       labels:
-#         app: runner
-#     spec:
-#       containers:
-#       - name: runner-container
-#         image: 1113921995/pt-worker:0.0.4
-#         lifecycle:
-#           postStart:
-#             exec:
-#               command:
-#                 - "/bin/sh"
-#                 - "-c"
-#                 - |
-#                   pod_id=$(cat /etc/hostname)
-#                   runner_name="${pod_id}"
-#                   peertube-runner register --url https://pt.emso.vn --registration-token ptrrt-f97e36c8-9d15-4cba-a091-be132fd27dc1 --runner-name $runner_name
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: runner
+spec:
+  replicas: 1  # Số lượng replicas tùy ý để scale
+  selector:
+    matchLabels:
+      app: runner
+  template:
+    metadata:
+      labels:
+        app: runner
+    spec:
+      containers:
+      - name: runner-container
+        image: 1113921995/pt-worker:0.0.4
+        lifecycle:
+          postStart:
+            exec:
+              command:
+                - "/bin/sh"
+                - "-c"
+                - |
+                  pod_id=$(cat /etc/hostname)
+                  runner_name="${pod_id}"
+                  peertube-runner register --url https://pt.emso.vn --registration-token ptrrt-f97e36c8-9d15-4cba-a091-be132fd27dc1 --runner-name $runner_name
     
