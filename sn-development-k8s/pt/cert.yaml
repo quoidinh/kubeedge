@@ -5,7 +5,7 @@
 # spec:
 #   secretName: pt-tls-secret
 #   dnsNames:
-#   - pt.emso.vn
+#   - emso-pt.emso.vn
 #   issuerRef:
 #     name: letsencrypt-prod
 #     kind: ClusterIssuer

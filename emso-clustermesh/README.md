@@ -173,6 +173,9 @@ nohup kubectl -n default port-forward services/sn-marketplace --address 0.0.0.0 
 #emso-sn.emso.vn
 nohup kubectl -n default port-forward services/sn-web --address 0.0.0.0 8883:80 >/dev/null 2>&1
 
+nohup kubectl -n default port-forward services/sn-pt --address 0.0.0.0 8882:80 >/dev/null 2>&1
+
+
 kubectl get pod,hpa,svc,deploy
 
 

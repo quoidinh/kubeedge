@@ -14,10 +14,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - pt.emso.vn
+    - emso-pt.emso.vn
     secretName: pt-tls-secret
   rules:
-  - host: pt.emso.vn
+  - host: emso-pt.emso.vn
     http:
       paths:
       - path: /
