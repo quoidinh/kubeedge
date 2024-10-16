@@ -1,11 +1,11 @@
-# apiVersion: cert-manager.io/v1
-# kind: certificate
-# metadata:
-#   name: pt-tls-secret
-# spec:
-#   secretName: pt-tls-secret
-#   dnsNames:
-#   - emso-pt.emso.vn
-#   issuerRef:
-#     name: letsencrypt-prod
-#     kind: ClusterIssuer
+apiVersion: cert-manager.io/v1
+kind: certificate
+metadata:
+  name: pt-tls-secret
+spec:
+  secretName: pt-tls-secret
+  dnsNames:
+  - emso-pt.emso.vn
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
