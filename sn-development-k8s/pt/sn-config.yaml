@@ -1,0 +1,95 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sn-config
+data:
+  LOCAL_DOMAIN: cmc-sn.emso.vn
+  WEB_DOMAIN: stagv1.emso.vn
+  MEDIA_DOMAIN: cmc-media.emso.vn
+  SINGLE_USER_MODE: 'false'
+  SECRET_KEY_BASE: 938939b1ae243dbca8364b42bbbfb2c21a1b9ced874cc060dd673d69da7cba58e53d3cffdd5eaecd77e3c23a4fdaa7fed9fdf17ac9838089809ae4ba5bdaffdd
+  OTP_SECRET: d30ffd303ef078666db31e7555757c22c01664d214d439dd153c24fcc609c31ff1ad3bc3ee6eff123e7c16c99bae59aaaf15a7ca9f6729e9bf2ebeefa37595da
+  VAPID_PRIVATE_KEY: EVTqPOWMjGgW33u5MrkOIqOifnUOF-bXfuNoI1qVGzc=
+  VAPID_PUBLIC_KEY: BAwCP66ysk5vhe0xqEuMHUgk_zKQVNwO9DT3D79mjluoCSVcjKYkRaRTLPWxAxu--_pUiKgZEZ3fciw0J5DR-fM=
+  DB_HOST: '172.16.0.251'
+  DB_HOST_SLAVE1: '172.16.0.251'
+  DB_HOST_SLAVE2: '172.16.0.251'
+  DB_HOST_SLAVE3: '172.16.0.251'
+  DB_PORT: '6432'
+  DB_NAME: sn_production_backup
+  DB_USER: thangnv
+  DB_PASS: hoathang9695
+  REDIS_HOST: '172.16.0.57'
+  REDIS_PORT: '6379'
+  REDIS_CLUSTER_NODES: '[{ "host": "172.16.0.56", "port": 7000 },{ "host": "172.16.0.182", "port": 7000 },{ "host": "172.16.0.171", "port": 7000 }]'
+  REDIS_PASSWORD: 'chiakhoathanhcong'
+  SMTP_SERVER: smtp.gmail.com
+  SMTP_PORT: '25'
+  SMTP_LOGIN: support@emso.vn
+  SMTP_PASSWORD: xvswhkgqnuxklvhr
+  SMTP_AUTH_METHOD: plain
+  SMTP_OPENSSL_VERIFY_MODE: none
+  SMTP_FROM_ADDRESS: support@emso.vn
+  DEFAULT_LOCALE: vi
+  ES_ENABLED: 'true'
+  ES_USER: elastic
+  ES_PASS: 7WcGytOlYbWJdXmNrFnz
+  ES_HOST: '172.16.0.78:9200'
+  NOTIFICATION_API: http://notification-api
+  NOTIFICATION_APIKEY: f4fef23db9ab856f858619bf79b80fc0
+  PEERTUBE_LOCAL: https://s3-hn-2.cloud.cmctelecom.vn
+  PEERTUBE_PUBLIC: https://cdn.emso.vn
+  PEERTUBE_FOLDER_PREVIEW: /sn-pt/previews/
+  PEERTUBE_FOLDER_VIDEO: /sn-pt/streaming-playlists/hls/
+
+  TOKEN_CHAT: Cg-uASvmg30hE_YQWoRH_XLHs-5pVpHUbz7wMgo--vW
+  END_POINT_CHAT: http://sn-chat
+  USER_ID_CHAT: '107571209132606786'
+  S3_ENABLED: 'true'
+  S3_BUCKET: 'sn-web'
+  AWS_ACCESS_KEY_ID: L17J9FO1ZEHNHFE2HMO3
+  AWS_SECRET_ACCESS_KEY: kFcXDYoztTesgYyqNIMDx3AnDvM1MAsUzj78jLiL
+  S3_REGION: 's3-hn-2'
+  S3_PROTOCOL: https
+  S3_HOSTNAME: s3-hn-2.cloud.cmctelecom.vn 
+  S3_HOST_ALIAS: cloud.cmctelecom.vn
+  S3_ENDPOINT: https://s3-hn-2.cloud.cmctelecom.vn
+  S3_ALIAS_HOST: 'cdn.emso.vn/sn-web'
+  NODE_ENV: production
+  # PORT: '4000'
+  STREAMING_CLUSTER_NUM: '3'
+
+  RAILS_ENV: production
+  DB_POOL: '64'
+  WEB_CONCURRENCY: '8'
+  MAX_THREADS: '16'
+
+  MALLOC_ARENA_MAX: '2'
+
+  END_POINT_PYTHON: http://172.16.0.31:5000
+  END_POINT_PYTHON_DETECT_MEDIA: http://172.16.0.31:5001
+  END_POINT_PYTHON_MEDIA: http://172.16.0.31:5002
+  GHN_SHOP_ID: '124295'
+  GHN_TOKEN: 00b52e55-fa23-11ed-92f3-0e596e5953f
+
+  TOKEN_MARKETPLACE: 'WUQsogCw_1FLmDv3id5uBbbUpGP5SX2m1xZnwWvVwMw'
+  END_POINT_MARKETPLACE: 'https://cmc-marketplace.emso.vn'
+
+  END_POINT_PT: 'https://pt.emso.vn'
+  USERNAME_PT: 'root'
+  PASSWORD_PT: 'hoathang9695'
+  CLIENT_ID_PT: kii0wo14od8mgpogofedj6shhv04lb1f
+  CLIENT_SECRET_PT: q4ApZXJDJrYcmielkHQgVeEr21x3kF2I
+
+  VNP_URL: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
+  VNP_TMN_CODE: VDXBB10P
+  VNP_HASH_SECRET: "TGCYOWXENGUCTYTRSOBMESNNLSARVRKI"
+  VNP_RETURN_URL: https://cmc-sn.emso.vn/api/v1/vnpay_return
+  END_POINT_WEB: https://stagv1.emso.vn
+
+  VTCPAY_URL: http://alpha1.vtcpay.vn/portalgateway/checkout.html
+  VTCPAY_WEBID: "199668"
+  VTCPAY_SECURITY_CODE: pq2raF_GGk9njtri
+  VTCPAY_URL_RETURN: https://cmc-sn.emso.vn/api/v1/vtcpay_return
+
+
