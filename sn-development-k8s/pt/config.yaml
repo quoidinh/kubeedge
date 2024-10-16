@@ -12,6 +12,6 @@ data:
     nice = 20
 
     [[registeredInstances]]
-    url = "https://emso-pt.emso.vn"
+    url = "https://pt3.emso.vn"
     runnerToken = "ptrt-02e4ed0f-6fef-4dae-85f6-2645cc92a6a9"
     runnerName = "my-runner-1"

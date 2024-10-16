@@ -14,14 +14,11 @@ spec:
     spec:
       containers:
         - name: sn-pt
-          image: quoiwowai/sn-pt:latest
+          image: registry.emso.vn/sn-pt:0.2.34
           resources:
-            # requests:
-            #   cpu: "7.5"     
-            #   memory: "7.5Gi"
             requests:
-              cpu: "1.5"     
-              memory: "1.5Gi"
+              cpu: "7.5"     
+              memory: "7.5Gi"
           env:
             - name: POD_ID
               valueFrom:
@@ -34,12 +31,12 @@ spec:
               containerPort: 1935
       imagePullSecrets:
         - name: registry # Tên secret đã tạo
-      # affinity:
-      #   nodeAffinity:
-      #     requiredDuringSchedulingIgnoredDuringExecution:
-      #       nodeSelectorTerms:
-      #         - matchExpressions:
-      #             - key: magnum.openstack.org/nodegroup
-      #               operator: In
-      #               values:
-      #                 - ng-media
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: magnum.openstack.org/nodegroup
+                    operator: In
+                    values:
+                      - ng-media
