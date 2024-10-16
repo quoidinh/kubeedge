@@ -160,29 +160,24 @@ kubectl apply -f https://github.com/kedacore/keda/releases/latest/download/keda-
 ```
 kubectl create secret docker-registry registry --docker-server=registry.emso.vn --docker-username=admin --docker-password=hoathang9695
 docker login --username admin --password hoathang9695 registry.emso.vn
-nohup kubectl -n default port-forward services/sn-fe --address 0.0.0.0 8888:80 >/dev/null 2>&1
-
-#emso-pt.emso.vn
-nohup kubectl -n default port-forward services/sn-pt --address 0.0.0.0 8887:80 >/dev/null 2>&1
-
-
+nohup kubectl -n default port-forward services/sn-fe --address 0.0.0.0 8888:80&
 
 #emso-streaming.emso.vn
-nohup kubectl -n default port-forward services/sn-streaming --address 0.0.0.0 8886:80 >/dev/null 2>&1
+nohup kubectl -n default port-forward services/sn-streaming --address 0.0.0.0 8886:80&
 #emso-media.emso.vn
-nohup kubectl -n default port-forward services/sn-media --address 0.0.0.0 8885:80 >/dev/null 2>&1
+nohup kubectl -n default port-forward services/sn-media --address 0.0.0.0 8885:80&
  #emso-marketplace.emso.vn
-nohup kubectl -n default port-forward services/sn-marketplace --address 0.0.0.0 8884:80 >/dev/null 2>&1
+nohup kubectl -n default port-forward services/sn-marketplace --address 0.0.0.0 8884:80&
 #emso-sn.emso.vn
-nohup kubectl -n default port-forward services/sn-web --address 0.0.0.0 8883:80 >/dev/null 2>&1
+nohup kubectl -n default port-forward services/sn-web --address 0.0.0.0 8883:80&
 
 
 
-nohup kubectl -n default port-forward services/sn-pt --address 0.0.0.0 8887:80 >/dev/null 2>&1
-nohup kubectl -n default port-forward services/sn-chat --address 0.0.0.0 8886:80 >/dev/null 2>&1
-nohup kubectl -n default port-forward services/sn-notification --address 0.0.0.0 8885:80 >/dev/null 2>&1
-nohup kubectl -n default port-forward services/sn-notification --address 0.0.0.0 8884:80 >/dev/null 2>&1
-nohup kubectl -n default port-forward services/sn-notification --address 0.0.0.0 8883:80 >/dev/null 2>&1
+nohup kubectl -n default port-forward services/sn-pt --address 0.0.0.0 8887:80&
+nohup kubectl -n default port-forward services/sn-chat --address 0.0.0.0 8886:80&
+nohup kubectl -n default port-forward services/sn-notification --address 0.0.0.0 8885:80&
+nohup kubectl -n default port-forward services/sn-notification --address 0.0.0.0 8884:80&
+nohup kubectl -n default port-forward services/sn-notification --address 0.0.0.0 8883:80&
 
 
 kubectl get pod,hpa,svc,deploy

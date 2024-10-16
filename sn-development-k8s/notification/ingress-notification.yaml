@@ -9,10 +9,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - cmc-notification.emso.vn
+    - emso-notification.emso.vn
     secretName: noti-tls-secret
   rules:
-  - host: cmc-notification.emso.vn
+  - host: emso-notification.emso.vn
     http:
       paths:
       - path: /
