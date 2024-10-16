@@ -75,7 +75,7 @@ data:
   TOKEN_MARKETPLACE: 'WUQsogCw_1FLmDv3id5uBbbUpGP5SX2m1xZnwWvVwMw'
   END_POINT_MARKETPLACE: 'https://emso-marketplace.emso.vn'
 
-  END_POINT_PT: 'https://pt.emso.vn'
+  END_POINT_PT: 'https://emso-pt.emso.vn'
   USERNAME_PT: 'root'
   PASSWORD_PT: 'hoathang9695'
   CLIENT_ID_PT: kii0wo14od8mgpogofedj6shhv04lb1f
