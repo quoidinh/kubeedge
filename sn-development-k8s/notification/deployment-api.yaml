@@ -20,7 +20,7 @@ spec:
               cpu: "2"      # Giới hạn tối đa 2 cores
               memory: "1.5Gi" # Giới hạn tối đa 4GB RAM
             requests:
-              cpu: "1.5"      # Yêu cầu 1 core
+              cpu: "0.5"      # Yêu cầu 1 core
               memory: "900Mi"
           envFrom:
             - configMapRef:
