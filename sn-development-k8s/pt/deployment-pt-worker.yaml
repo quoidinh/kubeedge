@@ -24,5 +24,5 @@ spec:
                 - |
                   pod_id=$(cat /etc/hostname)
                   runner_name="${pod_id}"
-                  peertube-runner register --url https://pt.emso.vn --registration-token ptrrt-f97e36c8-9d15-4cba-a091-be132fd27dc1 --runner-name $runner_name
+                  peertube-runner register --url https://emso-pt.emso.vn --registration-token ptrrt-f97e36c8-9d15-4cba-a091-be132fd27dc1 --runner-name $runner_name
     
