@@ -15,6 +15,13 @@ spec:
       containers:
         - name: notification-ws
           image: ghcr.io/emso-group/notification/ws:4292f903e57e5a7502a83e4904f4b7793fae0d1d
+          resources:
+            limits:
+              cpu: "2"      # Giới hạn tối đa 2 cores
+              memory: "1.5Gi" # Giới hạn tối đa 4GB RAM
+            requests:
+              cpu: "1.5"      # Yêu cầu 1 core
+              memory: "900Mi"
           envFrom:
             - configMapRef:
                 name: notification-config

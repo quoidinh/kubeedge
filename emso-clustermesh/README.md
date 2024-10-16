@@ -175,9 +175,9 @@ nohup kubectl -n default port-forward services/sn-web --address 0.0.0.0 8883:80&
 
 nohup kubectl -n default port-forward services/sn-pt --address 0.0.0.0 8887:80&
 nohup kubectl -n default port-forward services/sn-chat --address 0.0.0.0 8886:80&
-nohup kubectl -n default port-forward services/sn-notification --address 0.0.0.0 8885:80&
-nohup kubectl -n default port-forward services/sn-notification --address 0.0.0.0 8884:80&
-nohup kubectl -n default port-forward services/sn-notification --address 0.0.0.0 8883:80&
+nohup kubectl -n default port-forward service/notification-web --address 0.0.0.0 8885:80&
+nohup kubectl -n default port-forward service/notification-ws --address 0.0.0.0 8884:80&
+nohup kubectl -n default port-forward service/notification-api --address 0.0.0.0 8883:80&
 
 
 kubectl get pod,hpa,svc,deploy
