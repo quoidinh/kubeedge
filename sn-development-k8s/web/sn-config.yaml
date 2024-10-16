@@ -35,7 +35,7 @@ data:
   ES_USER: elastic
   ES_PASS: 7WcGytOlYbWJdXmNrFnz
   ES_HOST: '172.16.0.78:9200'
-  NOTIFICATION_API: http://notification-api
+  NOTIFICATION_API: http://emso-notification.emso.vn
   NOTIFICATION_APIKEY: f4fef23db9ab856f858619bf79b80fc0
   PEERTUBE_LOCAL: https://s3-hn-2.cloud.cmctelecom.vn
   PEERTUBE_PUBLIC: https://s3-hn-2.cloud.cmctelecom.vn
@@ -43,7 +43,7 @@ data:
   PEERTUBE_FOLDER_VIDEO: /sn-pt/streaming-playlists/hls/
 
   TOKEN_CHAT: Cg-uASvmg30hE_YQWoRH_XLHs-5pVpHUbz7wMgo--vW
-  END_POINT_CHAT: http://sn-chat
+  END_POINT_CHAT: http://emso-chat.emso.vn
   USER_ID_CHAT: '107571209132606786'
   S3_ENABLED: 'true'
   S3_BUCKET: 'sn-web'
