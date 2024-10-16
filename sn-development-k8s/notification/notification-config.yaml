@@ -26,14 +26,14 @@ data:
   SENTRY_DSN: ''
 
   # Root URL
-  REACT_APP_WS_URL: https://cmc-notification-ws.emso.vn
-  API_ROOT_URL: https://cmc-notification-api.emso.vn
+  REACT_APP_WS_URL: https://emso-notification-ws.emso.vn
+  API_ROOT_URL: https://emso-notification.emso.vn
   DISABLE_USER_REGISTRATION: 'false'
-  FRONT_BASE_URL: https://cmc-notification.emso.vn
+  FRONT_BASE_URL: https://emso-notification.emso.vn
   WIDGET_EMBED_PATH: http://localhost:4701/embed.umd.min.js
   WIDGET_URL: http://localhost:4500
 
-  REACT_APP_API_URL: https://cmc-notification-api.emso.vn
+  REACT_APP_API_URL: https://emso-notification-api.emso.vn
   REACT_APP_ENVIRONMENT: local
   REACT_APP_WIDGET_EMBED_PATH: http://localhost:4701/embed.umd.min.js
   REACT_APP_DOCKER_HOSTED_ENV: 'true'

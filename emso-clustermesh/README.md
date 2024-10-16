@@ -176,6 +176,11 @@ nohup kubectl -n default port-forward services/sn-web --address 0.0.0.0 8883:80 
 nohup kubectl -n default port-forward services/sn-pt --address 0.0.0.0 8882:80 >/dev/null 2>&1
 
 
+nohup kubectl -n default port-forward services/sn-notification --address 0.0.0.0 8882:80 >/dev/null 2>&1
+
+nohup kubectl -n default port-forward services/sn-pt --address 0.0.0.0 8881:80 >/dev/null 2>&1
+
+
 kubectl get pod,hpa,svc,deploy
 
 
