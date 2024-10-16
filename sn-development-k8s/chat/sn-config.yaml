@@ -54,7 +54,7 @@ data:
   S3_HOSTNAME: s3-hn-2.cloud.cmctelecom.vn 
   S3_HOST_ALIAS: cloud.cmctelecom.vn
   S3_ENDPOINT: https://s3-hn-2.cloud.cmctelecom.vn
-  S3_ALIAS_HOST: 'cdn.emso.vn/sn-web'
+  S3_ALIAS_HOST: 's3-hn-2.cloud.cmctelecom.vn/sn-web'
   NODE_ENV: production
   # PORT: '4000'
   STREAMING_CLUSTER_NUM: '3'

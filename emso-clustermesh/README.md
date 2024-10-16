@@ -164,6 +164,9 @@ nohup kubectl -n default port-forward services/sn-fe --address 0.0.0.0 8888:80 >
 
 #emso-pt.emso.vn
 nohup kubectl -n default port-forward services/sn-pt --address 0.0.0.0 8887:80 >/dev/null 2>&1
+
+
+
 #emso-streaming.emso.vn
 nohup kubectl -n default port-forward services/sn-streaming --address 0.0.0.0 8886:80 >/dev/null 2>&1
 #emso-media.emso.vn
@@ -173,12 +176,13 @@ nohup kubectl -n default port-forward services/sn-marketplace --address 0.0.0.0 
 #emso-sn.emso.vn
 nohup kubectl -n default port-forward services/sn-web --address 0.0.0.0 8883:80 >/dev/null 2>&1
 
-nohup kubectl -n default port-forward services/sn-pt --address 0.0.0.0 8882:80 >/dev/null 2>&1
 
 
-nohup kubectl -n default port-forward services/sn-notification --address 0.0.0.0 8882:80 >/dev/null 2>&1
-
-nohup kubectl -n default port-forward services/sn-pt --address 0.0.0.0 8881:80 >/dev/null 2>&1
+nohup kubectl -n default port-forward services/sn-pt --address 0.0.0.0 8887:80 >/dev/null 2>&1
+nohup kubectl -n default port-forward services/sn-chat --address 0.0.0.0 8886:80 >/dev/null 2>&1
+nohup kubectl -n default port-forward services/sn-notification --address 0.0.0.0 8885:80 >/dev/null 2>&1
+nohup kubectl -n default port-forward services/sn-notification --address 0.0.0.0 8884:80 >/dev/null 2>&1
+nohup kubectl -n default port-forward services/sn-notification --address 0.0.0.0 8883:80 >/dev/null 2>&1
 
 
 kubectl get pod,hpa,svc,deploy
