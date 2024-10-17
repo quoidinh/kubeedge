@@ -24,9 +24,9 @@ CLUSTER_NAME=$(kubectl -n $NAMESPACE get cm cilium-config -o jsonpath='{.data.cl
 # TODO: once v1.10 is the minimum version supported, we can replace the
 # following line to use ca.crt from the clustermesh-apiserver-remote-cert
 # secret directly.
-CA_CRT=$(kubectl -n $NAMESPACE get secret clustermesh-apiserver-ca-cert -o jsonpath="{.data['ca\.crt']}")
-TLS_CRT=$(kubectl -n $NAMESPACE get secret clustermesh-apiserver-remote-cert -o jsonpath="{.data['tls\.crt']}")
-TLS_KEY=$(kubectl -n $NAMESPACE get secret clustermesh-apiserver-remote-cert -o jsonpath="{.data['tls\.key']}")
+# CA_CRT=$(kubectl -n $NAMESPACE get secret clustermesh-apiserver-ca-cert -o jsonpath="{.data['ca\.crt']}")
+# TLS_CRT=$(kubectl -n $NAMESPACE get secret clustermesh-apiserver-remote-cert -o jsonpath="{.data['tls\.crt']}")
+# TLS_KEY=$(kubectl -n $NAMESPACE get secret clustermesh-apiserver-remote-cert -o jsonpath="{.data['tls\.key']}")
 
 define(){ IFS='\n' read -r -d '' ${1} || true; }
 
