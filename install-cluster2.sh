@@ -11,7 +11,7 @@ sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent softwa
 echo "Setting up hostname...."
 HOSTNAME="kind-cluster2"
 sudo hostnamectl set-hostname "${HOSTNAME}.mesh.cilium.io"
-PUBLIC_IP_ADDRESS=`hostname -I|cut -d" " -f 1` #hostname -I|cut -d" " -f 1 #172.17.0.1
+PUBLIC_IP_ADDRESS=ip -4 addr show eth0 | grep -oP "(?<=inet ).*(?=/)"
 sudo echo "${PUBLIC_IP_ADDRESS} ${HOSTNAME}.mesh.cilium.io" >> /etc/hosts
 sudo echo "${HOSTNAME}.mesh.cilium.io" >> /etc/hostname
 echo "Removing existing Docker Installation...."

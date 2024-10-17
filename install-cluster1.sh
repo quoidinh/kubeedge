@@ -11,7 +11,7 @@ sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent softwa
 echo "Setting up hostname...."
 HOSTNAME="kind-cluster1"
 sudo hostnamectl set-hostname "${HOSTNAME}.mesh.cilium.io"
-PUBLIC_IP_ADDRESS=`hostname -I|cut -d" " -f 1` #hostname -I|cut -d" " -f 1 #172.17.0.1
+PUBLIC_IP_ADDRESS=ip -4 addr show eth0 | grep -oP "(?<=inet ).*(?=/)"
 sudo echo "${PUBLIC_IP_ADDRESS} ${HOSTNAME}.mesh.cilium.io" >> /etc/hosts
 sudo echo "${HOSTNAME}.mesh.cilium.io" >> /etc/hostname
 echo "Removing existing Docker Installation...."
@@ -214,6 +214,7 @@ swapoff -a    # will turn off the swap
 
 # # remove current apiserver certificates
 # sudo rm /etc/kubernetes/pki/apiserver.*
+sudo kubeadm init --apiserver-advertise-address=172.16.0.66 --apiserver-cert-extra-sans=172.16.0.66 --v=6 --ignore-preflight-errors=all 
 
 # generate new certificates
 sudo kubeadm init --apiserver-advertise-address${PUBLIC_IP_ADDRESS} --apiserver-cert-extra-sans=${PUBLIC_IP_ADDRESS} --v=6 --ignore-preflight-errors=all 
