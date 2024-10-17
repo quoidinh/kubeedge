@@ -14,7 +14,7 @@ spec:
         runAsNonRoot: true
       containers:
       - name: jenkins
-        image: jenkins:2.3-alpine
+        image: jenkins/jenkins:lts
         ports:
           - containerPort: 8080
           - containerPort: 50000
