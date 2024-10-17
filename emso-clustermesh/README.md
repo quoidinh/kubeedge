@@ -161,6 +161,16 @@ kubectl apply -f https://github.com/kedacore/keda/releases/latest/download/keda-
 ```
 kubectl create secret docker-registry registry --docker-server=registry.emso.vn --docker-username=admin --docker-password=hoathang9695
 docker login --username admin --password hoathang9695 registry.emso.vn
+kubectl apply -f sn-development-k8s/web
+```
+or 
+```
+kubectl apply -f sn-development-k8s/pt
+kubectl apply -f sn-development-k8s/chat
+kubectl apply -f sn-development-k8s/notification
+```
+
+```
 nohup kubectl -n default port-forward services/sn-fe --address 0.0.0.0 8888:80&
 
 #emso-streaming.emso.vn
@@ -183,10 +193,10 @@ nohup kubectl -n default port-forward service/notification-api --address 0.0.0.0
 
 kubectl get pod,hpa,svc,deploy
 
+kubectl apply -f monitor-grafana-promethus-yugabyte-v2.yaml
 
 
-kubectl get pod,hpa,svc,deploy
-
+```
 ### Step 9: install Ansible for devops
 
 ```

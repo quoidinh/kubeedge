@@ -186,7 +186,7 @@ apt list --upgradable
 apt update
 apt upgrade
 
-sudo apt install kubeadm kubelet kubectl
+sudo apt install kubeadm kubelet kubectl jq -y
 sudo kubeadm config images pull
 
 sudo kubeadm reset

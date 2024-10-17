@@ -186,9 +186,7 @@ apt list --upgradable
 apt update
 apt upgrade
 
-sudo apt install kubeadm kubelet kubectl
-sudo kubeadm config images pull
-
+sudo apt install kubeadm kubelet kubectl jq -y
 sudo kubeadm reset
 sudo rm $HOME/.kube/config
 sudo rm -rf /etc/cni/net.d
