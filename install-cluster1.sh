@@ -576,19 +576,20 @@ sudo ufw allow 4245/tcp comment "Hubble Observability"
 # # kubectl delete -f monitor-grafana-promethus-yugabyte.yaml
 # nohup kubectl -n cilium-monitoring-v2 port-forward service/prometheus --address 0.0.0.0 9090:9090 &
 # nohup kubectl -n cilium-monitoring-v2 port-forward service/grafana --address 0.0.0.0 3000:3000 &
-kubectl -n default port-forward service/sn-web --address 0.0.0.0 8888:80
-
 
 # echo "install yugabytedb"
 # helm repo add yugabytedb https://charts.yugabyte.com
 # kubectl apply -f yugabyte-statefulset.yaml
 # # kubectl delete -f yugabyte-statefulset.yaml
-# # kubectl apply -f https://raw.githubusercontent.com/YugaByte/yugabyte-db/master/cloud/kubernetes/yugabyte-statefulset.yaml
-# nohup kubectl port-forward service/yb-tservers --namespace=default --address 0.0.0.0 5433:5433 &
-# nohup kubectl port-forward service/yb-tservers --namespace=default --address 0.0.0.0 9000:9000 &
-# nohup kubectl port-forward service/yb-master-ui --namespace=default --address 0.0.0.0 7000:7000 &
+# kubectl apply -f https://raw.githubusercontent.com/YugaByte/yugabyte-db/master/cloud/kubernetes/yugabyte-statefulset.yaml
+# nohup kubectl port-forward service/yb-tservers --namespace=default --address 0.0.0.0 5433:5433&
+# nohup kubectl port-forward service/yb-tservers --namespace=default --address 0.0.0.0 9000:9000&
+# nohup kubectl port-forward service/yb-master-ui --namespace=default --address 0.0.0.0 7000:7000&
 # kubectl scale statefulset yb-tserver --replicas=8
 # kubectl scale statefulset yb-master --replicas=8
+
+# echo "install mongodb"
+# nohup kubectl port-forward service/mongodb-service --namespace=mongo-database --address 0.0.0.0 27017:27017&
 
 # echo "install kubernetes-dashboard"
 # helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/

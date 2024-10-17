@@ -15,14 +15,14 @@ data:
   # DB_HOST_SLAVE1: '172.16.0.17'
   # DB_HOST_SLAVE2: '172.16.0.50'
   # DB_HOST_SLAVE3: '172.16.0.100'
-  DB_HOST: '172.16.0.251'
-  DB_HOST_SLAVE1: '172.16.0.167'
+  DB_HOST: '172.16.0.157'
+  DB_HOST_SLAVE1: '172.16.0.251'
   DB_HOST_SLAVE2: '172.16.0.251'
   DB_HOST_SLAVE3: '172.16.0.251'
   DB_PORT: '6432'
   DB_NAME: sn_production_backup
-  DB_USER: thangnv
-  DB_PASS: hoathang9695
+  DB_USER: postges
+  DB_PASS: postges
   #https://thelinuxnotes.com/index.php/how-to-deploy-redis-in-kubernetes-with-helm-chart/
   REDIS_HOST: '172.16.0.66'
   REDIS_PORT: '6379'
