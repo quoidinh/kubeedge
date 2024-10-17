@@ -216,7 +216,7 @@ swapoff -a    # will turn off the swap
 # sudo rm /etc/kubernetes/pki/apiserver.*
 
 # generate new certificates
-sudo kubeadm init --apiserver-advertise-address=localhost,127.0.0.1,${PUBLIC_IP_ADDRESS},172.17.0.1 --apiserver-cert-extra-sans=localhost,127.0.0.1,${PUBLIC_IP_ADDRESS},172.17.0.1 --v=6 --ignore-preflight-errors=all 
+sudo kubeadm init --apiserver-advertise-address${PUBLIC_IP_ADDRESS} --apiserver-cert-extra-sans=${PUBLIC_IP_ADDRESS} --v=6 --ignore-preflight-errors=all 
 # sudo kubeadm init phase certs apiserver --apiserver-cert-extra-sans=localhost,127.0.0.1,${PUBLIC_IP_ADDRESS},172.17.0.1 --pod-network-cidr=10.0.0.0/16 --v=6 --ignore-preflight-errors=all 
 
 sudo sleep 10
