@@ -54,7 +54,7 @@ cilium install cilium cilium/cilium --version 1.16.2 \
 
 kubectl config use kind-k8s-cluster-1
 cilium clustermesh enable --service-type NodePort
-cilium hubble enable --ui
+cilium hubble enable --ui --create-ca
 cilium clustermesh status --wait
 
 kubectl config use kind-k8s-cluster-2
@@ -72,6 +72,8 @@ cilium clustermesh connect --context kind-k8s-cluster-3 --destination-context k8
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.5/config/manifests/metallb-native.yaml --context=kind-k8s-cluster-1
 kubectl wait deployment -n metallb-system controller --for condition=Available=True --timeout=90s --context kind-k8s-cluster-1
 kubectl apply -f metallb-1.yaml --context=kind-k8s-cluster-1
+
+
 
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.5/config/manifests/metallb-native.yaml --context=kind-k8s-cluster-2
 kubectl wait deployment -n metallb-system controller --for condition=Available=True --timeout=90s --context kind-k8s-cluster-2
@@ -199,12 +201,15 @@ nohup kubectl -n default port-forward service/notification-web --address 0.0.0.0
 nohup kubectl -n default port-forward service/notification-ws --address 0.0.0.0 8884:80&
 nohup kubectl -n default port-forward service/notification-api --address 0.0.0.0 8883:80&
 
+nohup kubectl -n kube-system port-forward service/clustermesh-apiserver --address 0.0.0.0 2379:2379&
+
 
 kubectl get pod,hpa,svc,deploy
 
 kubectl apply -f monitor-grafana-promethus-yugabyte-v2.yaml
 
-
+/usr/lib/postgresql/14/bin/pg_restore  -h 172.16.0.157 -p 5433 -U yugabyte -d postgres test.dump
+/usr/lib/postgresql/14/bin/pg_dump  -h 172.16.0.251 -p 6432 -U thangnv -d sn_production_backup > test.sql
 ```
 ### Step 9: install Ansible for devops
 

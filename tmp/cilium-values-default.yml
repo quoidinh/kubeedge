@@ -2937,7 +2937,7 @@ clustermesh:
     # -- Default dns domain for the Clustermesh API servers
     # This is used in the case cluster addresses are not provided
     # and IPs are used.
-    domain: mesh.cilium.io
+    domain: emso.vn
     # -- List of clusters to be peered in the mesh.
     clusters: []
     # clusters:

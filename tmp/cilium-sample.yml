@@ -165,7 +165,7 @@ clustermesh:
   useAPIServer: true
   config:
     enabled: true
-    domain: mesh.cilium.io
+    domain: emso.vn
     clusters: []
   apiserver:
     service:

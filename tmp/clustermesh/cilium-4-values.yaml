@@ -115,7 +115,7 @@ clustermesh:
   useAPIServer: true
   # config:
   #   enabled: false
-#     # domain: mesh.cilium.io
+#     # domain: emso.vn
 #     # clusters:
 #     # - name: kind-cluster1
 #     #   port: 2379
