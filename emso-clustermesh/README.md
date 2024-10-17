@@ -34,6 +34,7 @@ k8sServiceHost: k8s-cluster-1.local
 ```
 kind create cluster --config kind-1.yaml
 kind create cluster --config kind-2.yaml
+kind create cluster --config kind-3.yaml
 
 kubectl config use kind-k8s-cluster-1
 cilium install cilium cilium/cilium  --version 1.16.2 \
@@ -46,6 +47,11 @@ cilium install cilium cilium/cilium --version 1.16.2 \
     --namespace kube-system \
     --values cilium-2-values.yaml
 
+cilium install cilium cilium/cilium --version 1.16.2 \
+    --set cluster.name=k8s-cluster-3 --set cluster.id=3 \
+    --namespace kube-system \
+    --values cilium-3-values.yaml
+
 kubectl config use kind-k8s-cluster-1
 cilium clustermesh enable --service-type NodePort
 cilium hubble enable --ui
@@ -57,6 +63,7 @@ cilium hubble enable --ui
 cilium clustermesh status --wait
 
 cilium clustermesh connect --context kind-k8s-cluster-1 --destination-context kind-k8s-cluster-2
+cilium clustermesh connect --context kind-k8s-cluster-3 --destination-context k8s-cluster-1
 
 ### Step 4: Install metallb in all clusters
 
@@ -97,6 +104,8 @@ kubectl rollout restart ds cilium -n cilium
 ### Step 7: install metrics server
 ```
 kubectl config use kind-k8s-cluster-1
+kubectl delete -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
 kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 kubectl patch deployment metrics-server -n kube-system --type='json' -p='[
 {
