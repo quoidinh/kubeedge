@@ -46,11 +46,15 @@ cilium install cilium cilium/cilium --version 1.16.2 \
     --set cluster.name=k8s-cluster-2 --set cluster.id=2 \
     --namespace kube-system \
     --values cilium-2-values.yaml
-
+    
+kubectl config use kind-k8s-cluster-3
 cilium install cilium cilium/cilium --version 1.16.2 \
     --set cluster.name=k8s-cluster-3 --set cluster.id=3 \
     --namespace kube-system \
     --values cilium-3-values.yaml
+cilium clustermesh enable --service-type NodePort
+cilium hubble enable --ui --create-ca
+cilium clustermesh status --wait
 
 kubectl config use kind-k8s-cluster-1
 cilium clustermesh enable --service-type NodePort
