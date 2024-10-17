@@ -1,0 +1,28 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: k8s-cluster-3
+nodes:
+- role: control-plane
+- role: worker #frontend
+- role: worker #marketplace
+# - role: worker #classification
+# - role: worker #notification
+# - role: worker #streaming
+# - role: worker #media
+# - role: worker
+# - role: worker
+# - role: worker
+# - role: worker
+# - role: worker
+
+# deployment-fe.yaml
+# deployment-marketplace.yaml
+# deployment-media.yaml
+# deployment-streaming.yaml
+# deployment-worker-classification.yaml
+# deployment-worker-default.yaml
+# deployment-worker-marketplace.yaml
+# deployment-worker-notification.yaml
+# deployment-worker-pull.yaml
+# deployment-worker-suggestion.yaml
+# deployment-worker-sync.yaml

@@ -61,6 +61,7 @@ cilium clustermesh connect --context kind-k8s-cluster-1 --destination-context ki
 ### Step 4: Install metallb in all clusters
 
 ```
+
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.5/config/manifests/metallb-native.yaml --context=kind-k8s-cluster-1
 kubectl wait deployment -n metallb-system controller --for condition=Available=True --timeout=90s --context kind-k8s-cluster-1
 kubectl apply -f metallb-1.yaml --context=kind-k8s-cluster-1
@@ -111,7 +112,7 @@ kubectl patch deployment metrics-server -n kube-system --type='json' -p='[
 "--secure-port=4443",
 "--kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname",
 "--kubelet-use-node-status-port",
-"--metric-resolution=15s",
+"--metric-resolution=30s",
 "--kubelet-insecure-tls"
 ]
 },
