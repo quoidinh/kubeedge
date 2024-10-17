@@ -46,19 +46,19 @@ cilium install cilium cilium/cilium --version 1.16.2 \
     --set cluster.name=k8s-cluster-2 --set cluster.id=2 \
     --namespace kube-system \
     --values cilium-2-values.yaml
-    
+
 kubectl config use kind-k8s-cluster-3
 cilium install cilium cilium/cilium --version 1.16.2 \
     --set cluster.name=k8s-cluster-3 --set cluster.id=3 \
     --namespace kube-system \
     --values cilium-3-values.yaml
 cilium clustermesh enable --service-type NodePort
-cilium hubble enable --ui --create-ca
+cilium hubble enable --ui 
 cilium clustermesh status --wait
 
 kubectl config use kind-k8s-cluster-1
 cilium clustermesh enable --service-type NodePort
-cilium hubble enable --ui --create-ca
+cilium hubble enable --ui
 cilium clustermesh status --wait
 
 kubectl config use kind-k8s-cluster-2
@@ -212,8 +212,15 @@ kubectl get pod,hpa,svc,deploy
 
 kubectl apply -f monitor-grafana-promethus-yugabyte-v2.yaml
 
-/usr/lib/postgresql/14/bin/pg_restore  -h 172.16.0.157 -p 5433 -U yugabyte -d postgres test.dump
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+apt update
+apt install -y postgresql-client-14
+
+/usr/lib/postgresql/14/bin/pg_restore  -h 172.16.0.157 -p 5433 -U yugabyte -d postgres test.sql
 /usr/lib/postgresql/14/bin/pg_dump  -h 172.16.0.251 -p 6432 -U thangnv -d sn_production_backup > test.sql
+sudo apt-get install -y postgresql-client
+psql --username yugabyte --dbname postgres -h 172.16.0.157 -p 5433 -f test.sql
 ```
 ### Step 9: install Ansible for devops
 
@@ -265,4 +272,6 @@ server {
 }
 
 sudo ln -s /etc/nginx/sites-available/stagv1.emso.vn /etc/nginx/sites-enabled/
+
+
 
