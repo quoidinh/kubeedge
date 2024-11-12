@@ -32,8 +32,8 @@ spec:
           ports:
             - name: media
               containerPort: 3000
-      imagePullSecrets:
-        - name: registry # Tên secret đã tạo
+      # imagePullSecrets:
+      #   - name: registry # Tên secret đã tạo
       # nodeSelector:
       #   magnum.openstack.org/nodegroup: ng-media
       # affinity:
