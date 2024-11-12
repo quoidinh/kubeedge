@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: sn-streaming
-          image:  quoiwowai/sn-web
+          image:  registry.emso.vn/test-new-distribution:0.0.4
           command: ["node", "./streaming"]
           # resources:
           #   requests:
@@ -33,8 +33,8 @@ spec:
           ports:
             - name: streaming
               containerPort: 4000
-      # imagePullSecrets:
-      #   - name: registry # Tên secret đã tạo
+      imagePullSecrets:
+        - name: registry # Tên secret đã tạo
       # affinity:
       #   nodeAffinity:
       #     requiredDuringSchedulingIgnoredDuringExecution:
