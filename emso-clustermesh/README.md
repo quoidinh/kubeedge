@@ -208,6 +208,8 @@ nohup kubectl -n default port-forward service/notification-api --address 0.0.0.0
 nohup kubectl -n kube-system port-forward service/clustermesh-apiserver --address 0.0.0.0 2379:2379&
 
 
+nohup kubectl -n default port-forward service/redis-stack --address 0.0.0.0 6379:6379&
+
 kubectl get pod,hpa,svc,deploy
 
 kubectl apply -f monitor-grafana-promethus-yugabyte-v2.yaml
@@ -274,4 +276,5 @@ server {
 sudo ln -s /etc/nginx/sites-available/stagv1.emso.vn /etc/nginx/sites-enabled/
 
 
-
+kubectl rollout restart deployment.apps/sn-web
+kubectl rollout restart deployment.apps/sn-media

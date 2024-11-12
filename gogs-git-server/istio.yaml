@@ -1,0 +1,35 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: gogs-gw
+  namespace: gogs
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - stagv1.emso.vn
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: gogs-vs
+  namespace: gogs
+spec:
+  hosts:
+  - stagv1.emso.vn
+  gateways:
+  - gogs-gw
+  http:
+  - route:
+    - destination:
+        host: gogs-svc.gogs.svc.cluster.local
+        port:
+          number: 18080
+      weight: 100
