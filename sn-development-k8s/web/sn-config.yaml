@@ -24,7 +24,7 @@ data:
   REDISEARCH_PORT: '6379'
   REDISEARCH_PASSWORD: ''
   KARAFKA_HOST: '172.16.0.157'
-  KARAFKA_PORT=: 9092'
+  KARAFKA_PORT: 9092'
   REDIS_HOST: '172.16.0.57'
   REDIS_PORT: '6379'
   REDIS_CLUSTER_NODES: '[{ "host": "172.16.0.56", "port": 7000 },{ "host": "172.16.0.182", "port": 7000 },{ "host": "172.16.0.171", "port": 7000 }]'
