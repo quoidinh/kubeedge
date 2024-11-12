@@ -18,6 +18,7 @@ spec:
     spec:
       containers:
       - name: master
+        args: ["--requirepass", "123123123"]
         image: registry.k8s.io/redis:e2e  # or just image: redis
         resources:
           requests:
