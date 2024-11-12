@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: master
-        args: ["--requirepass", "123123123"]
+        # args: ["--requirepass", "123123123"]
         image: redis/redis-stack  # or just image: redis
         resources:
           requests:
