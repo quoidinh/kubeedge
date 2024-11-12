@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: sn-media
-          image: registry.emso.vn/test-new-distribution:0.0.4
+          image: quoiwowai/sn-web
           # resources:
           #   requests:
           #     cpu: "1.5"     

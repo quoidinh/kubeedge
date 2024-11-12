@@ -32,8 +32,8 @@ spec:
           ports:
             - name: marketplace
               containerPort: 3000
-      # imagePullSecrets:
-      #   - name: registry # Tên secret đã tạo
+      imagePullSecrets:
+        - name: registry # Tên secret đã tạo
       # affinity:
       #   nodeAffinity:
       #     requiredDuringSchedulingIgnoredDuringExecution:
