@@ -209,7 +209,8 @@ nohup kubectl -n kube-system port-forward service/clustermesh-apiserver --addres
 
 
 nohup kubectl -n default port-forward service/redis-stack --address 0.0.0.0 6379:6379&
-
+nohup kubectl -n devops-tools port-forward service/jenkins-service --address 0.0.0.0 8080:8080&
+nohup kubectl --namespace default port-forward svc/myjenkins --address 0.0.0.0 8080:8080&
 kubectl get pod,hpa,svc,deploy
 
 kubectl apply -f monitor-grafana-promethus-yugabyte-v2.yaml
@@ -278,3 +279,9 @@ sudo ln -s /etc/nginx/sites-available/stagv1.emso.vn /etc/nginx/sites-enabled/
 
 kubectl rollout restart deployment.apps/sn-web
 kubectl rollout restart deployment.apps/sn-media
+
+
+helm repo add jenkins https://charts.jenkins.io
+helm repo update
+helm upgrade --install myjenkins jenkins/jenkins
+ kubectl exec --namespace default -it svc/myjenkins -c jenkins -- /bin/cat /run/secrets/additional/chart-admin-password && echo
