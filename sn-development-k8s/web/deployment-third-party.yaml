@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sn-media
+  name: sn-third-party
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sn-media
+      app: sn-third-party
   template:
     metadata:
       labels:
-        app: sn-media
+        app: sn-third-party
     spec:
       containers:
-        - name: sn-media
-          image: quoiwowai/sn-web
+        - name: sn-third-party
+          image: quoiwowai/third-party
           # resources:
           #   requests:
           #     cpu: "1.5"     
@@ -22,16 +22,16 @@ spec:
           resources:
             requests:
               cpu: "0.5"
-              memory: 1Gi
+              memory: 700Mi
             limits:
-              cpu: "2.5"
-              memory: 3Gi
+              cpu: "1.5"
+              memory: 2Gi
           envFrom:
             - configMapRef:
                 name: sn-config
           ports:
-            - name: media
-              containerPort: 3000
+            - name: third-party
+              containerPort: 5000
       imagePullSecrets:
         - name: registry # Tên secret đã tạo
       # nodeSelector:

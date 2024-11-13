@@ -289,3 +289,5 @@ helm upgrade --install myjenkins jenkins/jenkins
 
 
  nohup kubectl -n gogs port-forward service/gogs-svc --address 0.0.0.0 10022:10022&
+
+  kubectl scale deploy -n default --replicas=0 --all 

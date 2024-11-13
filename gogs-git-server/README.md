@@ -111,4 +111,4 @@ More information about the Docker for Gogs on page https://github.com/gogs/gogs/
 
 If you have a Kubernetes cluster running on a Raspberry Pi 4 with 8GB RAM or a server in cloud running ARM64 processor then Gogs may be installed by using the deployment script [gogs-arm64.yaml](gogs-arm64.yaml)
 
- nohup kubectl -n gogs port-forward service/gogs-svc --address 0.0.0.0 10022:10022&
+ nohup kubectl -n gogs port-forward service/gogs-svc --address 0.0.0.0 18080:18080&
