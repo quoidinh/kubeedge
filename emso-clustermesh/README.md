@@ -201,9 +201,9 @@ nohup kubectl -n default port-forward services/sn-web --address 0.0.0.0 8883:80&
 
 nohup kubectl -n default port-forward services/sn-pt --address 0.0.0.0 8887:80&
 nohup kubectl -n default port-forward services/sn-chat --address 0.0.0.0 8886:80&
-nohup kubectl -n default port-forward service/notification-web --address 0.0.0.0 8885:80&
-nohup kubectl -n default port-forward service/notification-ws --address 0.0.0.0 8884:80&
-nohup kubectl -n default port-forward service/notification-api --address 0.0.0.0 8883:80&
+nohup kubectl -n default port-forward service/notification-web --address 0.0.0.0 9885:80&
+nohup kubectl -n default port-forward service/notification-ws --address 0.0.0.0 9884:80&
+nohup kubectl -n default port-forward service/notification-api --address 0.0.0.0 9883:80&
 
 nohup kubectl -n kube-system port-forward service/clustermesh-apiserver --address 0.0.0.0 2379:2379&
 
@@ -285,7 +285,7 @@ helm repo add jenkins https://charts.jenkins.io
 helm repo update
 helm upgrade --install myjenkins jenkins/jenkins
  kubectl exec --namespace default -it svc/myjenkins -c jenkins -- /bin/cat /run/secrets/additional/chart-admin-password && echo
- nohup kubectl -n devops-tools port-forward service/jenkins-service --address 0.0.0.0 8080:8080&
+ nohup kubectl -n default port-forward service/myjenkins --address 0.0.0.0 8080:8080&
 
 
  nohup kubectl -n gogs port-forward service/gogs-svc --address 0.0.0.0 10022:10022&
