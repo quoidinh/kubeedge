@@ -54,10 +54,11 @@ zookeeper:
   enabled: false
 
 # Configuración del modo KRaft.
-kraft:
-  enabled: true
-  clusterId: "vKaEBaltQuqktgAA3wkccA"  # Identificador del clúster de Kraft.
-  controllerQuorumVoters: "0@cluster-kafka-controller-0.cluster-kafka-controller-headless.default.svc.cluster.local:9093,1@cluster-kafka-controller-1.cluster-kafka-controller-headless.default.svc.cluster.local:9093,2@cluster-kafka-controller-2.cluster-kafka-controller-headless.default.svc.cluster.local:9093"
+# kraft:
+#   enabled: true
+
+  # clusterId: "vKaEBaltQuqktgAA3wkccA"  # Identificador del clúster de Kraft.
+  # controllerQuorumVoters: "0@cluster-kafka-controller-0.cluster-kafka-controller-headless.default.svc.cluster.local:9093,1@cluster-kafka-controller-1.cluster-kafka-controller-headless.default.svc.cluster.local:9093,2@cluster-kafka-controller-2.cluster-kafka-controller-headless.default.svc.cluster.local:9093"
 
 # Configuración de listeners.
 listeners:
