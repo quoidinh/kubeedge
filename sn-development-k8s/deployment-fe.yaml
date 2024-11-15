@@ -14,13 +14,13 @@ spec:
     spec:
       containers:
         - name: sn-fe
-          image: registry.emso.vn/sn-fe:0.3.17
+          image: quoiwowai/sn-fe
           # resources:
           #   requests:
           #     cpu: "2"     
           #     memory: "1.5Gi"
           ports:
-            - name: fe
+            - name: sn-fe
               containerPort: 3000
       imagePullSecrets:
         - name: registry # Tên secret đã tạo
