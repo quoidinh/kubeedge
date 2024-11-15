@@ -290,6 +290,12 @@ helm upgrade --install myjenkins jenkins/jenkins
 
  nohup kubectl -n gogs port-forward service/gogs-svc --address 0.0.0.0 10022:10022&
 
- nohup kubectl port-forward service/cluster-kafka --address 0.0.0.0 9093:9092&
-nohup kubectl port-forward service/cluster-kafka --address 0.0.0.0 9093:9092&
+ nohup kubectl port-forward service/kafka-headless  --address 0.0.0.0 9092:9092&
+nohup kubectl port-forward service/kafka-headless --address 0.0.0.0 9093:9092&
+
+service/kafka-headless 
   kubectl scale deploy -n default --replicas=0 --all 
+
+
+https://github.com/spotify/docker-kafka
+  docker run -d -p 2181:2181 -p 9192:9092 --env ADVERTISED_HOST=172.16.0.157 --env ADVERTISED_PORT=9092 --env CONSUMER_THREADS=1 --env TOPICS=article spotify/kafkaproxy
