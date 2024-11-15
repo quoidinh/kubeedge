@@ -1,0 +1,82 @@
+# values.yaml para Kafka en Kubernetes utilizando Helm y el chart de Bitnami en modo KRaft.
+
+# Configuración básica del clúster de Kafka.
+replicaCount: 3  # Define el número de réplicas del broker de Kafka para alta disponibilidad.
+
+# Configuración de la imagen de Docker.
+image:
+  registry: docker.io                 # Registro de Docker desde donde se jala la imagen.
+  repository: bitnami/kafka           # Repositorio de la imagen de Kafka.
+  tag: 3.6                            # Etiqueta de la imagen a utilizar, 'latest' para la última versión.
+
+# Configuración de autenticación.
+auth:
+  clientProtocol: plaintext           # Protocolo de comunicación con los clientes, sin cifrado.
+  interBrokerProtocol: plaintext      # Protocolo de comunicación entre brokers, sin cifrado.
+
+# Configuración del servicio Kubernetes para exponer Kafka internamente.
+service:
+  type: ClusterIP                     # Tipo de servicio Kubernetes para exponer Kafka internamente dentro del clúster.
+
+# Configuración para el acceso externo a los brokers de Kafka.
+externalAccess:
+  enabled: true                       # Habilita el acceso externo.
+  controller:
+    service:
+      type: NodePort 
+      nodePorts: [31090, 31091, 31092]  # Especifica puertos NodePort para cada broker.
+
+# Sondas de vida y disponibilidad para los brokers de Kafka.
+livenessProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 15
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 2
+
+readinessProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 15
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 2
+
+# Configuración de persistencia para almacenar los datos de Kafka.
+persistence:
+  enabled: true                       # Habilita la persistencia.
+  storageClass: "standard"            # Clase de almacenamiento a utilizar.
+  accessModes:
+    - ReadWriteOnce                   # Modo de acceso al volumen.
+  size: 2Gi                           # Tamaño del volumen de almacenamiento.
+
+# Desactivación de Zookeeper, ya que Kraft no lo requiere.
+zookeeper:
+  enabled: false
+
+# Configuración del modo KRaft.
+kraft:
+  enabled: true
+  clusterId: "vKaEBaltQuqktgAA3wkccA"  # Identificador del clúster de Kraft.
+  controllerQuorumVoters: "0@cluster-kafka-controller-0.cluster-kafka-controller-headless.default.svc.cluster.local:9093,1@cluster-kafka-controller-1.cluster-kafka-controller-headless.default.svc.cluster.local:9093,2@cluster-kafka-controller-2.cluster-kafka-controller-headless.default.svc.cluster.local:9093"
+
+# Configuración de listeners.
+listeners:
+  client:
+    name: CLIENT
+    containerPort: 9092
+    protocol: PLAINTEXT
+  controller:
+    name: CONTROLLER
+    containerPort: 9093
+    protocol: PLAINTEXT
+  interbroker:
+    name: INTERNAL
+    containerPort: 9094
+    protocol: PLAINTEXT
+  external:
+    name: EXTERNAL
+    containerPort: 9095
+    protocol: PLAINTEXT
+  advertisedListeners: "CLIENT://:9092,INTERNAL://:9094,EXTERNAL://:9095"
+    # overrideListeners: "CLIENT://:9092,CONTROLLER://:9093,INTERNAL://:9094,EXTERNAL://:9095"
+  securityProtocolMap: "CLIENT:PLAINTEXT,CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT"

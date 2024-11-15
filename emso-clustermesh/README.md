@@ -290,4 +290,6 @@ helm upgrade --install myjenkins jenkins/jenkins
 
  nohup kubectl -n gogs port-forward service/gogs-svc --address 0.0.0.0 10022:10022&
 
+ nohup kubectl port-forward service/cluster-kafka --address 0.0.0.0 9093:9092&
+nohup kubectl port-forward service/cluster-kafka --address 0.0.0.0 9093:9092&
   kubectl scale deploy -n default --replicas=0 --all 
