@@ -25,7 +25,7 @@ spec:
               memory: 1.0Gi
             limits:
               cpu: "2.5"
-              memory: 2.5Gi
+              memory: 3.5Gi
           envFrom:
             - configMapRef:
                 name: sn-config
