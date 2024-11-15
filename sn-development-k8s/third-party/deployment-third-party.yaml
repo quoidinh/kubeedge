@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: sn-third-party
-          image: registry.emso.vn/third-party:0.0.6
+          image: quoiwowai/third-party
           # resources:
           #   requests:
           #     cpu: "1.5"     
