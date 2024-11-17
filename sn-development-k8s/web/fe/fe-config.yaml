@@ -1,36 +1,40 @@
-EXTEND_ESLINT: true
-REACT_APP_FIREBASE_API_KEY: AIzaSyBhxXDIoTn5Cc4Q9wDGrOTK5XQTXdpv_so
-REACT_APP_FIREBASE_AUTH_DOMAI: social-otp.firebaseapp.com
-REACT_APP_FIREBASE_PROJECT_ID: social-otp
-REACT_APP_FIREBASE_STORAGE_BUCKET: social-otp.appspot.com
-REACT_APP_FIREBASE_MESSAGING_SENDER_ID: 1007234907891
-REACT_APP_FIREBASE_APP_ID: 1:1007234907891:web:a91c5fbeacc4385382c186
-REACT_APP_FIREBASE_MEASUREMENT_ID: G-P8VEFCKD29
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fe-config
+data:
+  REACT_APP_FIREBASE_API_KEY: AIzaSyBhxXDIoTn5Cc4Q9wDGrOTK5XQTXdpv_so
+  REACT_APP_FIREBASE_AUTH_DOMAI: social-otp.firebaseapp.com
+  REACT_APP_FIREBASE_PROJECT_ID: social-otp
+  REACT_APP_FIREBASE_STORAGE_BUCKET: social-otp.appspot.com
+  REACT_APP_FIREBASE_MESSAGING_SENDER_ID: "1007234907891"
+  REACT_APP_FIREBASE_APP_ID: 1:1007234907891:web:a91c5fbeacc4385382c186
+  REACT_APP_FIREBASE_MEASUREMENT_ID: G-P8VEFCKD29
 
-REACT_APP_BASE_ROOT: https://stagv1.emso.vn
-REACT_APP_BASE_ROOT_MARKET: https://emso-marketplace.emso.vn
-REACT_APP_URL_ROCKET_CHAT: https://emso-chat.emso.vn
-REACT_APP_URL_WEB_SOCKET: wss://emso-chat.emso.vn/websocket
-REACT_APP_TOKEN_VIDEO_UPLOAD: 21fbd3b2e427d9b9bae405e6480695e6bd233e44
-REACT_APP_URL_WEB_EMSO: https://emso-sn.emso.vn
-REACT_APP_URL_STREAMING_SOCKET: wss://comment-ws.emso.vn/api/v1/streaming
-REACT_APP_URL_NOTIFICATION_API: https://notification-api.emso.vn
-REACT_APP_URL_NOTIFICATION_SOCKET: https://notification-ws.emso.vn
+  REACT_APP_BASE_ROOT: https://stagv1.emso.vn
+  REACT_APP_BASE_ROOT_MARKET: https://emso-marketplace.emso.vn
+  REACT_APP_URL_ROCKET_CHAT: https://emso-chat.emso.vn
+  REACT_APP_URL_WEB_SOCKET: wss://emso-chat.emso.vn/websocket
+  REACT_APP_TOKEN_VIDEO_UPLOAD: 21fbd3b2e427d9b9bae405e6480695e6bd233e44
+  REACT_APP_URL_WEB_EMSO: https://emso-sn.emso.vn
+  REACT_APP_URL_STREAMING_SOCKET: wss://comment-ws.emso.vn/api/v1/streaming
+  REACT_APP_URL_NOTIFICATION_API: https://notification-api.emso.vn
+  REACT_APP_URL_NOTIFICATION_SOCKET: https://notification-ws.emso.vn
 
-REACT_APP_PRO_BASE_ROOT: https://emso-sn.emso.vn
-REACT_APP_PRO_BASE_ROOT_MARKET: https://emso-marketplace.emso.vn
-REACT_APP_PRO_URL_ROCKET_CHAT: https://emso-chat.emso.vn
-REACT_APP_PRO_URL_WEB_SOCKET: wss://emso-chat.emso.vn/websocket
-REACT_APP_PRO_TOKEN_VIDEO_UPLOAD: 21fbd3b2e427d9b9bae405e6480695e6bd233e44
-REACT_APP_PRO_URL_WEB_EMSO: https://staging-fe.emso.vn
-REACT_APP_PRO_URL_STREAMING_SOCKET: wss://emso-sn.emso.vn/api/v1/streaming
-REACT_APP_PRO_URL_NOTIFICATION_API: https://emso-notification-api.emso.vn
-REACT_APP_PRO_URL_NOTIFICATION_SOCKET: https://emso-notification-ws.emso.vn
-REACT_APP_PRO_NOTIFICATION_APIKEY: -LgRoNshFiyj
-REACT_APP_BASE_ROOT_PTUBE: https://emso-pt.emso.vn
-REACT_APP_CLIENT_ID: '352503968807-fmulj53lj537m03r2g2lu9gpqaff9mmm.apps.googleusercontent.com'
-REACT_APP_PRO_URL_ROCKET_CHAT_EMSO: https://emso-chat.emso.vn
-REACT_APP_PRO_URL_WEB_SOCKET_EMSO: wss://emso-chat.emso.vn/websocket
+  REACT_APP_PRO_BASE_ROOT: https://emso-sn.emso.vn
+  REACT_APP_PRO_BASE_ROOT_MARKET: https://emso-marketplace.emso.vn
+  REACT_APP_PRO_URL_ROCKET_CHAT: https://emso-chat.emso.vn
+  REACT_APP_PRO_URL_WEB_SOCKET: wss://emso-chat.emso.vn/websocket
+  REACT_APP_PRO_TOKEN_VIDEO_UPLOAD: 21fbd3b2e427d9b9bae405e6480695e6bd233e44
+  REACT_APP_PRO_URL_WEB_EMSO: https://staging-fe.emso.vn
+  REACT_APP_PRO_URL_STREAMING_SOCKET: wss://emso-sn.emso.vn/api/v1/streaming
+  REACT_APP_PRO_URL_NOTIFICATION_API: https://emso-notification-api.emso.vn
+  REACT_APP_PRO_URL_NOTIFICATION_SOCKET: https://emso-notification-ws.emso.vn
+  REACT_APP_PRO_NOTIFICATION_APIKEY: -LgRoNshFiyj
+  REACT_APP_BASE_ROOT_PTUBE: https://emso-pt.emso.vn
+  REACT_APP_CLIENT_ID: '352503968807-fmulj53lj537m03r2g2lu9gpqaff9mmm.apps.googleusercontent.com'
+  REACT_APP_PRO_URL_ROCKET_CHAT_EMSO: https://emso-chat.emso.vn
+  REACT_APP_PRO_URL_WEB_SOCKET_EMSO: wss://emso-chat.emso.vn/websocket
 
-REACT_APP_DEV_URL_ROCKET_CHAT: http://localhost:3000
-REACT_APP_DEV_URL_WEB_SOCKET: ws://localhost:3000/websocket
+  REACT_APP_DEV_URL_ROCKET_CHAT: http://localhost:3000
+  REACT_APP_DEV_URL_WEB_SOCKET: ws://localhost:3000/websocket
