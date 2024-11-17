@@ -26,6 +26,9 @@ spec:
             limits:
               cpu: "2.5"
               memory: 2Gi
+          envFrom:
+            - configMapRef:
+                name: fe-config
           ports:
             - name: fe
               containerPort: 3000

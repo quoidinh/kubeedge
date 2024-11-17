@@ -35,7 +35,9 @@ data:
   ES_USER: elastic
   ES_PASS: 7WcGytOlYbWJdXmNrFnz
   ES_HOST: '172.16.0.78:9200'
-  NOTIFICATION_API: http://notification-api
+  # NOTIFICATION_API: http://notification-api
+  # NOTIFICATION_APIKEY: f4fef23db9ab856f858619bf79b80fc0
+  NOTIFICATION_API: http://emso-notification.emso.vn
   NOTIFICATION_APIKEY: f4fef23db9ab856f858619bf79b80fc0
   PEERTUBE_LOCAL: https://s3-hn-2.cloud.cmctelecom.vn
   PEERTUBE_PUBLIC: https://s3-hn-2.cloud.cmctelecom.vn
@@ -68,25 +70,25 @@ data:
   END_POINT_PYTHON_MEDIA: http://172.16.0.31:5002
 
   TOKEN_MARKETPLACE: 'WUQsogCw_1FLmDv3id5uBbbUpGP5SX2m1xZnwWvVwMw'
-  END_POINT_MARKETPLACE: 'https://cmc-marketplace.emso.vn'
+  END_POINT_MARKETPLACE: 'https://emso-marketplace.emso.vn'
 
-  END_POINT_PT: 'https://pt.emso.vn'
+  END_POINT_PT: 'https://emso-pt.emso.vn'
   TOKEN_PT: '21fbd3b2e427d9b9bae405e6480695e6bd233e44'
 
   VNP_URL: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
   VNP_TMN_CODE: VDXBB10P
   VNP_HASH_SECRET: "TGCYOWXENGUCTYTRSOBMESNNLSARVRKI"
-  VNP_RETURN_URL: https://cmc-marketplace.emso.vn/api/v1/vnpay_return
+  VNP_RETURN_URL: https://emso-marketplace.emso.vn/api/v1/vnpay_return
   END_POINT_WEB: https://stagv1.emso.vn
 
   VTCPAY_URL: http://alpha1.vtcpay.vn/portalgateway/checkout.html
   VTCPAY_WEBID: "199668"
   VTCPAY_SECURITY_CODE: pq2raF_GGk9njtri
-  VTCPAY_URL_RETURN: https://cmc-marketplace.emso.vn/api/v1/vtcpay_return
+  VTCPAY_URL_RETURN: https://emso-marketplace.emso.vn/api/v1/vtcpay_return
 
   GHN_SHOP_ID: "124295"
   GHN_TOKEN: 00b52e55-fa23-11ed-92f3-0e596e5953f1
 
   KEY_PHONE_NUMBER: 'AIzaSyBhxXDIoTn5Cc4Q9wDGrOTK5XQTXdpv_so'
-  END_POINT_SN: 'http://sn-web'
+  END_POINT_SN: 'https://emso-sn.emso.vn'
 
