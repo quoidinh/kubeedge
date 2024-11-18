@@ -15,7 +15,6 @@ spec:
       protocol: TCP
       targetPort: 80
   type: LoadBalancer
-  loadBalancerIP: 172.16.0.66
 # ---
 #sn-fe-hpa.yaml 
 # apiVersion: autoscaling/v2
