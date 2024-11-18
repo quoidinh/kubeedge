@@ -9,10 +9,17 @@ nodeinit:
   removeCbrBridge: true
   restartPods: true
 # kubeProxyReplacement: partial
+kubeProxyReplacement: true
+# l2announcements:
+#   enabled: true
+gatewayAPI:
+  enabled: true
 hostServices:
   enabled: false
 externalIPs:
   enabled: true
+# envoy:
+#   enabled: true
 nodePort:
   enabled: true
 hostPort:
