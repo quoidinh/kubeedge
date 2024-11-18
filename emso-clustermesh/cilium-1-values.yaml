@@ -303,7 +303,7 @@ clustermesh:
 #   type: wireguard
 #   nodeEncryption: false
 
-# l7Proxy: true
+l7Proxy: true
 # autoDirectNodeRoutes: false
 # enableIPv4Masquerade: true
 externalWorkloads:
@@ -314,7 +314,7 @@ extraConfig:
 bgp:
   enabled: true
   announce:
-    loadbalancerIP: true
+    # loadbalancerIP: true
     podCIDR: false
 
 bgpControlPlane:
