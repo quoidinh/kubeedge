@@ -15,7 +15,7 @@ spec:
       protocol: TCP
       targetPort: 3000
   type: LoadBalancer
-  externalTrafficPolicy: Cluster
+  # externalTrafficPolicy: Cluster
 # ---
 #sn-media-hpa.yaml 
 # apiVersion: autoscaling/v2

@@ -15,3 +15,4 @@ spec:
       protocol: TCP
       targetPort: 4200
   type: LoadBalancer
+  # externalTrafficPolicy: Cluster
