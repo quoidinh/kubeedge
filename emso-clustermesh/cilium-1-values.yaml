@@ -303,7 +303,7 @@ clustermesh:
 #   type: wireguard
 #   nodeEncryption: false
 
-# l7Proxy: true
+l7Proxy: true
 # autoDirectNodeRoutes: false
 # enableIPv4Masquerade: true
 externalWorkloads:
@@ -311,11 +311,11 @@ externalWorkloads:
 extraConfig: 
   enable-envoy-config: "true"
 
-# bgp:
-#   enabled: true
-#   announce:
-#     loadbalancerIP: true
-#     podCIDR: false
+bgp:
+  enabled: true
+  announce:
+    loadbalancerIP: true
+    podCIDR: false
 
 bgpControlPlane:
   enabled: true

@@ -10,7 +10,7 @@ spec:
   ports:
     - name: http
       protocol: TCP
-      port: 8883
+      port: 80
       targetPort: 3000
     - name: https
       port: 443
