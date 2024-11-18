@@ -15,6 +15,7 @@ spec:
       protocol: TCP
       targetPort: 4000
   type: LoadBalancer
+  externalTrafficPolicy: Cluster
 # ---
 # #sn-streaming-hpa.yaml 
 # apiVersion: autoscaling/v2
