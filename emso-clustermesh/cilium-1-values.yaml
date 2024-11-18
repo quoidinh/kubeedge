@@ -313,9 +313,9 @@ extraConfig:
 
 bgp:
   enabled: true
-  announce:
-    # loadbalancerIP: true
-    podCIDR: false
+  # announce:
+  #   # loadbalancerIP: true
+  #   podCIDR: false
 
 bgpControlPlane:
   enabled: true
