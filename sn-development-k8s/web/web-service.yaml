@@ -17,8 +17,8 @@ spec:
       protocol: TCP
       targetPort: 3000
   type: LoadBalancer
-  # externalTrafficPolicy: Cluster
-  externalTrafficPolicy: Local
+  externalTrafficPolicy: Cluster
+  # externalTrafficPolicy: Local
   loadBalancerIP: 172.16.0.66
 # ---
 # #sn-web-hpa.yaml 
