@@ -90,6 +90,12 @@ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.5/confi
 kubectl wait deployment -n metallb-system controller --for condition=Available=True --timeout=90s --context kind-k8s-cluster-2
 kubectl apply -f metallb-1.yaml --context=kind-k8s-cluster-2
 
+
+# actually apply the changes, returns nonzero returncode on errors only
+kubectl get configmap kube-proxy -n kube-system -o yaml | \
+sed -e "s/strictARP: false/strictARP: true/" | \
+kubectl apply -f - -n kube-system
+
 ### Step 5: extract cluster mesh secret and import to other clusters
  Cluster 1
 ```
