@@ -19,7 +19,7 @@ spec:
   type: LoadBalancer
   externalTrafficPolicy: Cluster
   # externalTrafficPolicy: Local
-  loadBalancerIP: 172.16.0.66
+  # loadBalancerIP: 172.16.0.66
 # ---
 #sn-fe-hpa.yaml 
 # apiVersion: autoscaling/v2
