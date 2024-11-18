@@ -32,3 +32,5 @@ data:
       protocol: layer2
       addresses:
       - 172.18.0.1-172.18.0.250
+      - 172.16.0.66/32
+      
