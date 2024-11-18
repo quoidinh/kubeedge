@@ -2,8 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: sn-web
-  # annotations:
-  #   metallb.universe.tf/allow-shared-ip: secret
+  annotations:
+    metallb.universe.tf/allow-shared-ip: secret
 spec:
   selector:
     app: sn-web
@@ -17,9 +17,13 @@ spec:
       protocol: TCP
       targetPort: 3000
   type: LoadBalancer
+  # externalTrafficPolicy: local
   externalTrafficPolicy: Cluster
-  # externalTrafficPolicy: Local
-  # loadBalancerIP: 172.16.0.66
+  loadBalancerIP: 172.18.0.1
+status:
+    loadBalancer:
+    ingress:
+    - ip: 172.16.0.66
 # ---
 # #sn-web-hpa.yaml 
 # apiVersion: autoscaling/v2
