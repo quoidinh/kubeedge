@@ -8,8 +8,18 @@ spec:
     # - 172.18.255.100-172.18.255.150
     - 172.16.0.66/32
 ---
+# apiVersion: metallb.io/v1beta1
+# kind: L2Advertisement
+# metadata:
+#   name: empty
+#   namespace: metallb-system
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
   name: empty
   namespace: metallb-system
+spec:
+  ipAddressPools:
+  - third-pool
+  interfaces:
+  - eth0
