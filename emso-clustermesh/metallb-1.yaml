@@ -6,7 +6,7 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-  - 172.18.0.1-172.18.0.250
+  - 172.18.0.2-172.18.0.250
   autoAssign: true
 ---
 apiVersion: metallb.io/v1beta1
@@ -31,6 +31,6 @@ data:
     - name: default
       protocol: layer2
       addresses:
-      - 172.18.0.1-172.18.0.250
+      - 172.18.0.2-172.18.0.250
       - 172.16.0.66/32
       
