@@ -8,7 +8,7 @@ spec:
     kind: Deployment
     name: sn-web
   minReplicas: 2
-  maxReplicas: 10
+  maxReplicas: 15
   behavior:
       scaleDown:
         stabilizationWindowSeconds: 300
@@ -28,10 +28,10 @@ spec:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: 85
+          averageUtilization: 55
     - type: Resource
       resource:
         name: memory
         target:
           type: Utilization
-          averageUtilization: 85
+          averageUtilization: 90
