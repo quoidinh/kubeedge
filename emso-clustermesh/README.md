@@ -314,11 +314,5 @@ https://github.com/spotify/docker-kafka
   docker run -d -p 2181:2181 -p 9192:9092 --env ADVERTISED_HOST=172.16.0.157 --env ADVERTISED_PORT=9092 --env CONSUMER_THREADS=1 --env TOPICS=article spotify/kafkaproxy
 
 
-
-You can just Patch an External IP
-
-CMD: $ kubectl patch svc svc_name -p '{"spec":{"externalIPs":["your_external_ip"]}}'
-
-Eg:- $ kubectl patch service/sn-web -p '{"spec":{"externalIPs":["172.16.0.100"]}}'
-kubectl patch service/sn-fe -p '{"spec":{"externalIPs":["172.16.0.100"]}}'
-kubectl expose deployment deployment.apps/sn-web --type=LoadBalancer --name=service/sn-web --external-ip=172.16.0.66
+https://semaphoreci.com/blog/kubernetes-gateway-api
+\
