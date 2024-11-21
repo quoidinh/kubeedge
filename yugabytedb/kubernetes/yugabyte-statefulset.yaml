@@ -86,7 +86,7 @@ spec:
               topologyKey: kubernetes.io/hostname
       containers:
       - name: yb-master
-        image:  quoiwowai/yugabytedb-postgis1 #quoiwowai/yugabyte-postgis:latest #yugabytedb/yugabyte:latest
+        image:  quoiwowai/yugabytedb-postgis #quoiwowai/yugabyte-postgis:latest #yugabytedb/yugabyte:latest
         imagePullPolicy: Always
         env:
         - name: GET_HOSTS_FROM
@@ -232,7 +232,7 @@ spec:
               topologyKey: kubernetes.io/hostname
       containers:
       - name: yb-tserver
-        image: quoiwowai/yugabytedb-postgis1 #yugabytedb/yugabyte:latest
+        image: quoiwowai/yugabytedb-postgis #yugabytedb/yugabyte:latest
         imagePullPolicy: Always
         env:
           - name: GET_HOSTS_FROM
