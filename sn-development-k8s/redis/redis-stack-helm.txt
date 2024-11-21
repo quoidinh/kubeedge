@@ -1,0 +1,2 @@
+helm repo add redis-stack https://redis-stack.github.io/helm-redis-stack/
+helm install redis-stack redis-stack/redis-stack
