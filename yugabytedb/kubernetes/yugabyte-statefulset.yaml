@@ -232,7 +232,7 @@ spec:
               topologyKey: kubernetes.io/hostname
       containers:
       - name: yb-tserver
-        image: quoiwowai/yugabyte-postgis:latest #yugabytedb/yugabyte:latest
+        image: quoiwowai/yugabytedb-postgis #yugabytedb/yugabyte:latest
         imagePullPolicy: Always
         env:
           - name: GET_HOSTS_FROM

@@ -237,6 +237,7 @@ apt install -y postgresql-client-14
 /usr/lib/postgresql/14/bin/pg_dump  -h 172.16.0.251 -p 6432 -U thangnv -d sn_production_backup > test.sql
 sudo apt-get install -y postgresql-client
 psql --username yugabyte --dbname postgres -h 172.16.0.157 -p 5433 -f test.sql
+psql --username yugabyte --dbname postgres -h 127.0.0.1 -p 5433 
 ```
 ### Step 9: install Ansible for devops
 
